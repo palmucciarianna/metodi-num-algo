@@ -1,5 +1,6 @@
 # 🧮 Palestra Metodi Numerici in Python
 
+[![GitHub Pages](https://img.shields.io/badge/Demo-GitHub%20Pages-brightgreen?logo=github)](https://palmucciarianna.github.io/metodi-num-algo/)
 [![Python - Pyodide](https://img.shields.io/badge/Python-Pyodide%20v0.25.0-3776AB?logo=python&logoColor=white)](https://pyodide.org/)
 [![NumPy](https://img.shields.io/badge/NumPy-Supported-013243?logo=numpy&logoColor=white)](https://numpy.org/)
 [![SciPy](https://img.shields.io/badge/SciPy-Supported-8CAAE6?logo=scipy&logoColor=white)](https://scipy.org/)
@@ -85,11 +86,9 @@ Apri il browser all'indirizzo:
 http://localhost:8000/metodi-num-algo.html
 ```
 
-### Metodo 3: GitHub Pages
-Puoi visualizzare l'app direttamente online abilitando GitHub Pages nel repository:
-1. Vai su **Settings > Pages** del repository GitHub.
-2. In **Source**, seleziona **Deploy from a branch** e scegli `main` / `root`.
-3. L'applicazione sarà accessibile direttamente all'URL del tuo profilo GitHub Pages.
+### Metodo 3: GitHub Pages (Live Demo)
+L'applicazione è accessibile online direttamente dal browser, senza installare nulla:
+🔗 **[https://palmucciarianna.github.io/metodi-num-algo/](https://palmucciarianna.github.io/metodi-num-algo/)**
 
 ---
 
@@ -113,7 +112,8 @@ Puoi visualizzare l'app direttamente online abilitando GitHub Pages nel reposito
 
 ```text
 metodi-num-algo/
-├── metodi-num-algo.html    # Applicazione Web completa (UI, motore Pyodide, esercizi e test)
+├── index.html              # Entry point per GitHub Pages (Web application)
+├── metodi-num-algo.html    # Web application completa (UI, motore Pyodide, esercizi e test)
 └── README.md               # Documentazione e guida al progetto
 ```
 
