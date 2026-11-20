@@ -8,6 +8,10 @@
 
 Ambiente web interattivo per implementare, testare e verificare gli algoritmi di **Metodi Numerici per l'Intelligenza Artificiale e il Calcolo Scientifico**, direttamente nel browser senza alcuna installazione.
 
+> 📚 **Materiali del Corso & Laboratori Didattici**:  
+> Le formule, le notazioni e i criteri d'arresto seguono fedelmente le **slide della docente** (UniBo). I materiali didattici completi, dispense e prossimamente la sezione con i **laboratori d'esame guidati** saranno raccolti nel repository dedicato:  
+> 👉 **[github.com/palmucciarianna/metodinumericiAI](https://github.com/palmucciarianna/metodinumericiAI)**
+
 ---
 
 ## 🚀 Come farlo funzionare
@@ -60,6 +64,7 @@ Se preferisci aprirlo offline o lavorarci in locale:
 
 ### Funzionalità dell'Ambiente
 
+- **📖 Mini Guida & Formulario Teorico Integrato**: pulsante interattivo `📖 Teoria & Formule` nell'header che apre un pannello dedicato con il modello matematico, teoremi, formule, criteri d'arresto e guida ai passaggi `# to do` per tutti i 21 algoritmi (ispirato alle slide del corso UniBo).
 - **Motore Python in WebAssembly (Pyodide)**: esecuzione 100% client-side di codice Python con librerie scientifiche reali (**NumPy**, **SciPy**, **Matplotlib**). Nessun dato o codice viene inviato a server esterni.
 - **Editor CodeMirror**: sintassi evidenziata con tema Dracula, supporto a tabulazioni e indentazioni corrette per Python, e mantenimento dello stato separato per ogni esercizio.
 - **Test di Valutazione Automatici**: ogni esercizio è accompagnato da test rigorosi su casi noti con tolleranze numeriche prestabilite.

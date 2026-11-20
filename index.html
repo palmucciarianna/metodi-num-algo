@@ -47,7 +47,44 @@
         .fail { color: #f87171; white-space: pre-wrap; }
         .system { color: #93c5fd; }
         .output { color: #e5e7eb; white-space: pre-wrap; }
-    </style>
+    
+        /* Header & Theory Button */
+        .header-left { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+        .theory-btn { background: #e0f2fe; color: #0284c7; border: 1px solid #7dd3fc; border-radius: 6px; padding: 7px 14px; font-weight: 600; font-size: 0.9rem; cursor: pointer; transition: all .15s ease; display: inline-flex; align-items: center; gap: 6px; }
+        .theory-btn:hover { background: #bae6fd; border-color: #38bdf8; color: #0369a1; }
+        
+        /* Theory Modal */
+        .modal-backdrop { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.65); backdrop-filter: blur(3px); z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 20px; box-sizing: border-box; }
+        .modal-content { background: #ffffff; width: 100%; max-width: 820px; max-height: 88vh; border-radius: 12px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.25), 0 8px 10px -6px rgba(0,0,0,0.15); display: flex; flex-direction: column; overflow: hidden; border: 1px solid #cbd5e1; animation: modalFadeIn .18s ease-out; }
+        @keyframes modalFadeIn { from { opacity: 0; transform: scale(0.97); } to { opacity: 1; transform: scale(1); } }
+        .modal-header { padding: 14px 20px; background: #0f172a; color: #fff; display: flex; justify-content: space-between; align-items: center; }
+        .modal-header h3 { margin: 0; font-size: 1.15rem; font-weight: 600; display: flex; align-items: center; gap: 8px; color: #f8fafc; }
+        .modal-close { background: transparent; border: none; font-size: 1.6rem; line-height: 1; color: #94a3b8; cursor: pointer; padding: 2px 8px; border-radius: 6px; }
+        .modal-close:hover { color: #fff; background: rgba(255,255,255,0.1); }
+        .modal-body { padding: 22px 24px; overflow-y: auto; color: #1e293b; font-size: 0.95rem; line-height: 1.6; }
+        
+        /* Theory Notice Banner */
+        .theory-notice { background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; padding: 14px 16px; margin-bottom: 20px; }
+        .theory-notice-title { font-weight: 700; color: #1e3a8a; font-size: 0.96rem; margin-bottom: 4px; display: flex; align-items: center; gap: 6px; }
+        .theory-notice-text { margin: 0 0 10px 0; font-size: 0.9rem; color: #1e40af; }
+        .theory-notice-link-box { background: #ffffff; border: 1px solid #cbd5e1; border-radius: 6px; padding: 10px 14px; font-size: 0.88rem; display: flex; flex-direction: column; gap: 4px; }
+        .theory-notice-link-box a { color: #0284c7; font-weight: 700; text-decoration: underline; }
+        .theory-notice-tag { display: inline-block; background: #e0e7ff; color: #3730a3; padding: 2px 8px; border-radius: 4px; font-size: 0.8rem; font-weight: 600; width: fit-content; margin-top: 4px; }
+        
+        /* Theory Cards & Content */
+        .theory-header-bar { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid #e2e8f0; }
+        .theory-title { font-size: 1.25rem; font-weight: 700; color: #0f172a; margin: 0; }
+        .theory-badge { background: #f1f5f9; color: #475569; border: 1px solid #cbd5e1; padding: 4px 10px; border-radius: 9999px; font-size: 0.82rem; font-weight: 600; }
+        .theory-order { display: inline-block; background: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0; padding: 3px 8px; border-radius: 4px; font-size: 0.82rem; font-weight: 600; margin-left: 8px; }
+        .theory-method-select { padding: 6px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 0.88rem; color: #1e293b; background: #fff; cursor: pointer; }
+        .theory-section { margin-bottom: 20px; }
+        .theory-section h4 { font-size: 1.02rem; color: #0f172a; margin: 18px 0 8px 0; display: flex; align-items: center; gap: 6px; border-bottom: 2px solid #e2e8f0; padding-bottom: 4px; }
+        .formula-box { background: #f8fafc; border-left: 4px solid #0284c7; padding: 12px 16px; margin: 10px 0; font-family: 'Consolas', 'Courier New', monospace; font-size: 0.95rem; color: #0f172a; border-radius: 0 8px 8px 0; overflow-x: auto; box-shadow: inset 0 1px 2px rgba(0,0,0,0.03); }
+        .theory-todo-box { background: #fefce8; border: 1px solid #fef08a; border-radius: 8px; padding: 12px 16px; margin-top: 12px; color: #713f12; }
+        .theory-todo-box h5 { margin: 0 0 6px 0; font-size: 0.95rem; color: #854d0e; }
+        .theory-todo-box ul { margin: 0; padding-left: 20px; }
+        .theory-todo-box li { margin-bottom: 4px; }
+</style>
 </head>
 <body>
 
@@ -58,7 +95,10 @@
 
 <div id="main">
     <div id="header">
-        <h3 id="ex-title" style="margin:0;">Seleziona un esercizio</h3>
+        <div class="header-left">
+            <h3 id="ex-title" style="margin:0;">Seleziona un esercizio</h3>
+            <button id="theory-btn" class="theory-btn" type="button" title="Apri guida teorica e formule del metodo">📖 Teoria & Formule</button>
+        </div>
         <button id="run-btn" class="run" disabled>Caricamento Python...</button>
     </div>
     <div id="editor-container">
@@ -91,6 +131,22 @@
             <div class="plot-placeholder">I grafici generati con Matplotlib compariranno qui.</div>
         </div>
     </div>
+
+<div id="theory-modal" class="modal-backdrop" style="display:none;" role="dialog" aria-modal="true" aria-labelledby="theory-modal-title">
+    <div class="modal-content">
+        <div class="modal-header">
+            <div style="display:flex; align-items:center; gap:10px;">
+                <span style="font-size:1.3rem;">📖</span>
+                <h3 id="theory-modal-title" style="margin:0;">Guida Teorica & Formulario Didattico</h3>
+            </div>
+            <button id="theory-close-btn" class="modal-close" type="button" aria-label="Chiudi finestra">&times;</button>
+        </div>
+        <div class="modal-body" id="theory-modal-body">
+            <!-- Popolato dinamicamente da JavaScript -->
+        </div>
+    </div>
+</div>
+
 </div>
 
 <script>
@@ -291,6 +347,9 @@ function loadExercise(id, btnElement) {
     }
     document.getElementById('console').innerHTML = '';
     printConsole(reset ? '↺ ' + ex.title + ' ripristinato.' : '📝 ' + ex.title + ' caricato.', 'system');
+    if (theoryModal && theoryModal.style.display !== 'none') {
+        renderTheory(id);
+    }
     editor.refresh();
 }
 
@@ -318,6 +377,108 @@ document.getElementById('run-btn').onclick = async () => {
         printConsole(err.message, "fail");
     }
 };
+
+
+const theoryData = {"bisezione": {"title": "Metodo di Bisezione", "category": "Zeri di Funzione", "order": "Lineare (p = 1)", "math": "\n            <p>Si basa sul <strong>Teorema degli Zeri (Bolzano)</strong>: se \\(f \\in C[a, b]\\) e \\(f(a) \\cdot f(b) < 0\\), allora esiste almeno uno zero \\(\u0007lpha \\in (a, b)\\).</p>\n            <div class=\"formula-box\">xk = (a + b) / 2</div>\n            <p><strong>Numero massimo di iterazioni teoriche:</strong></p>\n            <div class=\"formula-box\">max_it = int(np.ceil(np.log2((b - a) / tolx))) - 1</div>\n        ", "rules": "\n            <ul>\n                <li><strong>Controllo iniziale:</strong> se <code>fa * fb >= 0</code>, il teorema di esistenza non è verificato (restituisce <code>None, None, None</code>).</li>\n                <li><strong>Aggiornamento intervallo:</strong>\n                    <ul>\n                        <li>Se <code>fa * fxk < 0</code>: la radice è in \\([a, x_k]\\) &rarr; <code>b = xk; fb = fxk</code>.</li>\n                        <li>Altrimenti (<code>fxk * fb < 0</code>): la radice è in \\([x_k, b]\\) &rarr; <code>a = xk; fa = fxk</code>.</li>\n                    </ul>\n                </li>\n                <li><strong>Criterio d'arresto:</strong> <code>abs(fxk) < tolf</code> oppure <code>it < max_it</code>.</li>\n            </ul>\n        ", "todo": "\n            <ul>\n                <li><code>fa * fb >= 0</code> per il controllo iniziale.</li>\n                <li><code>it < max_it</code> per la condizione del ciclo <code>while</code>.</li>\n                <li><code>xk = a + (b - a) / 2</code> (oppure <code>(a + b) / 2</code>).</li>\n                <li><code>fa * fxk < 0</code> nel primo <code>if</code> di dimezzamento, e <code>fxk * fb < 0</code> (o <code>elif True</code>) nel secondo.</li>\n            </ul>\n        "}, "falsi": {"title": "Metodo di Falsa Posizione (Regula Falsi)", "category": "Zeri di Funzione", "order": "Lineare (p = 1)", "math": "\n            <p>Interpolazione lineare tra i punti \\((a, f(a))\\) e \\((b, f(b))\\): l'iterato \\(x_k\\) è l'intersezione della retta secante con l'asse \\(x\\).</p>\n            <div class=\"formula-box\">xk = a - fa * (b - a) / (fb - fa)</div>\n        ", "rules": "\n            <ul>\n                <li><strong>Condizione di Bolzano:</strong> se <code>fa * fb >= 0</code> il metodo non è applicabile.</li>\n                <li><strong>Aggiornamento intervallo:</strong> identico a bisezione (controllo del segno di <code>fa * fxk</code>).</li>\n                <li><strong>Calcolo errore:</strong> se <code>xk != 0</code> allora <code>errore = abs(xk - xprec) / abs(xk)</code> (relativo), altrimenti <code>abs(xk - xprec)</code> (assoluto).</li>\n                <li><strong>Arresto:</strong> <code>it < maxit and abs(fxk) >= tolf and errore >= tolx</code>.</li>\n            </ul>\n        ", "todo": "\n            <ul>\n                <li>Condizione iniziale: <code>fa * fb >= 0</code>.</li>\n                <li>While: <code>it < maxit and abs(fxk) >= tolf and errore >= tolx</code>.</li>\n                <li>Calcolo: <code>xk = a - fa * (b - a) / (fb - fa)</code>.</li>\n                <li>Aggiornamento: <code>fa * fxk < 0</code> per aggiornare <code>b</code>.</li>\n                <li>Errore: <code>abs(xk - xprec) / abs(xk)</code> se non nullo, altrimenti <code>abs(xk - xprec)</code>.</li>\n            </ul>\n        "}, "corde": {"title": "Metodo delle Corde", "category": "Zeri di Funzione", "order": "Lineare (p = 1)", "math": "\n            <p>Iterazione funzionale con coefficiente angolare fissato costante \\(m \ne 0\\):</p>\n            <div class=\"formula-box\">d = -f(x_k) / m<br>x_{k+1} = x_k + d = x_k - f(x_k) / m</div>\n        ", "rules": "\n            <ul>\n                <li><strong>Condizione coefficiente angolare:</strong> <code>abs(coeff_ang) &le; np.spacing(1)</code> &rarr; coefficiente nullo, uscita di sicurezza.</li>\n                <li><strong>Criterio d'arresto congiunto:</strong> <code>it < nmax and erroref >= tolf and errorex >= tolx</code>.</li>\n                <li><strong>Errore relativo su x:</strong> <code>errorex = abs(d) / abs(xk1)</code> (se \\(x_{k+1} \ne 0\\)) altrimenti <code>abs(d)</code>.</li>\n            </ul>\n        ", "todo": "\n            <ul>\n                <li>Condizione ciclo while: <code>it < nmax and erroref >= tolf and errorex >= tolx</code>.</li>\n                <li>Incremento: <code>d = -fxk / coeff_ang</code>.</li>\n                <li>Nuovo punto: <code>xk1 = xk + d</code>.</li>\n                <li>Errore relativo: <code>abs(d) / abs(xk1)</code> se <code>xk1 != 0</code>, altrimenti <code>abs(d)</code>.</li>\n            </ul>\n        "}, "newton": {"title": "Metodo di Newton (delle Tangenti)", "category": "Zeri di Funzione", "order": "Quadratica (p = 2) per radici semplici", "math": "\n            <p>Sviluppo di Taylor al primo ordine arrestato: l'iterato successivo è l'intersezione della retta tangente con l'asse delle ascisse.</p>\n            <div class=\"formula-box\">d = -f(x_k) / f'(x_k)<br>x_{k+1} = x_k + d = x_k - f(x_k) / f'(x_k)</div>\n        ", "rules": "\n            <ul>\n                <li><strong>Controllo derivata nulla:</strong> se <code>abs(fpxk) &le; np.spacing(1)</code> il metodo non può proseguire (tangente orizzontale).</li>\n                <li><strong>Convergenza locale:</strong> garantita per punti di innesco \\(x_0\\) sufficientemente vicini alla radice con \\(f'(x^*) \ne 0\\).</li>\n                <li><strong>Arresto:</strong> <code>it < nmax and erroref >= tolf and errorex >= tolx</code>.</li>\n            </ul>\n        ", "todo": "\n            <ul>\n                <li>While: <code>it < nmax and erroref >= tolf and errorex >= tolx</code>.</li>\n                <li>Verifica derivata: <code>abs(fpxk) <= np.spacing(1)</code>.</li>\n                <li>Incremento: <code>d = -fxk / fpxk</code> e <code>xk1 = xk + d</code>.</li>\n                <li>Scarto: <code>abs(d) / abs(xk1)</code> se diverso da zero, altrimenti <code>abs(d)</code>.</li>\n            </ul>\n        "}, "newton_modificato": {"title": "Metodo di Newton Modificato (Radici Multiple)", "category": "Zeri di Funzione", "order": "Quadratica (p = 2)", "math": "\n            <p>Se lo zero \\(\u0007lpha\\) ha molteplicità \\(m > 1\\) (ossia \\(f(\u0007lpha) = f'(\u0007lpha) = \\dots = f^{(m-1)}(\u0007lpha) = 0\\)), il metodo di Newton classico perde l'ordine quadratico degradando a lineare (\\(p=1\\)). Moltiplicando l'incremento per la molteplicità \\(m\\), si ristabilisce la convergenza quadratica:</p>\n            <div class=\"formula-box\">d = -m * f(x_k) / f'(x_k)<br>x_{k+1} = x_k + d</div>\n        ", "rules": "\n            <ul>\n                <li>Il parametro <code>m</code> rappresenta la molteplicità della radice cercata (intero &ge; 2).</li>\n                <li>Se la derivata prima si annulla numericamente (<code>abs(fpxk) <= np.spacing(1)</code>), il metodo si arresta.</li>\n            </ul>\n        ", "todo": "\n            <ul>\n                <li>While: <code>it < nmax and erroref >= tolf and errorex >= tolx</code>.</li>\n                <li>Controllo: <code>abs(fpxk) <= np.spacing(1)</code>.</li>\n                <li>Incremento: <code>d = -m * fxk / fpxk</code> e <code>xk1 = xk + d</code>.</li>\n                <li>Errore: <code>abs(d) / abs(xk1)</code> (se \\(xk_1 \ne 0\\)), altrimenti <code>abs(d)</code>.</li>\n            </ul>\n        "}, "secanti": {"title": "Metodo delle Secanti", "category": "Zeri di Funzione", "order": "Superlineare (p = (1 + &radic;5)/2 &approx; 1.618)", "math": "\n            <p>Approssima la derivata prima analitica con il rapporto incrementale su due iterati consecutivi \\(x_k\\) e \\(x_{k-1}\\):</p>\n            <div class=\"formula-box\">m_k = (f(x_k) - f(x_{k-1})) / (x_k - x_{k-1})<br>x_{k+1} = x_k - f(x_k) / m_k</div>\n        ", "rules": "\n            <ul>\n                <li>Non richiede la derivata prima analitica (solo valutazioni della funzione \\(f\\)).</li>\n                <li>Richiede due punti di innesco iniziali \\(x_{-1}\\) e \\(x_0\\).</li>\n                <li>Se il coefficiente angolare della secante è nullo (<code>abs(c_ang_k) <= np.spacing(1)</code>), il metodo si interrompe.</li>\n            </ul>\n        ", "todo": "\n            <ul>\n                <li>While: <code>it < nmax and erroref >= tolf and errorex >= tolx</code>.</li>\n                <li>Coefficiente angolare: <code>c_ang_k = (fxk - fxkm1) / (xk - xkm1)</code>.</li>\n                <li>Controllo: <code>abs(c_ang_k) <= np.spacing(1)</code>.</li>\n                <li>Incremento: <code>d = -fxk / c_ang_k</code> e <code>xk1 = xk + d</code>.</li>\n            </ul>\n        "}, "stima_ordine": {"title": "Stima dell'Ordine di Convergenza", "category": "Zeri di Funzione", "order": "Stima asintotica del parametro p", "math": "\n            <p>Data la successione degli scarti successivi \\(e_k = |x_{k+1} - x_k|\\), per \\(k \to \\infty\\) vale la relazione asintotica:</p>\n            <div class=\"formula-box\">p &approx; (ln |x_{k+2} - x_{k+1}| - ln |x_{k+1} - x_k|) / (ln |x_{k+1} - x_k| - ln |x_k - x_{k-1}|)</div>\n            <p>Richiede almeno 4 iterazioni consecutive per essere calcolato.</p>\n        ", "rules": "\n            <ul>\n                <li>Con l'indice <code>k = iterazioni - 4</code>:\n                    <ul>\n                        <li>Numeratore: <code>np.log(abs(xk[k+3] - xk[k+2])) - np.log(abs(xk[k+2] - xk[k+1]))</code></li>\n                        <li>Denominatore: <code>np.log(abs(xk[k+2] - xk[k+1])) - np.log(abs(xk[k+1] - xk[k]))</code></li>\n                    </ul>\n                </li>\n            </ul>\n        ", "todo": "\n            <ul>\n                <li>Formula del rapporto logaritmico: <code>p = (np.log(abs(xk[k+3] - xk[k+2])) - np.log(abs(xk[k+2] - xk[k+1]))) / (np.log(abs(xk[k+2] - xk[k+1])) - np.log(abs(xk[k+1] - xk[k])))</code>.</li>\n            </ul>\n        "}, "newton_raphson": {"title": "Newton-Raphson per Sistemi Non Lineari", "category": "Sistemi Non Lineari", "order": "Quadratica (p = 2)", "math": "\n            <p>Per risolvere sistemi non lineari \\(F(x) = 0\\) con \\(x \\in \\mathbb{R}^n, F: \\mathbb{R}^n \to \\mathbb{R}^n\\). Ad ogni passo si risolve il sistema lineare:</p>\n            <div class=\"formula-box\">J(x_k) s_k = -F(x_k)<br>x_{k+1} = x_k + s_k</div>\n            <p>dove \\(J(x_k)\\) è la matrice Jacobiana calcolata in \\(x_k\\).</p>\n        ", "rules": "\n            <ul>\n                <li>La Jacobiana viene valutata e risolta ad ogni iterazione con <code>np.linalg.solve(jx, -fx)</code>.</li>\n                <li>Controllo singolarità: se il determinante è nullo o la matrice non è a rango massimo, il metodo si arresta.</li>\n                <li>Criterio d'arresto combinato su scarto relativo in norma 1 e residuo in norma 1.</li>\n            </ul>\n        ", "todo": "\n            <ul>\n                <li>While: <code>it < max_iterations and erroreF >= tolF and erroreX >= tolX</code>.</li>\n                <li>Calcolo Jacobiana e residuo: <code>jx = J_numerical(X); fx = F_numerical(X)</code>.</li>\n                <li>Risoluzione incremento: <code>s = np.linalg.solve(jx, -fx)</code>.</li>\n                <li>Aggiornamento: <code>Xnew = X + s</code>.</li>\n                <li>Errore relativo: <code>np.linalg.norm(s, 1) / normaXnew</code> se <code>normaXnew != 0</code>.</li>\n            </ul>\n        "}, "newton_raphson_corde": {"title": "Newton-Raphson a Jacobiana Costante (Corde)", "category": "Sistemi Non Lineari", "order": "Lineare (p = 1)", "math": "\n            <p>Variante a basso costo computazionale: la matrice Jacobiana viene valutata <strong>solo una volta</strong> al passo iniziale \\(J_0 = J(x_0)\\) e riutilizzata costante in tutte le iterazioni successive:</p>\n            <div class=\"formula-box\">J(x_0) s_k = -F(x_k)<br>x_{k+1} = x_k + s_k</div>\n        ", "rules": "\n            <ul>\n                <li>Vantaggio: si evita il ricalcolo della Jacobiana ad ogni iterazione (la fattorizzazione LU può essere calcolata una sola volta).</li>\n                <li>Svantaggio: la convergenza degrada da quadratica a lineare.</li>\n            </ul>\n        ", "todo": "\n            <ul>\n                <li>Calcolo iniziale: <code>jx = J_numerical(X)</code> prima del ciclo while.</li>\n                <li>Controllo rango iniziale: <code>np.linalg.det(jx) == 0</code>.</li>\n                <li>Nel while: <code>fx = F_numerical(X)</code>, risolvi <code>s = np.linalg.solve(jx, -fx)</code> e aggiorna <code>Xnew = X + s</code>.</li>\n            </ul>\n        "}, "newton_sham": {"title": "Metodo di Newton-Shamanskii", "category": "Sistemi Non Lineari", "order": "Superlineare / Intermedio", "math": "\n            <p>Compromesso ottimale tra Newton standard e Newton a Jacobiana fissa: la matrice Jacobiana viene aggiornata ogni <code>update</code> iterazioni:</p>\n            <div class=\"formula-box\">Se it % update == 0: J = J_numerical(X)<br>J s_k = -F(x_k)<br>x_{k+1} = x_k + s_k</div>\n        ", "rules": "\n            <ul>\n                <li>Se <code>update = 1</code>, coincide con Newton-Raphson standard.</li>\n                <li>Se <code>update = &infin;</code>, coincide con il metodo delle corde a Jacobiana costante.</li>\n            </ul>\n        ", "todo": "\n            <ul>\n                <li>Nel ciclo while: <code>if it % update == 0: jx = J_numerical(X)</code>.</li>\n                <li>Risolvi: <code>s = np.linalg.solve(jx, -fx)</code>.</li>\n                <li>Aggiorna: <code>Xnew = X + s</code>.</li>\n            </ul>\n        "}, "jacobi": {"title": "Metodo di Jacobi (Sistemi Lineari)", "category": "Sistemi Lineari (Iterativi)", "order": "Lineare", "math": "\n            <p>Splitting della matrice \\(A = D - E - F\\), dove \\(D = \\text{diag}(A)\\), \\(E = -\\text{tril}(A, -1)\\), \\(F = -\\text{triu}(A, 1)\\):</p>\n            <div class=\"formula-box\">M = D, &nbsp; N = E + F<br>T = D^{-1} (E + F) = I - D^{-1} A<br>x_{k+1} = D^{-1} (b + N x_k)</div>\n            <p><strong>Condizione di Convergenza:</strong> raggio spettrale \\(\\rho(T) = \\max |\\lambda_i(T)| < 1\\).</p>\n        ", "rules": "\n            <ul>\n                <li>Condizione sufficiente: \\(A\\) a dominanza diagonale stretta per righe.</li>\n                <li>Ad ogni passo si calcola lo scarto relativo: <code>np.linalg.norm(x - x0) / np.linalg.norm(x)</code>.</li>\n            </ul>\n        ", "todo": "\n            <ul>\n                <li>Costruzione matrici: <code>d = np.diag(A); D = np.diag(d)</code>.</li>\n                <li>Matrici triangolari: <code>E = -np.tril(A, -1); F = -np.triu(A, 1)</code>.</li>\n                <li>Splitting: <code>M = D; N = E + F; T = np.linalg.inv(M) @ N</code>.</li>\n                <li>Raggio spettrale: <code>raggiospettrale = np.max(np.abs(autovalori))</code>.</li>\n                <li>Aggiornamento: <code>x = np.linalg.inv(D) @ (N @ x0 + b)</code>.</li>\n            </ul>\n        "}, "gauss_seidel": {"title": "Metodo di Gauss-Seidel", "category": "Sistemi Lineari (Iterativi)", "order": "Lineare (generalmente più veloce di Jacobi)", "math": "\n            <p>Splitting triangolare inferiore \\(M = D - E\\) e \\(N = F\\):</p>\n            <div class=\"formula-box\">T_{GS} = (D - E)^{-1} F<br>(D - E) x_{k+1} = F x_k + b &rarr; x_{k+1} = (D - E)^{-1} (F x_k + b)</div>\n        ", "rules": "\n            <ul>\n                <li><strong>Teorema:</strong> se \\(A\\) è simmetrica e definita positiva (oppure a dominanza diagonale stretta per righe), Gauss-Seidel converge per qualsiasi vettore iniziale \\(x_0\\).</li>\n                <li>Utilizza le componenti già calcolate del vettore \\(x_{k+1}\\) nello stesso passo.</li>\n            </ul>\n        ", "todo": "\n            <ul>\n                <li>Matrici: <code>d = np.diag(A); D = np.diag(d); E = -np.tril(A, -1); F = -np.triu(A, 1)</code>.</li>\n                <li>Splitting: <code>M = D - E; N = F; T = np.linalg.inv(M) @ N</code>.</li>\n                <li>Aggiornamento: <code>x = np.linalg.inv(M) @ (N @ x0 + b)</code>.</li>\n            </ul>\n        "}, "gauss_seidel_sor": {"title": "Gauss-Seidel SOR (Successive Over-Relaxation)", "category": "Sistemi Lineari (Iterativi)", "order": "Lineare (accelerata con parametro &omega;)", "math": "\n            <p>Introduzione del parametro di rilassamento \\(\\omega \\in (0, 2)\\):</p>\n            <div class=\"formula-box\">M_&omega; = D + &omega; E, &nbsp; N_&omega; = (1 - &omega;) D - &omega; F<br>x_{k+1} = (1 - &omega;) x_k + &omega; x_{k+1}^{GS}</div>\n        ", "rules": "\n            <ul>\n                <li><strong>Teorema di Kahan:</strong> condizione necessaria affinché SOR converga è \\(0 < \\omega < 2\\).</li>\n                <li>Se \\(\\omega = 1\\), coincide esattamente con Gauss-Seidel standard.</li>\n                <li>Se \\(\\omega > 1\\) (sovrarilassamento), accelera la convergenza riducendo il raggio spettrale per molte matrici sparse/laplaciane.</li>\n            </ul>\n        ", "todo": "\n            <ul>\n                <li>Raggio spettrale: <code>raggiospettrale = np.max(np.abs(autovalori))</code>.</li>\n                <li>Splitting: <code>M = D - E; N = F</code>.</li>\n                <li>Aggiornamento: <code>xtilde = np.linalg.inv(M) @ (N @ x0 + b)</code> e poi combinazione convessa: <code>x = (1 - omega) * x0 + omega * xtilde</code>.</li>\n            </ul>\n        "}, "steepest": {"title": "Metodo del Gradiente (Steepest Descent)", "category": "Ottimizzazione (Gradiente)", "order": "Lineare", "math": "\n            <p>Minimizza la forma quadratica \\(q(x) = \\frac{1}{2} x^T A x - b^T x\\) con \\(A\\) simmetrica e definita positiva (\\(A = A^T > 0\\)):</p>\n            <div class=\"formula-box\">r_k = b - A x_k, &nbsp; p_k = r_k<br>&alpha;_k = (r_k^T r_k) / (p_k^T A p_k)<br>x_{k+1} = x_k + &alpha;_k p_k, &nbsp; r_{k+1} = r_k - &alpha;_k A p_k</div>\n        ", "rules": "\n            <ul>\n                <li>La direzione di discesa è data dall'antigradiente \\(p_k = r_k = -\\nabla q(x_k)\\).</li>\n                <li>Il passo \\(\\alpha_k\\) è calcolato in modo esatto (line search analitico).</li>\n                <li>Arresto: scarto relativo residuo <code>np.linalg.norm(r) / nb < tol</code>.</li>\n            </ul>\n        ", "todo": "\n            <ul>\n                <li>Residuo iniziale: <code>r = b - A @ x; p = r</code>.</li>\n                <li>Errore iniziale: <code>errore = np.linalg.norm(r) / nb</code>.</li>\n                <li>Nel while: <code>Ap = A @ p; alpha = (r.T @ r) / (p.T @ Ap)</code>.</li>\n                <li>Aggiornamento soluzione e residuo: <code>x = x + alpha * p; r = r - alpha * Ap; p = r</code>.</li>\n            </ul>\n        "}, "conjugate": {"title": "Metodo del Gradiente Coniugato (CG)", "category": "Ottimizzazione (Gradiente)", "order": "Convergenza finita in al più n passi (in aritmetica esatta)", "math": "\n            <p>Algoritmo a direzioni \\(A\\)-ortogonali (coniugate): \\(p_i^T A p_j = 0\\) per \\(i \ne j\\):</p>\n            <div class=\"formula-box\">&alpha;_k = (r_k^T r_k) / (p_k^T A p_k)<br>x_{k+1} = x_k + &alpha;_k p_k<br>r_{k+1} = r_k - &alpha;_k A p_k<br>&gamma;_k = (r_{k+1}^T r_{k+1}) / (r_k^T r_k)<br>p_{k+1} = r_{k+1} + &gamma;_k p_k</div>\n        ", "rules": "\n            <ul>\n                <li>Valido per matrici quadrate simmetriche e definite positive.</li>\n                <li>Molto più rapido di Steepest Descent perché evita le oscillazioni a zig-zag.</li>\n            </ul>\n        ", "todo": "\n            <ul>\n                <li>Inizializzazione: <code>r = b - A @ x; p = r; errore = np.linalg.norm(r) / nb</code>.</li>\n                <li>Nel while: <code>Ap = A @ p; alpha = (r.T @ r) / (p.T @ Ap); x = x + alpha * p</code>.</li>\n                <li>Aggiornamento direzione: <code>rtr_old = r.T @ r; r = r - alpha * Ap; gamma = (r.T @ r) / rtr_old; p = r + gamma * p</code>.</li>\n            </ul>\n        "}, "eqnorm": {"title": "Equazioni Normali (Minimi Quadrati)", "category": "Minimi Quadrati", "order": "Metodo Diretto", "math": "\n            <p>Risoluzione del problema \\(\\min_x \\|Ax - b\\|_2\\) con \\(A \\in \\mathbb{R}^{m \\times n}\\) (\\(m \\ge n\\)) a rango massimo:</p>\n            <div class=\"formula-box\">G = A^T A, &nbsp; f = A^T b<br>G x = f &rarr; (Cholesky: G = L L^T)<br>1. L y = f &nbsp; (in avanti)<br>2. L^T x = y &nbsp; (all'indietro)</div>\n        ", "rules": "\n            <ul>\n                <li>Essendo \\(A\\) a rango massimo, la matrice normale \\(G = A^T A\\) è simmetrica e definita positiva.</li>\n                <li>Risoluzione in due passi triangolari con <code>spLin.solve_triangular</code>.</li>\n                <li>Attenzione al condizionamento: \\(\\kappa(A^T A) = (\\kappa(A))^2\\).</li>\n            </ul>\n        ", "todo": "\n            <ul>\n                <li>Matrice normale e termine noto: <code>G = A.T @ A; f = A.T @ b</code>.</li>\n                <li>Cholesky: <code>L = spLin.cholesky(G, lower=True)</code>.</li>\n                <li>Risoluzione: <code>y = spLin.solve_triangular(L, f, lower=True)</code> e <code>x = spLin.solve_triangular(L.T, y, lower=False)</code>.</li>\n            </ul>\n        "}, "qrls": {"title": "Fattorizzazione QR per Minimi Quadrati", "category": "Minimi Quadrati", "order": "Metodo Diretto (Stabile)", "math": "\n            <p>Decomposizione ortogonale \\(A = Q R\\) con \\(Q \\in \\mathbb{R}^{m \\times m}\\) ortogonale (\\(Q^T Q = I\\)) e \\(R \\in \\mathbb{R}^{m \\times n}\\) triangolare superiore:</p>\n            <div class=\"formula-box\">h = Q^T b<br>R_{1:n, :} x = h_{1:n} &rarr; x = \\text{solve_triangular}(R[:n, :], h[:n])<br>Residuo: \\|r\\|_2 = \\|h_{n+1:m}\\|_2</div>\n        ", "rules": "\n            <ul>\n                <li>Evita di calcolare \\(A^T A\\): il condizionamento è \\(\\kappa(R) = \\kappa(A)\\), risultando numericamente molto più stabile delle equazioni normali.</li>\n            </ul>\n        ", "todo": "\n            <ul>\n                <li>Fattorizzazione: <code>Q, R = spLin.qr(A)</code>.</li>\n                <li>Proiezione: <code>h = Q.T @ b</code>.</li>\n                <li>Soluzione: <code>x = spLin.solve_triangular(R[:n, :], h[:n])</code>.</li>\n                <li>Residuo: <code>residuo = np.linalg.norm(h[n:])</code>.</li>\n            </ul>\n        "}, "svdls": {"title": "Decomposizione SVD per Minimi Quadrati", "category": "Minimi Quadrati", "order": "Metodo Diretto (Massima Robustezza)", "math": "\n            <p>Decomposizione ai valori singolari \\(A = U \\Sigma V^T\\):</p>\n            <div class=\"formula-box\">d = U^T b<br>x = V_{:, 1:k} (d_{1:k} / \\sigma_{1:k})<br>Residuo: \\|r\\|_2 = \\|d_{k+1:m}\\|_2</div>\n        ", "rules": "\n            <ul>\n                <li>Gestisce problemi a rango carente con soglia di troncamento: <code>thresh = np.spacing(1) * m * s[0]</code>.</li>\n                <li>Fornisce la soluzione a norma minima \\(\\min \\|x\\|_2\\).</li>\n            </ul>\n        ", "todo": "\n            <ul>\n                <li>Decomposizione: <code>U, s, VT = spLin.svd(A); V = VT.T</code>.</li>\n                <li>Proiezione e troncamento: <code>d = U.T @ b; d1 = d[:k]; s1 = s[:k]; c = d1 / s1</code>.</li>\n                <li>Soluzione e residuo: <code>x = V[:, :k] @ c; residuo = np.linalg.norm(d[k:])</code>.</li>\n            </ul>\n        "}, "lagrange": {"title": "Polinomi Base di Lagrange", "category": "Interpolazione", "order": "Base Polinomiale Fondamentale", "math": "\n            <p>Dati i nodi \\(x_0, x_1, \\dots, x_n\\), il \\(j\\)-esimo polinomio fondamentale di Lagrange \\(L_j(x)\\) soddisfa la proprietà di Kronecker \\(L_j(x_i) = \\delta_{ij}\\):</p>\n            <div class=\"formula-box\">L_j(x) = &prod;_{i &ne; j} (x - x_i) / (x_j - x_i)</div>\n        ", "rules": "\n            <ul>\n                <li>Il numeratore è un polinomio che ha come radici tutti i nodi tranne \\(x_j\\).</li>\n                <li>In NumPy: <code>np.poly(xzeri)</code> calcola i coefficienti del numeratore e <code>np.polyval(num, xnodi[j])</code> il fattore di normalizzazione al denominatore.</li>\n            </ul>\n        ", "todo": "\n            <ul>\n                <li>Nodi esclusi: se <code>j == 0</code> allora <code>xzeri = xnodi[1:]</code>, altrimenti <code>xzeri = np.append(xnodi[:j], xnodi[j+1:])</code>.</li>\n                <li>Numeratore e denominatore: <code>num = np.poly(xzeri); den = np.polyval(num, xnodi[j])</code>.</li>\n                <li>Polinomio: <code>p = num / den</code>.</li>\n            </ul>\n        "}, "interpL": {"title": "Valutazione Interpolante di Lagrange", "category": "Interpolazione", "order": "Interpolazione Globale", "math": "\n            <p>Dati i valori \\(y_j\\) nei nodi \\(x_j\\), il polinomio interpolatore è dato dalla combinazione lineare:</p>\n            <div class=\"formula-box\">P(x) = &sum;_{j=0}^n y_j L_j(x)</div>\n            <p>Per una griglia densa di valutazione \\(xx\\), la matrice \\(L \\in \\mathbb{R}^{m \\times n}\\) ha come colonna \\(j\\) i valori del polinomio \\(L_j\\) valutato su \\(xx\\):</p>\n            <div class=\"formula-box\">pol = L @ y</div>\n        ", "rules": "\n            <ul>\n                <li>Si calcola <code>p = plagr(x, j)</code> per ogni nodo \\(j\\).</li>\n                <li>Si valuta su tutta la griglia: <code>L[:, j] = np.polyval(p, xx)</code>.</li>\n                <li>Si calcola il prodotto matrice-vettore: <code>pol = L @ y</code>.</li>\n            </ul>\n        ", "todo": "\n            <ul>\n                <li>Nel ciclo for: <code>p = plagr(x, j)</code>.</li>\n                <li>Valutazione colonna: <code>L[:, j] = np.polyval(p, xx)</code>.</li>\n                <li>Combinazione finale: <code>pol = L @ y</code>.</li>\n            </ul>\n        "}, "analisi_matrici": {"title": "Playground: Proprietà Matrici", "category": "Playground / Extra", "order": "Analisi Spettrale e Strutturale", "math": "\n            <p>Spazio libero interattivo per testare proprietà algebriche e spettrali essenziali delle matrici numeriche:</p>\n            <div class=\"formula-box\">\n                # Simmetria: np.allclose(A, A.T)<br>\n                # Autovalori: autovalori = np.linalg.eigvals(A)<br>\n                # Raggio Spettrale: rho = np.max(np.abs(autovalori))<br>\n                # Dominanza Diagonale Stretta:<br>\n                &nbsp;&nbsp;diag = np.abs(np.diag(A))<br>\n                &nbsp;&nbsp;extra = np.sum(np.abs(A), axis=1) - diag<br>\n                &nbsp;&nbsp;is_diag_dom = np.all(diag > extra)<br>\n                # Numero di Condizionamento: kappa = np.linalg.cond(A)\n            </div>\n        ", "rules": "\n            <ul>\n                <li><strong>Matrice Definita Positiva (SPD):</strong> simmetrica e con tutti gli autovalori strettamente positivi (\\(\\lambda_i > 0\\)).</li>\n                <li><strong>Condizionamento:</strong> \\(\\kappa_2(A) = \\sigma_{\\max} / \\sigma_{\\min}\\). Se elevato, il sistema è mal condizionato.</li>\n            </ul>\n        ", "todo": "\n            <ul>\n                <li>Usa questo spazio per combinare ed esplorare le proprietà prima di applicare i metodi iterativi o diretti.</li>\n            </ul>\n        "}};
+
+const theoryModal = document.getElementById('theory-modal');
+const theoryModalBody = document.getElementById('theory-modal-body');
+const theoryBtn = document.getElementById('theory-btn');
+const theoryCloseBtn = document.getElementById('theory-close-btn');
+
+function renderTheory(exId) {
+    const info = theoryData[exId] || {
+        title: "Teoria del Metodo",
+        category: "Metodi Numerici",
+        order: "-",
+        math: "<p>Seleziona un esercizio per visualizzarne la formulazione teorica e le formule di riferimento.</p>",
+        rules: "<ul><li>Fai riferimento alle slide del corso.</li></ul>",
+        todo: "<ul><li>Completa le sezioni marcate con # to do.</li></ul>"
+    };
+
+    let optionsHtml = '';
+    categories.forEach(cat => {
+        const catExs = exercises.filter(e => e.cat === cat.id);
+        if (catExs.length > 0) {
+            optionsHtml += `<optgroup label="${cat.name}">`;
+            catExs.forEach(e => {
+                optionsHtml += `<option value="${e.id}" ${e.id === exId ? 'selected' : ''}>${e.title}</option>`;
+            });
+            optionsHtml += `</optgroup>`;
+        }
+    });
+
+    theoryModalBody.innerHTML = `
+        <div class="theory-notice">
+            <div class="theory-notice-title">
+                <span>📚 Riferimenti Didattici & Materiali UniBo</span>
+            </div>
+            <p class="theory-notice-text">
+                Le formule, le notazioni e i criteri di arresto fanno riferimento diretto alle <strong>slide della docente</strong> del corso di <em>Metodi Numerici per l'Intelligenza Artificiale</em> (UniBo).
+            </p>
+            <div class="theory-notice-link-box">
+                <div>🔗 <strong>Repository materiali del corso:</strong> <a href="https://github.com/palmucciarianna/metodinumericiAI" target="_blank" rel="noopener">github.com/palmucciarianna/metodinumericiAI</a></div>
+                <div style="color: #64748b; font-size: 0.84rem; margin-top: 2px;">
+                    📌 <em>Prossimamente disponibili nel repository: slide, dispense integrative e la sezione con i <strong>laboratori d'esame guidati</strong>!</em>
+                </div>
+            </div>
+        </div>
+
+        <div class="theory-header-bar">
+            <div>
+                <h3 class="theory-title">${info.title}</h3>
+                <span class="theory-badge">${info.category}</span>
+                <span class="theory-order">Ordine: ${info.order}</span>
+            </div>
+            <div style="display:flex; align-items:center; gap:8px;">
+                <label for="theory-select" style="font-size:0.85rem; color:#64748b; font-weight:600;">Metodo:</label>
+                <select id="theory-select" class="theory-method-select">
+                    ${optionsHtml}
+                </select>
+            </div>
+        </div>
+
+        <div class="theory-section">
+            <h4>📐 Modello Matematico & Formule</h4>
+            ${info.math}
+        </div>
+
+        <div class="theory-section">
+            <h4>🛑 Condizioni, Criteri di Arresto & Teoremi</h4>
+            ${info.rules}
+        </div>
+
+        <div class="theory-todo-box">
+            <h5>💡 Guida rapida ai passaggi "# to do"</h5>
+            ${info.todo}
+        </div>
+    `;
+
+    document.getElementById('theory-select').addEventListener('change', (e) => {
+        renderTheory(e.target.value);
+    });
+}
+
+function openTheoryModal() {
+    renderTheory(currentEx || 'bisezione');
+    theoryModal.style.display = 'flex';
+}
+
+function closeTheoryModal() {
+    theoryModal.style.display = 'none';
+}
+
+theoryBtn.addEventListener('click', openTheoryModal);
+theoryCloseBtn.addEventListener('click', closeTheoryModal);
+theoryModal.addEventListener('click', (e) => {
+    if (e.target === theoryModal) closeTheoryModal();
+});
+window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && theoryModal.style.display !== 'none') {
+        closeTheoryModal();
+    }
+});
+
 
 init();
 </script>
