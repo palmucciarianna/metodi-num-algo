@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Metodi Numerici & AI - UniBo | Piattaforma Interattiva</title>
+    <title>Palestra Metodi Numerici Completa - UniBo</title>
     <!-- CodeMirror -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/theme/dracula.min.css">
@@ -12,319 +12,250 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/edit/matchbrackets.min.js"></script>
     <!-- Pyodide -->
     <script src="https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js"></script>
-    <!-- KaTeX for math rendering -->
+    <!-- KaTeX for math rendering in modals -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body);"></script>
 
     <style>
-        :root {
-            --bg-body: #f4f4f5;
-            --bg-sidebar: #ffffff;
-            --bg-header: #ffffff;
-            --bg-surface: #ffffff;
-            --bg-subtle: #f8fafc;
-            --border-color: #e2e8f0;
-            --border-hover: #cbd5e1;
-            --text-main: #0f172a;
-            --text-muted: #64748b;
-            --accent: #0284c7;
-            --accent-hover: #0369a1;
-            --accent-bg: #e0f2fe;
-            --accent-border: #7dd3fc;
-            --success: #16a34a;
-            --success-bg: #dcfce7;
-            --success-border: #86efac;
-            --danger: #dc2626;
-            --warning: #d97706;
-            --warning-bg: #fef3c7;
-            --console-bg: #18181b;
-            --console-toolbar: #27272a;
-            --console-text: #f4f4f5;
-        }
-
-        body.theme-dark {
-            --bg-body: #090d16;
-            --bg-sidebar: #0f172a;
-            --bg-header: #0f172a;
-            --bg-surface: #1e293b;
-            --bg-subtle: #1e293b;
-            --border-color: #334155;
-            --border-hover: #475569;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --accent: #38bdf8;
-            --accent-hover: #7dd3fc;
-            --accent-bg: #0c4a6e;
-            --accent-border: #0284c7;
-            --success: #22c55e;
-            --success-bg: #064e3b;
-            --success-border: #059669;
-            --danger: #ef4444;
-            --warning: #f59e0b;
-            --warning-bg: #451a03;
-            --console-bg: #090d16;
-            --console-toolbar: #1e293b;
-            --console-text: #f8fafc;
-        }
-
-        * { box-sizing: border-box; }
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; display: flex; flex-direction: column; height: 100vh; background: var(--bg-body); color: var(--text-main); overflow: hidden; }
-
-        /* Top Navigation Bar */
-        #topbar { flex: 0 0 auto; height: 52px; background: var(--bg-header); border-bottom: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between; padding: 0 16px; gap: 12px; z-index: 20; }
-        .topbar-brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 1.05rem; color: var(--text-main); text-decoration: none; }
-        .topbar-brand .badge-unibo { background: #b91c1c; color: white; padding: 2px 7px; border-radius: 4px; font-size: 0.75rem; font-weight: 700; }
-        .topbar-nav { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-        .nav-btn { background: var(--bg-surface); color: var(--text-main); border: 1px solid var(--border-color); border-radius: 6px; padding: 6px 11px; font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: all .15s ease; display: inline-flex; align-items: center; gap: 6px; }
-        .nav-btn:hover { background: var(--bg-subtle); border-color: var(--accent); color: var(--accent); }
-        .nav-btn.primary { background: var(--accent-bg); color: var(--accent); border-color: var(--accent-border); }
-        .nav-btn.primary:hover { background: var(--accent); color: #fff; }
-        .nav-btn.theme-btn { border-radius: 20px; padding: 6px 12px; }
-
-        /* App Layout */
-        #app-container { flex: 1 1 auto; min-height: 0; display: flex; }
-
-        /* Sidebar */
-        #sidebar { width: 330px; flex: 0 0 330px; background: var(--bg-sidebar); border-right: 1px solid var(--border-color); display: flex; flex-direction: column; overflow: hidden; }
-        .sidebar-header { padding: 12px 14px 10px 14px; border-bottom: 1px solid var(--border-color); display: flex; flex-direction: column; gap: 10px; }
-        .search-box { position: relative; width: 100%; }
-        .search-input { width: 100%; padding: 8px 12px; background: var(--bg-subtle); border: 1px solid var(--border-color); border-radius: 6px; color: var(--text-main); font-size: 0.88rem; outline: none; transition: border-color .15s; }
-        .search-input:focus { border-color: var(--accent); }
+        /* Light Theme (Original Comfortable Colors) */
+        body { font-family: system-ui, -apple-system, sans-serif; margin: 0; padding: 0; display: flex; height: 100vh; background: #f4f4f5; color: #1e293b; overflow: hidden; }
         
-        /* Progress Container */
-        .progress-box { background: var(--bg-subtle); border: 1px solid var(--border-color); border-radius: 8px; padding: 8px 10px; }
-        .progress-header { display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; font-weight: 600; color: var(--text-muted); margin-bottom: 5px; }
-        .progress-val { color: var(--accent); font-weight: 700; }
-        .progress-track { height: 6px; background: var(--border-color); border-radius: 999px; overflow: hidden; }
-        .progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--accent), var(--success)); transition: width .3s ease; }
-        .progress-reset-link { font-size: 0.73rem; color: var(--text-muted); text-decoration: underline; background: none; border: none; cursor: pointer; padding: 0; margin-top: 4px; display: inline-block; }
-        .progress-reset-link:hover { color: var(--danger); }
-
-        /* Exercise List */
-        #ex-list { flex: 1 1 auto; overflow-y: auto; }
-        .cat-title { background: var(--bg-subtle); font-weight: 700; padding: 9px 14px; font-size: 0.82rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid var(--border-color); border-top: 1px solid var(--border-color); }
-        .ex-btn { padding: 10px 14px 10px 22px; text-align: left; background: none; border: none; border-bottom: 1px solid var(--border-color); cursor: pointer; font-size: 0.9rem; color: var(--text-main); width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 8px; transition: background .12s ease; }
-        .ex-btn:hover { background: var(--bg-subtle); }
-        .ex-btn.active { background: var(--accent-bg); border-left: 4px solid var(--accent); font-weight: 700; color: var(--accent); }
-        .ex-btn .check-badge { display: none; width: 18px; height: 18px; border-radius: 50%; background: var(--success); color: white; font-size: 0.7rem; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0; }
-        .ex-btn.completed .check-badge { display: flex; }
-
-        /* Main Workspace */
-        #main { flex: 1 1 auto; min-width: 0; min-height: 0; display: flex; flex-direction: column; overflow: hidden; background: var(--bg-body); }
-        #header { flex: 0 0 auto; padding: 10px 16px; background: var(--bg-header); border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
-        .header-left { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-        .header-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-        .cat-pill { font-size: 0.75rem; font-weight: 700; padding: 3px 8px; border-radius: 4px; background: var(--bg-subtle); color: var(--text-muted); border: 1px solid var(--border-color); text-transform: uppercase; }
-
-        /* Action Buttons */
-        .tool-btn { background: var(--bg-surface); color: var(--text-main); border: 1px solid var(--border-color); border-radius: 6px; padding: 6px 10px; font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: all .15s ease; display: inline-flex; align-items: center; gap: 5px; }
-        .tool-btn:hover { background: var(--bg-subtle); border-color: var(--accent); color: var(--accent); }
-        .tool-btn.theory { background: var(--accent-bg); color: var(--accent); border-color: var(--accent-border); }
-        .tool-btn.hint { background: #fef3c7; color: #b45309; border-color: #fde68a; }
-        .tool-btn.solution { background: #f3e8ff; color: #7e22ce; border-color: #d8b4fe; }
+        /* Dark Theme Support */
+        body.theme-dark { background: #090d16; color: #f8fafc; }
+        body.theme-dark #sidebar { background: #0f172a; border-right-color: #334155; }
+        body.theme-dark #search-wrap { background: #1e293b; border-bottom-color: #334155; }
+        body.theme-dark #ex-search { background: #0f172a; border-color: #475569; color: #f8fafc; }
+        body.theme-dark .cat-title { background: #1e293b; color: #94a3b8; border-color: #334155; }
+        body.theme-dark .ex-btn { color: #f1f5f9; border-bottom-color: #1e293b; }
+        body.theme-dark .ex-btn:hover { background: #1e293b; }
+        body.theme-dark .ex-btn.active { background: #0c4a6e; border-left-color: #38bdf8; color: #38bdf8; }
+        body.theme-dark #header { background: #0f172a; border-bottom-color: #334155; }
+        body.theme-dark .tool-btn { background: #1e293b; color: #f1f5f9; border-color: #334155; }
+        body.theme-dark .tool-btn:hover { background: #334155; border-color: #38bdf8; color: #38bdf8; }
+        body.theme-dark .tool-btn.theory { background: #0c4a6e; color: #38bdf8; border-color: #0284c7; }
         body.theme-dark .tool-btn.hint { background: #451a03; color: #fde68a; border-color: #78350f; }
         body.theme-dark .tool-btn.solution { background: #3b0764; color: #e9d5ff; border-color: #6b21a8; }
+        body.theme-dark .modal-content { background: #0f172a; color: #f8fafc; border-color: #334155; }
+        body.theme-dark .modal-header { background: #090d16; border-bottom-color: #334155; }
+        body.theme-dark .tree-card { background: #1e293b; border-color: #334155; }
+        body.theme-dark .tree-branch { background: #0f172a; border-color: #334155; }
+        body.theme-dark .qa-item { border-color: #334155; background: #0f172a; }
+        body.theme-dark .qa-header { background: #1e293b; border-color: #334155; }
+        body.theme-dark .lab-card { background: #1e293b; border-color: #334155; }
+
+        /* Sidebar - Original Layout & Size */
+        #sidebar { width: 330px; min-width: 330px; background: #fff; border-right: 1px solid #ddd; display: flex; flex-direction: column; overflow-y: auto; height: 100vh; position: relative; }
+        #sidebar h2 { font-size: 1.1rem; padding: 15px 16px; margin: 0; background: #0f172a; color: white; position: sticky; top: 0; z-index: 10; display: flex; justify-content: space-between; align-items: center; }
+        #sidebar-progress-badge { font-size: 0.78rem; font-weight: normal; opacity: 0.85; background: #334155; padding: 2px 7px; border-radius: 999px; }
         
-        button.run { background: #16a34a; color: white; border: none; padding: 8px 18px; border-radius: 6px; font-weight: 700; cursor: pointer; font-size: 0.92rem; display: inline-flex; align-items: center; gap: 6px; transition: background .15s; }
+        /* Search Box in Sidebar */
+        #search-wrap { padding: 9px 12px; background: #f8fafc; border-bottom: 1px solid #cbd5e1; position: sticky; top: 51px; z-index: 9; }
+        #ex-search { width: 100%; padding: 7px 11px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 0.88rem; outline: none; box-sizing: border-box; background: #fff; color: #1e293b; transition: border-color .15s; }
+        #ex-search:focus { border-color: #0284c7; }
+
+        /* Sidebar Categories & Buttons - Original Roomy Style */
+        .cat-title { background: #e2e8f0; font-weight: bold; padding: 10px 15px; font-size: 0.9rem; color: #334155; border-bottom: 1px solid #cbd5e1; border-top: 1px solid #cbd5e1; }
+        .ex-btn { padding: 12px 15px 12px 25px; text-align: left; background: none; border: none; border-bottom: 1px solid #eee; cursor: pointer; font-size: 0.95rem; color: #1e293b; width: 100%; display: flex; justify-content: space-between; align-items: center; box-sizing: border-box; transition: background .12s ease; }
+        .ex-btn:hover { background: #f8fafc; }
+        .ex-btn.active { background: #e0f2fe; border-left: 4px solid #0284c7; font-weight: bold; color: #0369a1; }
+        .ex-btn .check-badge { display: none; color: #16a34a; font-weight: bold; font-size: 1.05rem; margin-left: 8px; flex-shrink: 0; }
+        .ex-btn.completed .check-badge { display: inline-block; }
+
+        /* Main Workspace */
+        #main { flex: 1; min-width: 0; min-height: 0; display: flex; flex-direction: column; overflow: hidden; }
+        
+        /* Header - Modern & Organized */
+        #header { flex: 0 0 auto; padding: 12px 18px; background: #fff; border-bottom: 1px solid #ddd; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+        .header-left { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+        .header-right { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+        
+        /* Action Buttons */
+        .tool-btn { background: #f8fafc; color: #0f172a; border: 1px solid #cbd5e1; border-radius: 6px; padding: 6px 11px; font-weight: 600; font-size: 0.86rem; cursor: pointer; transition: all .15s ease; display: inline-flex; align-items: center; gap: 5px; }
+        .tool-btn:hover { background: #f1f5f9; border-color: #0284c7; color: #0284c7; }
+        .tool-btn.theory { background: #e0f2fe; color: #0284c7; border-color: #7dd3fc; }
+        .tool-btn.hint { background: #fef3c7; color: #b45309; border-color: #fde68a; }
+        .tool-btn.solution { background: #f3e8ff; color: #7e22ce; border-color: #d8b4fe; }
+        .tool-btn.nav { background: #eff6ff; color: #1e40af; border-color: #bfdbfe; }
+        .tool-btn.nav:hover { background: #dbeafe; color: #1d4ed8; }
+        .tool-btn.theme { border-radius: 20px; padding: 6px 12px; }
+
+        button.run { background: #16a34a; color: white; border: none; padding: 8px 18px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 6px; transition: background .15s; }
         button.run:hover { background: #15803d; }
         button.run:disabled { background: #9ca3af; cursor: not-allowed; }
 
         /* Editor */
         #editor-container { flex: 1 1 0; min-height: 120px; min-width: 0; position: relative; display: flex; flex-direction: column; overflow: hidden; }
-        .CodeMirror { flex: 1 1 auto; min-height: 0; height: auto !important; font-size: 14.5px; }
+        .CodeMirror { flex: 1 1 auto; min-height: 0; height: auto !important; font-size: 15px; overflow: hidden; }
         .CodeMirror-scroll { max-height: 100%; overflow: auto !important; }
 
         /* Console */
         #console-wrap { flex: 0 0 250px; height: 250px; min-height: 100px; max-height: calc(100% - 120px); display: flex; flex-direction: column; position: relative; overflow: hidden; }
-        #console-resizer { height: 7px; flex: 0 0 7px; cursor: ns-resize; background: #27272a; border-top: 1px solid #3f3f46; border-bottom: 1px solid #09090b; }
-        #console-resizer:hover, #console-resizer.dragging { background: var(--accent); }
-        #console-toolbar { flex: 0 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 5px 12px; background: var(--console-toolbar); color: #a1a1aa; font-size: 12.5px; font-weight: 600; }
+        #console-resizer { height: 8px; flex: 0 0 8px; cursor: ns-resize; background: #333; border-top: 1px solid #555; border-bottom: 1px solid #111; }
+        #console-resizer:hover, #console-resizer.dragging { background: #0ea5a4; }
+        #console-toolbar { flex: 0 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 6px 12px; background: #252526; color: #ddd; font-size: 13px; }
         .console-controls { display: flex; align-items: center; gap: 6px; }
-        .console-controls button { border: 1px solid #52525b; background: #3f3f46; color: #fff; border-radius: 4px; padding: 2px 7px; cursor: pointer; font-size: 12px; }
-        .console-controls button:hover { background: #71717a; }
-        #console { flex: 1 1 auto; min-height: 0; background: var(--console-bg); color: var(--console-text); padding: 12px 14px; overflow-y: auto; font-family: 'Consolas', 'Courier New', monospace; font-size: 13.5px; line-height: 1.5; }
-        .pass { color: #4ade80; font-weight: 700; }
+        .console-controls button { border: 1px solid #666; background: #3a3a3a; color: #fff; border-radius: 4px; padding: 3px 8px; cursor: pointer; }
+        .console-controls button:hover { background: #555; }
+        #console { flex: 1 1 auto; min-height: 0; box-sizing: border-box; background: #1e1e1e; color: #fff; padding: 15px; overflow-y: auto; font-family: 'Consolas', 'Courier New', monospace; font-size: 14px; line-height: 1.5; }
+        .pass { color: #4ade80; font-weight: bold; }
         .fail { color: #f87171; white-space: pre-wrap; }
         .system { color: #93c5fd; }
         .output { color: #e5e7eb; white-space: pre-wrap; }
 
         /* Plot Panel */
-        #plot-panel { flex: 0 0 240px; height: 240px; min-height: 120px; max-height: calc(100% - 120px); min-width: 0; display: flex; flex-direction: column; background: var(--bg-surface); border-top: 3px solid var(--border-color); overflow: hidden; transition: height .18s ease, flex-basis .18s ease; }
-        #plot-panel.collapsed { flex-basis: 38px !important; height: 38px !important; min-height: 38px; }
+        #plot-panel { flex: 0 0 240px; height: 240px; min-height: 120px; max-height: calc(100% - 120px); min-width: 0; display: flex; flex-direction: column; background: #fff; border-top: 4px solid #334155; overflow: hidden; transition: height .18s ease, flex-basis .18s ease; }
+        #plot-panel.collapsed { flex-basis: 42px !important; height: 42px !important; min-height: 42px; }
         #plot-panel.collapsed #plot-resizer, #plot-panel.collapsed #plot-area, #plot-panel.collapsed #clear-plot { display: none; }
-        #plot-resizer { height: 7px; flex: 0 0 7px; cursor: ns-resize; background: var(--border-color); }
-        #plot-resizer:hover, #plot-resizer.dragging { background: var(--accent); }
-        #plot-toolbar { flex: 0 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 6px 12px; background: var(--bg-subtle); color: var(--text-main); font-size: 12.5px; font-weight: 600; border-bottom: 1px solid var(--border-color); }
-        #plot-toolbar button { border: 1px solid var(--border-color); background: var(--bg-surface); color: var(--text-main); border-radius: 4px; padding: 3px 8px; cursor: pointer; font-size: 12px; }
-        #plot-toolbar button:hover { background: var(--border-color); }
+        #plot-resizer { height: 8px; flex: 0 0 8px; cursor: ns-resize; background: #334155; border-top: 1px solid #64748b; border-bottom: 1px solid #0f172a; }
+        #plot-resizer:hover, #plot-resizer.dragging { background: #0ea5a4; }
+        #plot-toolbar { flex: 0 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 8px 12px; background: #f1f5f9; color: #0f172a; font-size: 13px; font-weight: 600; }
+        #plot-toolbar button { border: 1px solid #94a3b8; background: #fff; color: #0f172a; border-radius: 4px; padding: 4px 8px; cursor: pointer; }
+        #plot-toolbar button:hover { background: #e2e8f0; }
         #plot-area { flex: 1 1 auto; min-height: 0; overflow: auto; padding: 10px; display: flex; align-items: center; justify-content: center; }
-        #plot-area canvas, #plot-area img, #plot-area svg { max-width: 100%; max-height: 100%; height: auto; object-fit: contain; }
-        .plot-placeholder { color: var(--text-muted); font-size: .88rem; font-style: italic; }
+        #plot-area canvas, #plot-area img, #plot-area svg { max-width: 100%; max-height: 100%; height: auto; }
+        .plot-placeholder { color: #64748b; font-size: .9rem; font-style: italic; }
 
-        /* Modals Generic */
+        /* Modals */
         .modal-backdrop { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.72); backdrop-filter: blur(4px); z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 20px; box-sizing: border-box; }
-        .modal-content { background: var(--bg-surface); color: var(--text-main); width: 100%; max-width: 860px; max-height: 88vh; border-radius: 12px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.35); display: flex; flex-direction: column; overflow: hidden; border: 1px solid var(--border-color); animation: modalFadeIn .18s ease-out; }
+        .modal-content { background: #ffffff; width: 100%; max-width: 860px; max-height: 88vh; border-radius: 12px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.35); display: flex; flex-direction: column; overflow: hidden; border: 1px solid #cbd5e1; animation: modalFadeIn .18s ease-out; }
         .modal-content.wide { max-width: 1060px; }
         @keyframes modalFadeIn { from { opacity: 0; transform: scale(0.97); } to { opacity: 1; transform: scale(1); } }
-        .modal-header { padding: 14px 20px; background: var(--bg-header); border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; }
-        .modal-header h3 { margin: 0; font-size: 1.15rem; font-weight: 700; display: flex; align-items: center; gap: 8px; color: var(--text-main); }
-        .modal-close { background: transparent; border: none; font-size: 1.6rem; line-height: 1; color: var(--text-muted); cursor: pointer; padding: 2px 8px; border-radius: 6px; }
-        .modal-close:hover { color: var(--text-main); background: var(--bg-subtle); }
-        .modal-body { padding: 20px 24px; overflow-y: auto; font-size: 0.95rem; line-height: 1.6; }
+        .modal-header { padding: 14px 20px; background: #0f172a; color: #fff; display: flex; justify-content: space-between; align-items: center; }
+        .modal-header h3 { margin: 0; font-size: 1.15rem; font-weight: 600; display: flex; align-items: center; gap: 8px; color: #f8fafc; }
+        .modal-close { background: transparent; border: none; font-size: 1.6rem; line-height: 1; color: #94a3b8; cursor: pointer; padding: 2px 8px; border-radius: 6px; }
+        .modal-close:hover { color: #fff; background: rgba(255,255,255,0.1); }
+        .modal-body { padding: 22px 24px; overflow-y: auto; font-size: 0.95rem; line-height: 1.6; }
 
-        /* Formula & Code Boxes */
-        .formula-box { background: var(--bg-subtle); border-left: 4px solid var(--accent); padding: 10px 14px; margin: 10px 0; font-family: 'Consolas', 'Courier New', monospace; font-size: 0.92rem; color: var(--text-main); border-radius: 0 6px 6px 0; overflow-x: auto; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); border-right: 1px solid var(--border-color); }
+        /* Formula Boxes */
+        .formula-box { background: #f8fafc; border-left: 4px solid #0284c7; padding: 12px 16px; margin: 10px 0; font-family: 'Consolas', 'Courier New', monospace; font-size: 0.95rem; color: #0f172a; border-radius: 0 8px 8px 0; overflow-x: auto; box-shadow: inset 0 1px 2px rgba(0,0,0,0.03); }
+        body.theme-dark .formula-box { background: #1e293b; color: #f8fafc; }
 
-        /* Decision Tree Graphic Cards */
+        /* Decision Tree & QA Cards */
         .tree-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(310px, 1fr)); gap: 16px; margin-top: 14px; }
-        .tree-card { background: var(--bg-subtle); border: 1px solid var(--border-color); border-radius: 8px; padding: 16px; display: flex; flex-direction: column; gap: 10px; }
-        .tree-card-title { font-weight: 700; font-size: 1.02rem; color: var(--accent); display: flex; align-items: center; justify-content: space-between; margin: 0; }
-        .tree-card-desc { font-size: 0.88rem; color: var(--text-muted); line-height: 1.45; }
-        .tree-branch { background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 6px; padding: 12px; margin-top: 6px; }
-        .branch-case { font-weight: 700; font-size: 0.9rem; margin-bottom: 4px; color: var(--text-main); }
-        .branch-method { font-weight: 700; color: var(--success); font-size: 0.95rem; }
-        .branch-meta { font-size: 0.82rem; color: var(--text-muted); margin-top: 4px; }
-        .badge-cost { background: var(--accent-bg); color: var(--accent); padding: 2px 6px; border-radius: 4px; font-weight: 700; font-size: 0.78rem; display: inline-block; margin-top: 4px; }
+        .tree-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px; display: flex; flex-direction: column; gap: 10px; }
+        .tree-card-title { font-weight: 700; font-size: 1.02rem; color: #0284c7; margin: 0; }
+        .tree-card-desc { font-size: 0.88rem; color: #64748b; line-height: 1.45; }
+        .tree-branch { background: #fff; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; margin-top: 6px; }
+        .branch-case { font-weight: 700; font-size: 0.9rem; margin-bottom: 4px; color: #0f172a; }
+        .branch-method { font-weight: 700; color: #16a34a; font-size: 0.95rem; }
+        .branch-meta { font-size: 0.82rem; color: #64748b; margin-top: 4px; }
+        .badge-cost { background: #e0f2fe; color: #0284c7; padding: 2px 6px; border-radius: 4px; font-weight: 700; font-size: 0.78rem; display: inline-block; margin-top: 4px; }
 
-        /* Interactive Diagnostic Tool */
-        .diag-box { background: var(--accent-bg); border: 1px solid var(--accent-border); border-radius: 8px; padding: 14px 18px; margin-bottom: 20px; }
-        .diag-title { font-weight: 700; font-size: 0.98rem; color: var(--accent); margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+        /* Diagnostic Box */
+        .diag-box { background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; padding: 14px 18px; margin-bottom: 20px; }
+        .diag-title { font-weight: 700; font-size: 0.98rem; color: #1e3a8a; margin-bottom: 8px; }
         .diag-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 12px; }
-        .diag-select { width: 100%; padding: 8px 10px; border-radius: 6px; border: 1px solid var(--border-color); background: var(--bg-surface); color: var(--text-main); font-size: 0.88rem; outline: none; }
-        .diag-result { background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 6px; padding: 12px; font-size: 0.9rem; }
+        .diag-select { width: 100%; padding: 8px 10px; border-radius: 6px; border: 1px solid #cbd5e1; background: #fff; font-size: 0.88rem; outline: none; }
+        .diag-result { background: #fff; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font-size: 0.9rem; }
 
         /* Exam Questions Accordion */
-        .qa-search-box { margin-bottom: 16px; }
-        .qa-item { border: 1px solid var(--border-color); border-radius: 8px; margin-bottom: 12px; overflow: hidden; background: var(--bg-surface); }
-        .qa-header { padding: 12px 16px; background: var(--bg-subtle); cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 10px; font-weight: 600; font-size: 0.95rem; user-select: none; }
-        .qa-header:hover { background: var(--border-color); }
+        .qa-item { border: 1px solid #e2e8f0; border-radius: 8px; margin-bottom: 12px; overflow: hidden; background: #fff; }
+        .qa-header { padding: 12px 16px; background: #f8fafc; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 10px; font-weight: 600; font-size: 0.95rem; user-select: none; }
+        .qa-header:hover { background: #f1f5f9; }
         .qa-badges { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
-        .qa-num { background: var(--accent); color: white; border-radius: 999px; width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center; font-size: 0.78rem; font-weight: 700; }
-        .qa-cat-pill { font-size: 0.75rem; padding: 2px 8px; border-radius: 4px; background: var(--bg-surface); color: var(--text-muted); border: 1px solid var(--border-color); }
-        .qa-body { padding: 16px 20px; border-top: 1px solid var(--border-color); display: none; }
+        .qa-num { background: #0284c7; color: white; border-radius: 999px; width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center; font-size: 0.78rem; font-weight: 700; }
+        .qa-cat-pill { font-size: 0.75rem; padding: 2px 8px; border-radius: 4px; background: #f1f5f9; color: #64748b; border: 1px solid #cbd5e1; }
+        .qa-body { padding: 16px 20px; border-top: 1px solid #e2e8f0; display: none; }
         .qa-body.open { display: block; }
         .qa-summary-pill { background: #fefce8; border: 1px solid #fef08a; color: #854d0e; padding: 8px 12px; border-radius: 6px; font-size: 0.88rem; margin-bottom: 12px; font-weight: 500; }
-        body.theme-dark .qa-summary-pill { background: #422006; border-color: #713f12; color: #fef08a; }
 
-        /* Labs & Colab Cards */
-        .lab-card { background: var(--bg-subtle); border: 1px solid var(--border-color); border-radius: 8px; padding: 18px; margin-bottom: 16px; display: flex; flex-direction: column; gap: 10px; }
+        /* Labs Cards */
+        .lab-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 18px; margin-bottom: 16px; display: flex; flex-direction: column; gap: 10px; }
         .lab-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; flex-wrap: wrap; }
-        .lab-title { margin: 0; font-size: 1.05rem; font-weight: 700; color: var(--text-main); }
+        .lab-title { margin: 0; font-size: 1.05rem; font-weight: 700; color: #0f172a; }
         .lab-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
         .btn-colab { background: #f97316; color: white; border: none; border-radius: 6px; padding: 7px 12px; font-size: 0.85rem; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
         .btn-colab:hover { background: #ea580c; color: white; }
-        .btn-gh { background: var(--bg-surface); color: var(--text-main); border: 1px solid var(--border-color); border-radius: 6px; padding: 6px 12px; font-size: 0.85rem; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
-        .btn-gh:hover { background: var(--border-color); }
+        .btn-gh { background: #fff; color: #0f172a; border: 1px solid #cbd5e1; border-radius: 6px; padding: 6px 12px; font-size: 0.85rem; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
+        .btn-gh:hover { background: #e2e8f0; }
         .lab-tags { display: flex; gap: 6px; flex-wrap: wrap; }
-        .lab-tag { background: var(--bg-surface); border: 1px solid var(--border-color); font-size: 0.78rem; padding: 2px 7px; border-radius: 4px; color: var(--text-muted); }
+        .lab-tag { background: #fff; border: 1px solid #cbd5e1; font-size: 0.78rem; padding: 2px 7px; border-radius: 4px; color: #64748b; }
 
-        /* Dropdown Menu */
+        /* Dropdown */
         .dropdown { position: relative; display: inline-block; }
-        .dropdown-menu { display: none; position: absolute; right: 0; top: 100%; margin-top: 6px; background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 8px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.15); min-width: 220px; z-index: 100; overflow: hidden; }
+        .dropdown-menu { display: none; position: absolute; right: 0; top: 100%; margin-top: 6px; background: #fff; border: 1px solid #cbd5e1; border-radius: 8px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.15); min-width: 220px; z-index: 100; overflow: hidden; }
         .dropdown-menu.show { display: block; }
-        .dropdown-item { width: 100%; padding: 10px 14px; text-align: left; background: none; border: none; border-bottom: 1px solid var(--border-color); font-size: 0.88rem; color: var(--text-main); cursor: pointer; display: flex; align-items: center; gap: 8px; }
+        .dropdown-item { width: 100%; padding: 10px 14px; text-align: left; background: none; border: none; border-bottom: 1px solid #eee; font-size: 0.88rem; color: #1e293b; cursor: pointer; display: flex; align-items: center; gap: 8px; }
         .dropdown-item:last-child { border-bottom: none; }
-        .dropdown-item:hover { background: var(--bg-subtle); color: var(--accent); }
+        .dropdown-item:hover { background: #f8fafc; color: #0284c7; }
     </style>
 </head>
 <body class="theme-light">
 
-<!-- Top Navigation Bar -->
-<div id="topbar">
-    <a href="#" class="topbar-brand">
-        <span>💻 Metodi Numerici & AI</span>
-        <span class="badge-unibo">UniBo</span>
-    </a>
-    <div class="topbar-nav">
-        <button id="tree-modal-btn" class="nav-btn primary" type="button" title="Mappa decisionale per scegliere il metodo per Ax=b">🌳 Albero Decisionale (Ax=b)</button>
-        <button id="exam-modal-btn" class="nav-btn" type="button" title="Schede di ripasso per le 22 domande d'esame del Modulo II">🧠 Modulo II: Domande d'Esame</button>
-        <button id="labs-modal-btn" class="nav-btn" type="button" title="Notebooks MLP e CNN pronti con un clic su Google Colab">🧪 Laboratori & Colab</button>
-        
-        <div class="dropdown">
-            <button id="download-dropdown-btn" class="nav-btn" type="button" title="Opzioni di esportazione script Python">📥 Scarica .py ▾</button>
-            <div id="download-dropdown-menu" class="dropdown-menu">
-                <button id="download-current-btn" class="dropdown-item" type="button">📄 Scarica esercizio corrente (.py)</button>
-                <button id="download-all-btn" class="dropdown-item" type="button">📦 Scarica tutti i 21 metodi (.py)</button>
-            </div>
-        </div>
-
-        <button id="theme-toggle-btn" class="nav-btn theme-btn" type="button" title="Alterna tra tema chiaro e tema scuro">🌙 Tema Scuro</button>
+<!-- Original Full-Height Sidebar -->
+<div id="sidebar">
+    <h2>
+        <span>💻 Metodi Numerici</span>
+        <span id="sidebar-progress-badge" title="Progresso completamento">0/21</span>
+    </h2>
+    <div id="search-wrap">
+        <input type="text" id="ex-search" placeholder="🔍 Cerca esercizio (Ctrl + F)..." autocomplete="off">
     </div>
+    <div id="ex-list"></div>
 </div>
 
-<!-- Main Application Layout -->
-<div id="app-container">
-    <!-- Sidebar -->
-    <div id="sidebar">
-        <div class="sidebar-header">
-            <div class="search-box">
-                <input type="text" id="ex-search" class="search-input" placeholder="🔍 Cerca esercizio (es. Newton, QR, SOR)...">
-            </div>
-            <div class="progress-box">
-                <div class="progress-header">
-                    <span>Avanzamento esami</span>
-                    <span id="progress-val" class="progress-val">0 / 21 (0%)</span>
-                </div>
-                <div class="progress-track">
-                    <div id="progress-fill" class="progress-fill"></div>
-                </div>
-                <button id="reset-progress-btn" class="progress-reset-link" type="button">Azzera tutti i progressi e codice salvato</button>
-            </div>
+<!-- Main Area -->
+<div id="main">
+    <div id="header">
+        <div class="header-left">
+            <h3 id="ex-title" style="margin:0;">Seleziona un esercizio</h3>
+            <button id="theory-btn" class="tool-btn theory" type="button" title="Apri guida teorica e formule del metodo">📖 Teoria</button>
+            <button id="tree-modal-btn" class="tool-btn nav" type="button" title="Mappa decisionale per scegliere il metodo per Ax=b">🌳 Albero Ax=b</button>
+            <button id="exam-modal-btn" class="tool-btn nav" type="button" title="22 Domande d'esame del Modulo II">🧠 Modulo II: Domande Esame</button>
+            <button id="labs-modal-btn" class="tool-btn nav" type="button" title="Laboratori con 1-clic su Google Colab">🧪 Laboratori Colab</button>
         </div>
-        <div id="ex-list"></div>
+        <div class="header-right">
+            <button id="hint-btn" class="tool-btn hint" type="button" title="Mostra un suggerimento per implementare l'algoritmo">💡 Hint</button>
+            <button id="solution-btn" class="tool-btn solution" type="button" title="Mostra la soluzione completa verificata">👁️ Soluzione</button>
+            <button id="reset-code-btn" class="tool-btn" type="button" title="Ripristina il template originale">↺ Reset</button>
+            <button id="plot-conv-btn" class="tool-btn" type="button" title="Traccia grafico semilogaritmico degli errori con Matplotlib">📈 Convergenza</button>
+            
+            <div class="dropdown">
+                <button id="download-dropdown-btn" class="tool-btn" type="button" title="Esporta file .py">📥 Scarica .py ▾</button>
+                <div id="download-dropdown-menu" class="dropdown-menu">
+                    <button id="download-current-btn" class="dropdown-item" type="button">📄 Scarica esercizio corrente (.py)</button>
+                    <button id="download-all-btn" class="dropdown-item" type="button">📦 Scarica tutti i 21 metodi (.py)</button>
+                </div>
+            </div>
+
+            <button id="theme-toggle-btn" class="tool-btn theme" type="button" title="Alterna tra tema chiaro e tema scuro">🌙</button>
+            <button id="run-btn" class="run" disabled>⏳ Caricamento Python...</button>
+        </div>
     </div>
 
-    <!-- Main Workspace -->
-    <div id="main">
-        <div id="header">
-            <div class="header-left">
-                <span id="ex-cat-badge" class="cat-pill">Zeri di Funzione</span>
-                <h3 id="ex-title" style="margin:0;">Seleziona un esercizio</h3>
-            </div>
-            <div class="header-actions">
-                <button id="theory-btn" class="tool-btn theory" type="button" title="Guida teorica e formule del metodo">📖 Teoria</button>
-                <button id="hint-btn" class="tool-btn hint" type="button" title="Mostra un suggerimento per implementare l'algoritmo">💡 Hint</button>
-                <button id="solution-btn" class="tool-btn solution" type="button" title="Mostra la soluzione completa verificata">👁️ Soluzione</button>
-                <button id="reset-code-btn" class="tool-btn" type="button" title="Ripristina il template originale">↺ Reset</button>
-                <button id="plot-conv-btn" class="tool-btn" type="button" title="Traccia grafico semilogaritmico degli errori con Matplotlib">📈 Convergenza</button>
-                <button id="run-btn" class="run" disabled>⏳ Caricamento Python...</button>
+    <div id="editor-container">
+        <textarea id="code"></textarea>
+    </div>
+
+    <div id="console-wrap">
+        <div id="console-resizer" title="Trascina per ridimensionare il terminale"></div>
+        <div id="console-toolbar">
+            <span>Terminale di Esecuzione (Pyodide Wasm)</span>
+            <div class="console-controls">
+                <button id="console-smaller" type="button">−</button>
+                <button id="console-larger" type="button">+</button>
+                <button id="console-reset" type="button">↺</button>
+                <span id="console-size" style="margin-left: 6px;">35%</span>
             </div>
         </div>
-
-        <div id="editor-container">
-            <textarea id="code"></textarea>
+        <div id="console">
+            <div class="system">⬇ L'output dell'esecuzione e degli errori comparirà qui.</div>
+            <div class="system">⏳ Inizializzazione motore Python (Pyodide) in corso... attendere.</div>
         </div>
+    </div>
 
-        <div id="console-wrap">
-            <div id="console-resizer" title="Trascina per ridimensionare il terminale"></div>
-            <div id="console-toolbar">
-                <span>Terminale di Esecuzione (Pyodide Wasm)</span>
-                <div class="console-controls">
-                    <button id="console-smaller" type="button">−</button>
-                    <button id="console-larger" type="button">+</button>
-                    <button id="console-reset" type="button">↺</button>
-                    <span id="console-size" style="margin-left: 6px;">35%</span>
-                </div>
-            </div>
-            <div id="console">
-                <div class="system">⬇ L'output dell'esecuzione e degli errori comparirà qui.</div>
-                <div class="system">⏳ Inizializzazione motore Python (Pyodide) in corso... attendere.</div>
+    <div id="plot-panel" class="collapsed">
+        <div id="plot-resizer" title="Trascina per ridimensionare il grafico"></div>
+        <div id="plot-toolbar">
+            <span>Grafico Matplotlib</span>
+            <div id="plot-toolbar-actions">
+                <button id="clear-plot" type="button">Pulisci grafico</button>
+                <button id="toggle-plot" type="button" aria-expanded="false">Espandi</button>
             </div>
         </div>
-
-        <div id="plot-panel" class="collapsed">
-            <div id="plot-resizer" title="Trascina per ridimensionare il grafico"></div>
-            <div id="plot-toolbar">
-                <span>Grafico Matplotlib</span>
-                <div id="plot-toolbar-actions">
-                    <button id="clear-plot" type="button">Pulisci grafico</button>
-                    <button id="toggle-plot" type="button" aria-expanded="false">Espandi</button>
-                </div>
-            </div>
-            <div id="plot-area">
-                <div class="plot-placeholder">I grafici generati con Matplotlib compariranno qui.</div>
-            </div>
+        <div id="plot-area">
+            <div class="plot-placeholder">I grafici generati con Matplotlib compariranno qui.</div>
         </div>
     </div>
 </div>
@@ -337,10 +268,10 @@
             <button id="theory-modal-close" class="modal-close" type="button">&times;</button>
         </div>
         <div class="modal-body">
-            <div class="theory-notice" style="background:var(--accent-bg); border:1px solid var(--accent-border); border-radius:8px; padding:12px 16px; margin-bottom:16px;">
-                <div style="font-weight:700; color:var(--accent); font-size:0.95rem; margin-bottom:4px;">📚 Materiale Ufficiale Metodi Numerici UniBo</div>
-                <div style="font-size:0.88rem; color:var(--text-main); margin-bottom:8px;">Le definizioni, condizioni di arresto e teoremi di convergenza fanno riferimento diretto al materiale didattico ufficiale della Prof.ssa Damiana Lazzaro (Modulo I) e del Prof. Lorenzo Pellegrini (Modulo II).</div>
-                <div style="font-size:0.85rem;"><a href="https://github.com/palmucciarianna/metodinumericiAI" target="_blank" rel="noopener noreferrer" style="color:var(--accent); font-weight:700; text-decoration:underline;">🔗 github.com/palmucciarianna/metodinumericiAI</a> &mdash; Repository completo con dispense e slide ufficiali.</div>
+            <div class="theory-notice" style="background:#eff6ff; border:1px solid #bfdbfe; border-radius:8px; padding:12px 16px; margin-bottom:16px;">
+                <div style="font-weight:700; color:#1e3a8a; font-size:0.95rem; margin-bottom:4px;">📚 Materiale Ufficiale Metodi Numerici UniBo</div>
+                <div style="font-size:0.88rem; color:#1e40af; margin-bottom:8px;">Le definizioni, condizioni di arresto e teoremi di convergenza fanno riferimento diretto al materiale didattico ufficiale della Prof.ssa Damiana Lazzaro (Modulo I) e del Prof. Lorenzo Pellegrini (Modulo II).</div>
+                <div style="font-size:0.85rem;"><a href="https://github.com/palmucciarianna/metodinumericiAI" target="_blank" rel="noopener noreferrer" style="color:#0284c7; font-weight:700; text-decoration:underline;">🔗 github.com/palmucciarianna/metodinumericiAI</a> &mdash; Repository completo con dispense e slide ufficiali.</div>
             </div>
             <div id="theory-content"></div>
         </div>
@@ -355,12 +286,11 @@
             <button id="tree-modal-close" class="modal-close" type="button">&times;</button>
         </div>
         <div class="modal-body">
-            <!-- Interactive Diagnostic Tool -->
             <div class="diag-box">
                 <div class="diag-title">🎯 Diagnostica Interattiva: Trova il Metodo Ottimale per la tua Matrice A</div>
                 <div class="diag-grid">
                     <div>
-                        <label style="font-size:0.8rem; font-weight:700; color:var(--text-muted); display:block; margin-bottom:4px;">1. Forma della Matrice:</label>
+                        <label style="font-size:0.8rem; font-weight:700; color:#64748b; display:block; margin-bottom:4px;">1. Forma della Matrice:</label>
                         <select id="diag-shape" class="diag-select">
                             <option value="m_gt_n">Rettangolare m > n (Sovradeterminata)</option>
                             <option value="square_dense">Quadrata m = n (Densa, n &le; 2000)</option>
@@ -368,7 +298,7 @@
                         </select>
                     </div>
                     <div>
-                        <label style="font-size:0.8rem; font-weight:700; color:var(--text-muted); display:block; margin-bottom:4px;">2. Proprietà Algebriche:</label>
+                        <label style="font-size:0.8rem; font-weight:700; color:#64748b; display:block; margin-bottom:4px;">2. Proprietà Algebriche:</label>
                         <select id="diag-prop" class="diag-select">
                             <option value="spd">Simmetrica e Definita Positiva (SPD)</option>
                             <option value="diag_dom">Dominanza Diagonale Stretta per Righe</option>
@@ -382,8 +312,7 @@
                 <div id="diag-output" class="diag-result">Seleziona i parametri per visualizzare il metodo raccomandato.</div>
             </div>
 
-            <!-- Visual Flowchart Cards -->
-            <h4 style="margin: 20px 0 10px 0; color:var(--text-main); font-size:1.05rem;">📋 Mappa Concettuale & Albero di Scelta Completo</h4>
+            <h4 style="margin: 20px 0 10px 0; font-size:1.05rem;">📋 Mappa Concettuale & Albero di Scelta Completo</h4>
             <div id="tree-cards-container" class="tree-grid"></div>
         </div>
     </div>
@@ -397,8 +326,8 @@
             <button id="exam-modal-close" class="modal-close" type="button">&times;</button>
         </div>
         <div class="modal-body">
-            <div class="qa-search-box">
-                <input type="text" id="qa-search" class="search-input" placeholder="🔍 Cerca tra le 22 domande (es. backpropagation, adam, convoluzione, momentum, learning rate)...">
+            <div style="margin-bottom: 16px;">
+                <input type="text" id="qa-search" placeholder="🔍 Cerca tra le 22 domande (es. backpropagation, adam, convoluzione, momentum, learning rate)..." style="width: 100%; padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 0.9rem; outline: none; box-sizing: border-box;">
             </div>
             <div id="exam-qa-container"></div>
         </div>
@@ -413,7 +342,7 @@
             <button id="labs-modal-close" class="modal-close" type="button">&times;</button>
         </div>
         <div class="modal-body">
-            <p style="font-size:0.92rem; color:var(--text-muted); margin-top:0;">Puoi aprire ciascun notebook direttamente su <strong>Google Colab con GPU gratuita</strong> con un solo clic, visualizzarlo su GitHub o scaricarlo in locale.</p>
+            <p style="font-size:0.92rem; color:#64748b; margin-top:0;">Puoi aprire ciascun notebook direttamente su <strong>Google Colab con GPU gratuita</strong> con un solo clic, visualizzarlo su GitHub o scaricarlo in locale.</p>
             <div id="labs-container"></div>
         </div>
     </div>
@@ -427,7 +356,7 @@
             <button id="hint-modal-close" class="modal-close" type="button">&times;</button>
         </div>
         <div class="modal-body">
-            <div id="hint-text" style="font-size:0.96rem; line-height:1.6; color:var(--text-main);"></div>
+            <div id="hint-text" style="font-size:0.96rem; line-height:1.6;"></div>
         </div>
     </div>
 </div>
@@ -440,8 +369,8 @@
             <button id="solution-modal-close" class="modal-close" type="button">&times;</button>
         </div>
         <div class="modal-body">
-            <p style="font-size:0.9rem; color:var(--text-muted); margin-top:0;">Ecco l'implementazione corretta dell'algoritmo secondo gli standard d'esame:</p>
-            <pre id="solution-code" style="background:var(--console-bg); color:var(--console-text); padding:14px; border-radius:8px; overflow-x:auto; font-family:'Consolas', monospace; font-size:13.5px;"></pre>
+            <p style="font-size:0.9rem; color:#64748b; margin-top:0;">Ecco l'implementazione corretta dell'algoritmo secondo gli standard d'esame:</p>
+            <pre id="solution-code" style="background:#1e1e1e; color:#f8fafc; padding:14px; border-radius:8px; overflow-x:auto; font-family:'Consolas', monospace; font-size:13.5px;"></pre>
             <div style="margin-top:14px; display:flex; justify-content:flex-end; gap:10px;">
                 <button id="paste-solution-btn" class="tool-btn theory" type="button">📋 Incolla soluzione nell'editor</button>
             </div>
@@ -479,11 +408,8 @@ try {
 function updateProgress() {
     const total = exercises.length;
     const completed = completedSet.size;
-    const pct = Math.round((completed / total) * 100);
-    const progressVal = document.getElementById('progress-val');
-    const progressFill = document.getElementById('progress-fill');
-    if (progressVal) progressVal.textContent = `${completed} / ${total} (${pct}%)`;
-    if (progressFill) progressFill.style.width = pct + '%';
+    const badge = document.getElementById('sidebar-progress-badge');
+    if (badge) badge.textContent = `${completed}/${total}`;
 
     // Update checkmarks in sidebar
     document.querySelectorAll('.ex-btn').forEach(btn => {
@@ -537,7 +463,7 @@ function refreshEditor() {
 function clampPanelHeights() {
     const available = workspaceHeight();
     const minimumEditor = 120;
-    const currentPlot = plotPanel.classList.contains('collapsed') ? 38 : plotHeight;
+    const currentPlot = plotPanel.classList.contains('collapsed') ? 42 : plotHeight;
     const allowedTotal = Math.max(220, available - minimumEditor);
     if (consoleHeight + currentPlot > allowedTotal) {
         const excess = consoleHeight + currentPlot - allowedTotal;
@@ -555,7 +481,7 @@ function clampPanelHeights() {
 
 function setConsoleHeight(height) {
     const available = workspaceHeight();
-    const currentPlot = plotPanel.classList.contains('collapsed') ? 38 : plotHeight;
+    const currentPlot = plotPanel.classList.contains('collapsed') ? 42 : plotHeight;
     const maxConsole = Math.max(100, available - currentPlot - 120);
     consoleHeight = Math.min(Math.max(100, height), maxConsole);
     consoleWrap.style.height = consoleHeight + 'px';
@@ -610,7 +536,7 @@ async function init() {
         }, 300);
     });
 
-    // Populate Sidebar
+    // Populate Sidebar DOM
     renderSidebar();
 
     // Setup Modals
@@ -642,32 +568,24 @@ async function init() {
         await pyodide.loadPackage(['numpy', 'scipy', 'matplotlib']);
         printConsole("✅ Ambiente Python pronto! Puoi completare gli algoritmi e testarli.", "pass");
         document.getElementById('run-btn').disabled = false;
-        document.getElementById('run-btn').textContent = "▶ Esegui & Testa (Cmd+Enter)";
+        document.getElementById('run-btn').textContent = "▶ Valuta Codice (Run)";
     } catch(e) {
         printConsole("❌ Errore caricamento Pyodide: " + e, "fail");
     }
 }
 
-// Sidebar Rendering
-function renderSidebar(filterText = "") {
+// Sidebar Initial Rendering
+function renderSidebar() {
     const list = document.getElementById('ex-list');
     list.innerHTML = "";
-    const filter = filterText.trim().toLowerCase();
 
     categories.forEach(cat => {
-        const catExs = exercises.filter(e => {
-            if (e.cat !== cat.id) return false;
-            if (!filter) return true;
-            return e.title.toLowerCase().includes(filter) || e.id.toLowerCase().includes(filter);
-        });
-
-        if (catExs.length === 0) return;
-
         const catDiv = document.createElement('div');
         catDiv.className = 'cat-title';
         catDiv.textContent = cat.name;
         list.appendChild(catDiv);
 
+        const catExs = exercises.filter(e => e.cat === cat.id);
         catExs.forEach(ex => {
             const btn = document.createElement('button');
             btn.className = 'ex-btn';
@@ -684,6 +602,34 @@ function renderSidebar(filterText = "") {
             }
         });
     });
+}
+
+// Filter Exercises in Sidebar (Real-Time Search)
+function filterExercises() {
+    const searchInput = document.getElementById('ex-search');
+    const filter = (searchInput ? searchInput.value : '').trim().toLowerCase();
+    
+    let currentCat = null;
+    let hasVisible = false;
+
+    document.querySelectorAll('#ex-list > *').forEach(el => {
+        if (el.classList.contains('cat-title')) {
+            if (currentCat) {
+                currentCat.style.display = hasVisible ? '' : 'none';
+            }
+            currentCat = el;
+            hasVisible = false;
+        } else if (el.classList.contains('ex-btn')) {
+            const text = el.textContent.toLowerCase();
+            const match = !filter || text.includes(filter);
+            el.style.display = match ? 'flex' : 'none';
+            if (match) hasVisible = true;
+        }
+    });
+
+    if (currentCat) {
+        currentCat.style.display = hasVisible ? '' : 'none';
+    }
 }
 
 // Load Exercise
@@ -709,10 +655,6 @@ function loadExercise(id, btnElement) {
 
     editor.swapDoc(exerciseDocs.get(id));
     document.getElementById('ex-title').textContent = ex.title;
-
-    // Update category pill
-    const catObj = categories.find(c => c.id === ex.cat);
-    document.getElementById('ex-cat-badge').textContent = catObj ? catObj.name.replace(/^[0-9.]+\s*/, '') : 'Esercizio';
 
     // Highlight active button
     document.querySelectorAll('.ex-btn').forEach(b => b.classList.remove('active'));
@@ -763,7 +705,7 @@ async function runCode() {
             localStorage.setItem('mn_completed', JSON.stringify([...completedSet]));
         } catch(e) {}
         updateProgress();
-    }} catch(err) {
+    } catch(err) {
         printConsole("❌ ERRORE O TEST FALLITO:", "fail");
         printConsole(err.message, "fail");
     }
@@ -777,7 +719,7 @@ document.getElementById('plot-conv-btn').onclick = async () => {
     const ex = exercises.find(e => e.id === currentEx);
     if (!ex) return;
 
-    printConsole(`\n--- Generazione Grafico di Convergenza (semilogy) per ${ex.title} ---`, "system");
+    printConsole(`\n--- Generazione Grafico di Convergenza per ${ex.title} ---`, "system");
     clearPlot();
     setPlotCollapsed(false);
 
@@ -812,7 +754,7 @@ if v_xk and len(v_xk) > 1:
     plt.tight_layout()
     plt.show()
 else:
-    print('Impossibile tracciare il grafico: assicurati di aver implementato la funzione!')
+    print('Impossibile tracciare il grafico: implementa prima la funzione!')
 `;
     } else if (["jacobi", "gauss_seidel", "gauss_seidel_sor"].includes(ex.id)) {
         plotScript = `
@@ -878,7 +820,7 @@ xx = np.linspace(-1, 1, 200)
 try:
     yy = interpL(x_nodes, y_nodes, xx)
     plt.figure(figsize=(6, 4))
-    plt.plot(xx, f(xx), 'k--', label='Funzione reale di Runge f(x)')
+    plt.plot(xx, f(xx), 'k--', label='Funzione reale f(x)')
     plt.plot(xx, yy, 'b-', label='Polinomio Interpolante P_8(x)')
     plt.plot(x_nodes, y_nodes, 'ro', label='Nodi di interpolazione')
     plt.title('Fenomeno di Runge (Nodi Equispaziati)')
@@ -892,7 +834,7 @@ except Exception as e:
     print('Errore esecuzione grafico:', e)
 `;
     } else {
-        printConsole("Per questo esercizio analitico non è previsto un grafico di convergenza semilogaritmico.", "system");
+        printConsole("Per questo esercizio non è previsto un grafico di convergenza semilogaritmico.", "system");
         return;
     }
 
@@ -968,21 +910,6 @@ function setupModals() {
             printConsole(`↺ Template di "${ex.title}" ripristinato.`, "system");
         }
     };
-
-    // Reset all progress & storage
-    document.getElementById('reset-progress-btn').onclick = () => {
-        if (confirm("Sei sicuro di voler azzerare TUTTI i progressi e cancellare tutto il codice salvato nel browser?")) {
-            try {
-                exercises.forEach(ex => localStorage.removeItem('mn_code_' + ex.id));
-                localStorage.removeItem('mn_completed');
-            } catch(e) {}
-            completedSet.clear();
-            updateProgress();
-            const ex = exercises.find(e => e.id === currentEx);
-            if (ex) editor.setValue(ex.template);
-            printConsole("🗑️ Tutti i progressi e il codice locale sono stati azzerati con successo.", "system");
-        }
-    };
 }
 
 // Render Theory in Modal
@@ -995,23 +922,23 @@ function renderTheory(exId) {
     }
 
     let html = `
-        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border-color); padding-bottom:12px; margin-bottom:16px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #e2e8f0; padding-bottom:12px; margin-bottom:16px;">
             <div>
-                <h3 style="margin:0; font-size:1.25rem; color:var(--text-main);">${data.title}</h3>
-                <span style="font-size:0.82rem; color:var(--text-muted); font-weight:600;">${data.category}</span>
+                <h3 style="margin:0; font-size:1.25rem;">${data.title}</h3>
+                <span style="font-size:0.82rem; color:#64748b; font-weight:600;">${data.category}</span>
             </div>
-            ${data.order ? `<span style="background:var(--success-bg); color:var(--success); border:1px solid var(--success-border); padding:4px 10px; border-radius:6px; font-size:0.82rem; font-weight:700;">${data.order}</span>` : ''}
+            ${data.order ? `<span style="background:#ecfdf5; color:#065f46; border:1px solid #a7f3d0; padding:4px 10px; border-radius:6px; font-size:0.82rem; font-weight:700;">${data.order}</span>` : ''}
         </div>
         <div style="margin-bottom:18px;">
-            <h4 style="color:var(--accent); margin:12px 0 6px 0;">📐 Formulazione Matematica</h4>
+            <h4 style="color:#0284c7; margin:12px 0 6px 0;">📐 Formulazione Matematica</h4>
             ${data.math}
         </div>
         <div style="margin-bottom:18px;">
-            <h4 style="color:var(--accent); margin:12px 0 6px 0;">⚙️ Regole & Criteri d'Arresto</h4>
+            <h4 style="color:#0284c7; margin:12px 0 6px 0;">⚙️ Regole & Criteri d'Arresto</h4>
             ${data.rules}
         </div>
-        <div style="background:var(--warning-bg); border:1px solid var(--border-color); border-radius:8px; padding:12px 16px; margin-top:14px;">
-            <h5 style="margin:0 0 6px 0; color:var(--warning); font-size:0.95rem;">💡 Guida ai "# to do" nel codice:</h5>
+        <div style="background:#fefce8; border:1px solid #fef08a; border-radius:8px; padding:12px 16px; margin-top:14px;">
+            <h5 style="margin:0 0 6px 0; color:#854d0e; font-size:0.95rem;">💡 Guida ai "# to do" nel codice:</h5>
             ${data.todo}
         </div>
     `;
@@ -1125,13 +1052,13 @@ function renderExamQuestions(filterText = "") {
                 </div>
                 <div class="qa-badges">
                     <span class="qa-cat-pill">${q.category}</span>
-                    <span style="font-size:0.85rem; color:var(--text-muted);">▾</span>
+                    <span style="font-size:0.85rem; color:#64748b;">▾</span>
                 </div>
             </div>
             <div class="qa-body">
-                <div style="font-weight:700; color:var(--text-main); font-size:1.02rem; margin-bottom:8px;">${q.question}</div>
+                <div style="font-weight:700; color:#0f172a; font-size:1.02rem; margin-bottom:8px;">${q.question}</div>
                 <div class="qa-summary-pill">⚡ <strong>Punti chiave per l'orale:</strong> ${q.summary}</div>
-                <div style="color:var(--text-main); font-size:0.95rem; line-height:1.6;">${q.answer}</div>
+                <div style="color:#0f172a; font-size:0.95rem; line-height:1.6;">${q.answer}</div>
             </div>
         `;
 
@@ -1172,7 +1099,7 @@ function renderLabs() {
         card.innerHTML = `
             <div class="lab-header">
                 <div>
-                    <span class="cat-pill" style="margin-bottom:6px; display:inline-block;">${lab.module}</span>
+                    <span class="qa-cat-pill" style="margin-bottom:6px; display:inline-block;">${lab.module}</span>
                     <h4 class="lab-title">${lab.title}</h4>
                 </div>
                 <div class="lab-actions">
@@ -1180,7 +1107,7 @@ function renderLabs() {
                     <a href="${lab.github_url}" target="_blank" rel="noopener noreferrer" class="btn-gh">📄 GitHub</a>
                 </div>
             </div>
-            <div style="font-size:0.88rem; color:var(--text-muted); line-height:1.5;">${lab.description}</div>
+            <div style="font-size:0.88rem; color:#64748b; line-height:1.5;">${lab.description}</div>
             <div class="lab-tags">${tagsHtml}</div>
         `;
         container.appendChild(card);
@@ -1209,7 +1136,7 @@ function setupResizers() {
     window.addEventListener('mousemove', (e) => {
         if (isDraggingConsole) {
             const available = workspaceHeight();
-            const currentPlot = plotPanel.classList.contains('collapsed') ? 38 : plotHeight;
+            const currentPlot = plotPanel.classList.contains('collapsed') ? 42 : plotHeight;
             const pointerY = e.clientY - document.getElementById('header').getBoundingClientRect().bottom;
             const newHeight = available - pointerY - currentPlot;
             setConsoleHeight(newHeight);
@@ -1239,10 +1166,11 @@ function setupResizers() {
 
 // Setup Controls, Search & Dropdowns
 function setupControls() {
-    // Search input
-    document.getElementById('ex-search').addEventListener('input', (e) => {
-        renderSidebar(e.target.value);
-    });
+    // Search input real-time listener
+    const searchInput = document.getElementById('ex-search');
+    if (searchInput) {
+        searchInput.addEventListener('input', filterExercises);
+    }
 
     // Download dropdown toggle
     const dlBtn = document.getElementById('download-dropdown-btn');
@@ -1280,8 +1208,16 @@ function setupControls() {
         applyTheme(isDark ? 'light' : 'dark');
     };
 
-    // Escape closes modals
+    // Global keyboard shortcuts (Ctrl+F for search, Escape for modals)
     window.addEventListener('keydown', (e) => {
+        if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'f') {
+            e.preventDefault();
+            const sInput = document.getElementById('ex-search');
+            if (sInput) {
+                sInput.focus();
+                sInput.select();
+            }
+        }
         if (e.key === 'Escape') {
             document.querySelectorAll('.modal-backdrop').forEach(m => m.style.display = 'none');
             dlMenu.classList.remove('show');
@@ -1295,7 +1231,7 @@ function applyTheme(theme) {
     document.body.classList.toggle('theme-light', !isDark);
     const themeBtn = document.getElementById('theme-toggle-btn');
     if (themeBtn) {
-        themeBtn.textContent = isDark ? '☀️ Tema Chiaro' : '🌙 Tema Scuro';
+        themeBtn.textContent = isDark ? '☀️' : '🌙';
     }
     try {
         localStorage.setItem('mn_theme', theme);
