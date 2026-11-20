@@ -171,7 +171,7 @@
 
         /* Sidebar - Barra Laterale Originale Spaziosa & Confortevole */
         #sidebar {
-            width: 330px; min-width: 330px;
+            width: 330px; min-width: 330px; flex-shrink: 0;
             background: var(--bg-sidebar);
             border-right: 1px solid var(--border-color);
             display: flex; flex-direction: column;
@@ -835,14 +835,18 @@ function printConsole(text, type = "output") {
 
 // Initialize Application
 async function init() {
-    // Check saved theme
-    const savedTheme = localStorage.getItem('mn_theme') || 'light';
-    applyTheme(savedTheme);
+    // 1. Populate Sidebar DOM immediately so exercises are visible at once
+    renderSidebar();
 
-    // Initialize CodeMirror
+    // 2. Check and apply saved theme
+    const savedTheme = localStorage.getItem('mn_theme') || 'light';
+    selectTheme(savedTheme);
+
+    // 3. Initialize CodeMirror
+    const isDark = ['dark', 'nord', 'dracula'].includes(savedTheme);
     editor = CodeMirror.fromTextArea(document.getElementById('code'), {
         mode: 'python',
-        theme: (['dark', 'nord', 'dracula'].includes(localStorage.getItem('mn_theme') || '') ? 'dracula' : 'default'),
+        theme: isDark ? 'dracula' : 'default',
         lineNumbers: true,
         indentUnit: 4,
         matchBrackets: true,
@@ -867,9 +871,6 @@ async function init() {
         }, 300);
     });
 
-    // Populate Sidebar DOM
-    renderSidebar();
-
     // Setup Modals
     setupModals();
 
@@ -889,13 +890,12 @@ async function init() {
     // Setup Dropdowns & Shortcuts
     setupControls();
 
-    // Update progress
+    // Update progress badge
     updateProgress();
+
     // Initialize Flashcards & Quiz
     showFlashcard(0);
     renderQuiz();
-
-        recordExerciseSuccessTime(currentEx);
 
     // Initialize Pyodide
     try {
@@ -1981,60 +1981,67 @@ function setupControls() {
             if (banner) banner.style.display = 'none';
         };
     }
+
     // Search input real-time listener
     const searchInput = document.getElementById('ex-search');
     if (searchInput) {
         searchInput.addEventListener('input', filterExercises);
     }
 
-    // Download dropdown toggle
+    // Download dropdown & theme dropdown references
     const dlBtn = document.getElementById('download-dropdown-btn');
     const dlMenu = document.getElementById('download-dropdown-menu');
-    dlBtn.onclick = (e) => {
-        e.stopPropagation();
-        dlMenu.classList.toggle('show');
-    };
-    window.addEventListener('click', () => {
-        if (dlMenu) if (dlMenu) dlMenu.classList.remove('show');
-            const tMenu = document.getElementById('theme-menu');
-            if (tMenu) tMenu.classList.remove('show');
-        const tMenu = document.getElementById('theme-menu');
-        if (tMenu) tMenu.classList.remove('show');
-    });
-
-    // Download current script
-    document.getElementById('download-current-btn').onclick = () => {
-        if (!currentEx) return;
-        const ex = exercises.find(e => e.id === currentEx);
-        const code = editor.getValue();
-        const fullContent = `# ================================================================\n# Corso: Metodi Numerici per l'Intelligenza Artificiale (UniBo)\n# Algoritmo: ${ex.title}\n# Autori: Favour Osaretin Emuwahen, Arianna Palmucci\n# ================================================================\n\n${code}\n\n# --- Test di Verifica ---\n${ex.test}\n`;
-        downloadFile(`metodo_${currentEx}.py`, fullContent);
-    };
-
-    // Download all scripts bundle
-    document.getElementById('download-all-btn').onclick = () => {
-        let allCode = `# ================================================================\n# RACCOLTA COMPLETA: METODI NUMERICI PER L'INTELLIGENZA ARTIFICIALE\n# Università di Bologna - Anno Accademico 2025/2026\n# Docenti: Prof.ssa Damiana Lazzaro, Prof. Lorenzo Pellegrini\n# Codice: Favour Osaretin Emuwahen, Arianna Palmucci\n# Repository: https://github.com/palmucciarianna/metodi-num-algo\n# ================================================================\n\nimport numpy as np\nimport scipy.linalg as spl\nimport matplotlib.pyplot as plt\n\n`;
-        exercises.forEach(ex => {
-            const sol = solutionsData[ex.id] || ex.template;
-            allCode += `\n# ================================================================\n# [${ex.id}] ${ex.title}\n# ================================================================\n${sol}\n`;
-        });
-        downloadFile('metodi_numerici_completi_unibo.py', allCode);
-    };
-
-    // Theme menu dropdown toggle
     const themeMenuBtn = document.getElementById('theme-menu-btn');
     const themeMenu = document.getElementById('theme-menu');
+
+    if (dlBtn && dlMenu) {
+        dlBtn.onclick = (e) => {
+            e.stopPropagation();
+            dlMenu.classList.toggle('show');
+            if (themeMenu) themeMenu.classList.remove('show');
+        };
+    }
+
     if (themeMenuBtn && themeMenu) {
         themeMenuBtn.onclick = (e) => {
             e.stopPropagation();
             themeMenu.classList.toggle('show');
-            if (dlMenu) if (dlMenu) dlMenu.classList.remove('show');
-            const tMenu = document.getElementById('theme-menu');
-            if (tMenu) tMenu.classList.remove('show');
+            if (dlMenu) dlMenu.classList.remove('show');
         };
     }
 
-    // Global keyboard shortcuts (Ctrl+F for search, Escape for modals)
+    // Click outside closes both dropdown menus
+    window.addEventListener('click', () => {
+        if (dlMenu) dlMenu.classList.remove('show');
+        if (themeMenu) themeMenu.classList.remove('show');
+    });
+
+    // Download current script
+    const dlCurrentBtn = document.getElementById('download-current-btn');
+    if (dlCurrentBtn) {
+        dlCurrentBtn.onclick = () => {
+            if (!currentEx) return;
+            const ex = exercises.find(e => e.id === currentEx);
+            const code = editor.getValue();
+            const fullContent = `# ================================================================\n# Corso: Metodi Numerici per l'Intelligenza Artificiale (UniBo)\n# Algoritmo: ${ex.title}\n# Autori: Favour Osaretin Emuwahen, Arianna Palmucci\n# ================================================================\n\n${code}\n\n# --- Test di Verifica ---\n${ex.test}\n`;
+            downloadFile(`metodo_${currentEx}.py`, fullContent);
+        };
+    }
+
+    // Download all scripts bundle
+    const dlAllBtn = document.getElementById('download-all-btn');
+    if (dlAllBtn) {
+        dlAllBtn.onclick = () => {
+            let allCode = `# ================================================================\n# RACCOLTA COMPLETA: METODI NUMERICI PER L'INTELLIGENZA ARTIFICIALE\n# Università di Bologna - Anno Accademico 2025/2026\n# Docenti: Prof.ssa Damiana Lazzaro, Prof. Lorenzo Pellegrini\n# Codice: Favour Osaretin Emuwahen, Arianna Palmucci\n# Repository: https://github.com/palmucciarianna/metodi-num-algo\n# ================================================================\n\nimport numpy as np\nimport scipy.linalg as spl\nimport matplotlib.pyplot as plt\n\n`;
+            exercises.forEach(ex => {
+                const sol = solutionsData[ex.id] || ex.template;
+                allCode += `\n# ================================================================\n# [${ex.id}] ${ex.title}\n# ================================================================\n${sol}\n`;
+            });
+            downloadFile('metodi_numerici_completi_unibo.py', allCode);
+        };
+    }
+
+    // Global keyboard shortcuts (Ctrl+F for search, Space for flashcard flip, Escape for modals)
     window.addEventListener('keydown', (e) => {
         if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'f') {
             e.preventDefault();
@@ -2044,7 +2051,6 @@ function setupControls() {
                 sInput.select();
             }
         }
-        
         if (e.code === 'Space') {
             const qModal = document.getElementById('quiz-modal');
             const paneFc = document.getElementById('pane-flashcards');
@@ -2058,8 +2064,7 @@ function setupControls() {
         if (e.key === 'Escape') {
             document.querySelectorAll('.modal-backdrop').forEach(m => m.style.display = 'none');
             if (dlMenu) dlMenu.classList.remove('show');
-            const tMenu = document.getElementById('theme-menu');
-            if (tMenu) tMenu.classList.remove('show');
+            if (themeMenu) themeMenu.classList.remove('show');
         }
     });
 }
