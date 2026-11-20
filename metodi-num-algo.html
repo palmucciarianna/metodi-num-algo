@@ -784,6 +784,154 @@ def metodo_bisezione(fname, a, b, tolx, tolf):
     </div>
 </div>
 
+<!-- MODAL 7: Calcolatore Simbolico SymPy -->
+<div id="sympy-modal" class="modal-backdrop" style="display:none;">
+    <div class="modal-content wide">
+        <div class="modal-header">
+            <h3><span>🧮</span> Calcolatore Simbolico SymPy (Jacobiano, Hessiana & Gradiente)</h3>
+            <button id="sympy-modal-close" class="modal-close" type="button">&times;</button>
+        </div>
+        <div class="modal-body">
+            <p style="font-size:0.92rem; color:var(--text-muted); margin-top:0;">Calcola analiticamente derivate prime, matrice Jacobiana o matrice Hessiana di funzioni test d'esame e genera il codice Python con <code>lambdify</code> pronto da incollare nell'editor.</p>
+            
+            <div class="sympy-input-box">
+                <div style="font-weight:700; font-size:0.9rem; color:var(--text-main); margin-bottom:8px;">Preset d'Esame Rapidi:</div>
+                <div>
+                    <button class="sympy-preset-btn" onclick="loadSympyPreset('1d')">1D: exp(-x) - (x+1)</button>
+                    <button class="sympy-preset-btn" onclick="loadSympyPreset('rosenbrock')">2D Minimo: Funzione di Rosenbrock</button>
+                    <button class="sympy-preset-btn" onclick="loadSympyPreset('system2d')">2D Sistema: f1=x+y-3, f2=x^2+y^2-9</button>
+                </div>
+
+                <div style="margin-top:14px; display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:12px;">
+                    <div>
+                        <label style="font-size:0.82rem; font-weight:700; color:var(--text-main); display:block; margin-bottom:4px;">Tipo di Calcolo:</label>
+                        <select id="sympy-type" style="width:100%; padding:8px; border:1px solid var(--border-color); border-radius:6px; font-size:0.88rem; background:var(--bg-surface); color:var(--text-main);">
+                            <option value="1d">Derivata 1D: f'(x)</option>
+                            <option value="hessian">2D Ottimizzazione: Gradiente ∇f & Hessiana H</option>
+                            <option value="jacobian">2D Sistema Non Lineare: Matrice Jacobiana J</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label style="font-size:0.82rem; font-weight:700; color:var(--text-main); display:block; margin-bottom:4px;">Espressione Funzione (sintassi Python/SymPy):</label>
+                        <input type="text" id="sympy-expr1" value="exp(-x) - (x+1)" style="width:100%; padding:8px; border:1px solid var(--border-color); border-radius:6px; font-size:0.88rem; font-family:monospace; background:var(--bg-surface); color:var(--text-main);">
+                    </div>
+                    <div id="sympy-expr2-wrap" style="display:none;">
+                        <label style="font-size:0.82rem; font-weight:700; color:var(--text-main); display:block; margin-bottom:4px;">Espressione Funzione 2 (per sistemi):</label>
+                        <input type="text" id="sympy-expr2" value="x**2 + y**2 - 9" style="width:100%; padding:8px; border:1px solid var(--border-color); border-radius:6px; font-size:0.88rem; font-family:monospace; background:var(--bg-surface); color:var(--text-main);">
+                    </div>
+                </div>
+
+                <div style="margin-top:14px; display:flex; justify-content:flex-end;">
+                    <button id="btn-run-sympy" class="tool-btn theory" style="padding:8px 16px; font-size:0.92rem;" type="button">⚡ Calcola Formule & Codice</button>
+                </div>
+            </div>
+
+            <div id="sympy-results" style="display:none;">
+                <h4 style="color:var(--accent); margin:16px 0 8px 0;">📐 Risultato Analitico:</h4>
+                <div id="sympy-math-output" class="formula-box"></div>
+
+                <h4 style="color:var(--accent); margin:16px 0 8px 0;">🐍 Codice Python con Lambdify Generato:</h4>
+                <pre id="sympy-code-output" style="background:#0f172a; color:#f8fafc; padding:14px; border-radius:8px; overflow-x:auto; font-family:'Consolas', monospace; font-size:13.5px;"></pre>
+                <div style="margin-top:10px; display:flex; justify-content:flex-end;">
+                    <button id="btn-copy-sympy" class="tool-btn" type="button">📋 Incolla codice nell'editor</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL 8: Timer & Simulazione d'Esame -->
+<div id="timer-modal" class="modal-backdrop" style="display:none;">
+    <div class="modal-content" style="max-width:540px;">
+        <div class="modal-header">
+            <h3><span>⏱️</span> Timer & Simulazione Prova d'Esame</h3>
+            <button id="timer-modal-close" class="modal-close" type="button">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div style="text-align:center; padding:15px 0;">
+                <div id="modal-timer-clock" style="font-size:3.5rem; font-family:monospace; font-weight:700; color:var(--text-main); letter-spacing:2px; margin-bottom:12px;">00:00:00</div>
+                <div style="display:flex; justify-content:center; gap:10px; margin-bottom:18px;">
+                    <button id="timer-start-btn" class="tool-btn theory" style="padding:8px 20px; font-size:0.95rem;" type="button">▶ Avvia</button>
+                    <button id="timer-pause-btn" class="tool-btn" style="padding:8px 20px; font-size:0.95rem;" type="button">⏸ Pausa</button>
+                    <button id="timer-reset-btn" class="tool-btn" style="padding:8px 20px; font-size:0.95rem;" type="button">↺ Azzera</button>
+                </div>
+                <div style="display:flex; justify-content:center; gap:8px; flex-wrap:wrap;">
+                    <button class="sympy-preset-btn" onclick="setCountdown(15)">15 Min (Singolo Algoritmo)</button>
+                    <button class="sympy-preset-btn" onclick="setCountdown(45)">45 Min (Simulazione Parziale)</button>
+                    <button class="sympy-preset-btn" onclick="setCountdown(90)">90 Min (Prova Completa)</button>
+                </div>
+            </div>
+
+            <div style="border-top:1px solid var(--border-color); padding-top:14px; margin-top:10px;">
+                <h5 style="margin:0 0 8px 0; color:var(--text-main); font-size:0.92rem;">📊 Miglior Tempo per Algoritmo Superato:</h5>
+                <div id="exercise-times-list" style="font-size:0.86rem; color:var(--text-muted); max-height:140px; overflow-y:auto;">
+                    Nessun tempo registrato finora. Completa un esercizio con successo per salvare il tuo record!
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL 9: Flashcards & Quiz Orale -->
+<div id="quiz-modal" class="modal-backdrop" style="display:none;">
+    <div class="modal-content wide">
+        <div class="modal-header">
+            <h3><span>🃏</span> Flashcard & Quiz Orale d'Esame</h3>
+            <button id="quiz-modal-close" class="modal-close" type="button">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="modal-tab-bar">
+                <button id="tab-btn-flashcards" class="modal-tab-btn active" type="button">🃏 Flashcard con Flip 3D</button>
+                <button id="tab-btn-quiz" class="modal-tab-btn" type="button">🎯 Quiz Vero/Falso & Scelta Multipla</button>
+            </div>
+
+            <!-- Tab 1: Flashcards 3D -->
+            <div id="pane-flashcards">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                    <span id="fc-counter" style="font-weight:700; color:var(--text-muted); font-size:0.9rem;">Carta 1 / 10</span>
+                    <div>
+                        <button id="fc-shuffle-btn" class="tool-btn" type="button">🔀 Mescola</button>
+                    </div>
+                </div>
+
+                <div class="flashcard-wrap" id="flashcard-box">
+                    <div class="flashcard-inner" id="flashcard-inner">
+                        <div class="flashcard-face">
+                            <div class="card-meta" id="fc-cat">Sistemi Lineari</div>
+                            <div class="card-question" id="fc-question">Quando è garantita la convergenza del metodo di Gauss-Seidel?</div>
+                            <div class="card-hint-click">💡 Clicca sulla carta (o premi Spazio) per girarla</div>
+                        </div>
+                        <div class="flashcard-face flashcard-back">
+                            <div class="card-meta">Risposta Ufficiale & Teoremi</div>
+                            <div class="card-answer" id="fc-answer">Risposta qui...</div>
+                            <div class="card-hint-click">💡 Clicca per tornare alla domanda</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="display:flex; justify-content:center; gap:16px; margin-top:16px;">
+                    <button id="fc-prev-btn" class="tool-btn" style="padding:8px 20px;" type="button">⬅ Precedente</button>
+                    <button id="fc-flip-btn" class="tool-btn theory" style="padding:8px 24px;" type="button">🔄 Gira Carta</button>
+                    <button id="fc-next-btn" class="tool-btn" style="padding:8px 20px;" type="button">Successiva ➡</button>
+                </div>
+            </div>
+
+            <!-- Tab 2: Quiz V/F & Scelta Multipla -->
+            <div id="pane-quiz" style="display:none;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; background:var(--accent-subtle); padding:10px 14px; border-radius:8px; border:1px solid var(--accent-subtle-border);">
+                    <div style="font-size:0.92rem; font-weight:700; color:var(--accent);">🎯 Domande Ufficiali d'Esame: Rispondi per verificare la tua preparazione</div>
+                    <div id="quiz-score-badge" style="font-weight:700; color:var(--accent); background:var(--bg-surface); padding:4px 10px; border-radius:6px; border:1px solid var(--border-color);">Punteggio: 0 / 10</div>
+                </div>
+                <div id="quiz-container"></div>
+                <div style="display:flex; justify-content:center; margin-top:16px;">
+                    <button id="quiz-restart-btn" class="tool-btn theory" style="padding:8px 20px;" type="button">↺ Riavvia Quiz</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <script>
 const categories = [{"id": "zeri", "name": "1. Zeri di Funzione"}, {"id": "sys_nonlin", "name": "2. Sistemi Non Lineari"}, {"id": "sys_lin_iter", "name": "3. Sistemi Lineari Iterativi"}, {"id": "opt_grad", "name": "4. Ottimizzazione & Discesa"}, {"id": "min_quad", "name": "5. Minimi Quadrati"}, {"id": "interp", "name": "6. Interpolazione Polinomiale"}, {"id": "utils", "name": "7. Analisi Matrici & Extra"}];
 const exercises = [{"id": "bisezione", "cat": "zeri", "title": "Metodo di Bisezione", "template": "import numpy as np\n\ndef metodo_bisezione(fname, a, b, tolx, tolf):\n    fa = fname(a)\n    fb = fname(b)\n    if # to do:\n        print(\"Non è possibile applicare il metodo di bisezione \\n\")\n        return None, None, None\n\n    it = 0\n    v_xk = []\n    max_it = int(np.ceil(np.log2((b - a) / tolx))) - 1\n\n    while # to do:\n        xk = # to do\n        v_xk.append(xk)\n        it += 1\n        fxk = fname(xk)\n\n        if np.abs(fxk) < tolf:\n            return xk, it, np.array(v_xk)\n\n        if # to do:\n            b = xk\n            fb = fxk\n        elif # to do:\n            a = xk\n            fa = fxk\n\n    return xk, it, np.array(v_xk)\n", "test": "\nf = lambda x: x**2 - 2\nres = metodo_bisezione(f, 1, 2, 1e-8, 1e-8)\nassert res[0] is not None, \"Ritorno nullo\"\nassert abs(res[0] - np.sqrt(2)) < 1e-5, \"Soluzione errata\"\nprint(\"✓ Bisezione corretta!\")\n"}, {"id": "falsi", "cat": "zeri", "title": "Falsa Posizione", "template": "import numpy as np\n\ndef falsi(fname, a, b, maxit, tolx, tolf):\n    fa = fname(a)\n    fb = fname(b)\n    if # to do:\n        print(\"Non è possibile applicare\\n\")\n        return None, None, None\n\n    it = 0\n    v_xk = []\n    fxk = tolf + 1\n    errore = tolx + 1\n    xk = None\n    xprec = a\n\n    while # to do:\n        xk = # to do\n        fxk = fname(xk)\n\n        if np.abs(fxk) < tolf:\n            return xk, it, np.array(v_xk)\n\n        if # to do:\n            b = xk\n            fb = fxk\n        elif # to do:\n            a = xk\n            fa = fxk\n\n        if xk != 0:\n            errore = # to do\n        else:\n            errore = # to do\n\n        xprec = xk\n        v_xk.append(xk)\n        it += 1\n\n    return xk, it, np.array(v_xk)\n", "test": "\nf = lambda x: x**2 - 2\nres = falsi(f, 1, 2, 100, 1e-8, 1e-8)\nassert res[0] is not None, \"Ritorno nullo\"\nassert abs(res[0] - np.sqrt(2)) < 1e-5, \"Soluzione errata\"\nprint(\"✓ Falsa posizione corretta!\")\n"}, {"id": "corde", "cat": "zeri", "title": "Metodo delle Corde", "template": "import numpy as np\n\ndef corde(fname, a, b, coeff_ang, x0, tolx, tolf, nmax):\n    v_xk = []\n    xk = x0\n    it = 0\n    errorex = 1 + tolx\n    erroref = 1 + tolf\n    xk1 = None\n\n    if abs(coeff_ang) <= np.spacing(1):\n        print(\"Coefficiente angolare nullo\")\n        return None, None, None\n\n    while # to do:\n        fxk = fname(xk)\n        d = # to do\n        xk1 = # to do\n        fxk1 = fname(xk1)\n\n        if xk1 != 0:\n            errorex = # to do\n        else:\n            errorex = # to do\n\n        erroref = np.abs(fxk1)\n        xk = xk1\n        it += 1\n        v_xk.append(xk1)\n\n    return xk1, it, np.array(v_xk)\n", "test": "\nf = lambda x: x**2 - 2\nres = corde(f, 1, 2, 3.0, 1.5, 1e-8, 1e-8, 100)\nassert res[0] is not None, \"Ritorno nullo\"\nassert abs(res[0] - np.sqrt(2)) < 1e-5, \"Soluzione errata\"\nprint(\"✓ Metodo delle corde corretto!\")\n"}, {"id": "newton", "cat": "zeri", "title": "Metodo di Newton", "template": "import numpy as np\n\ndef newton(fname, fpname, x0, tolx, tolf, nmax):\n    v_xk = []\n    xk = x0\n    it = 0\n    xk1 = None\n    errorex = 1 + tolx\n    erroref = 1 + tolf\n\n    while # to do:\n        fxk = fname(xk)\n        fpxk = fpname(xk)\n\n        if # to do:\n            print(\"Derivata nulla\")\n            return None, None, None\n\n        d = # to do\n        xk1 = # to do\n        fxk1 = fname(xk1)\n\n        if xk1 != 0:\n            errorex = # to do\n        else:\n            errorex = # to do\n\n        erroref = np.abs(fxk1)\n        v_xk.append(xk1)\n        xk = xk1\n        it += 1\n\n    return xk1, it, np.array(v_xk)\n", "test": "\nf = lambda x: x**2 - 2\nfp = lambda x: 2*x\nres = newton(f, fp, 1.5, 1e-8, 1e-8, 100)\nassert res[0] is not None\nassert abs(res[0] - np.sqrt(2)) < 1e-5\nprint(\"✓ Metodo di Newton corretto!\")\n"}, {"id": "newton_modificato", "cat": "zeri", "title": "Newton Modificato (Radici Multiple)", "template": "import numpy as np\n\ndef newton_modificato(fname,fpname,m,x0,tolx,tolf,nmax):\n    v_xk=[]\n    xk=x0\n    xk1=None\n    it=0\n    errorex=1+tolx\n    erroref=1+tolf\n\n    while # to do:\n        fxk=fname(xk)\n        fpxk=fpname(xk)\n\n        if # to do: # derivata vicina a zero\n            print(\"Newton Modificato: La derivata prima si annulla\")\n            return None,None,None\n\n        d= # to do\n        xk1= # to do\n        fxk1=fname(xk1)\n\n        if xk1!=0:\n            errorex= # to do\n        else:\n            errorex= # to do\n\n        erroref=np.abs(fxk1)\n        v_xk.append(xk1)\n        xk=xk1\n        it=it+1\n\n    return xk1,it,np.array(v_xk)\n", "test": "\nf = lambda x: (x-2)**2\nfp = lambda x: 2*(x-2)\nres = newton_modificato(f, fp, 2, 1.0, 1e-8, 1e-8, 100)\nassert res[0] is not None\nassert abs(res[0] - 2.0) < 1e-5\nprint(\"✓ Metodo di Newton Modificato corretto!\")\n"}, {"id": "secanti", "cat": "zeri", "title": "Metodo delle Secanti", "template": "import numpy as np\n\ndef secanti(fname, xm1, x0, tolx, tolf, nmax):\n    v_xk = []\n    it = 0\n    errorex = 1 + tolx\n    erroref = 1 + tolf\n    xkm1 = xm1\n    xk = x0\n    xk1 = None\n\n    while # to do:\n        fxkm1 = fname(xkm1)\n        fxk = fname(xk)\n        c_ang_k = # to do\n\n        if # to do:\n            return None, None, None\n\n        d = # to do\n        xk1 = # to do\n        fxk1 = fname(xk1)\n        v_xk.append(xk1)\n\n        if xk1 != 0:\n            errorex = abs(d) / abs(xk1)\n        else:\n            errorex = abs(d)\n\n        erroref = np.abs(fxk1)\n        xkm1 = xk\n        xk = xk1\n        it += 1\n\n    return xk1, it, np.array(v_xk)\n", "test": "\nf = lambda x: x**2 - 2\nres = secanti(f, 1.0, 2.0, 1e-8, 1e-8, 100)\nassert res[0] is not None\nassert abs(res[0] - np.sqrt(2)) < 1e-5\nprint(\"✓ Metodo delle Secanti corretto!\")\n"}, {"id": "stima_ordine", "cat": "zeri", "title": "Stima dell'Ordine", "template": "import numpy as np\n\ndef stima_ordine(xk, iterazioni):\n    # La funzione calcola l'ordine di convergenza p \n    k = iterazioni - 4\n\n    p = # to do\n\n    ordine = p\n    return ordine\n", "test": "\n# Testiamo con una successione che converge quadraticamente\nxk = np.array([2.0, 1.5, 1.42, 1.4142, 1.41421356])\ntry:\n    p = stima_ordine(xk, len(xk))\n    print(\"Ordine stimato:\", p)\n    assert p > 0, \"Ordine calcolato in modo errato o negativo\"\n    print(\"✓ Stima ordine calcolata correttamente!\")\nexcept Exception as e:\n    print(f\"Errore nella stima dell'ordine: {e}\")\n    raise\n"}, {"id": "newton_raphson", "cat": "sys_nonlin", "title": "Newton-Raphson", "template": "import numpy as np\n\ndef newton_raphson(initial_guess, F_numerical, J_numerical, tolX, tolF, max_iterations):\n    X = np.array(initial_guess, dtype=float)\n    it = 0\n    erroreF = 1 + tolF\n    erroreX = 1 + tolX\n    errore = []\n\n    while # to do:\n        jx = # to do\n        if # to do:\n            return None, None, None\n\n        fx = # to do\n        s = # to do\n        Xnew = # to do\n\n        normaXnew = np.linalg.norm(Xnew, 1)\n        if normaXnew != 0:\n            erroreX = # to do\n        else:\n            erroreX = # to do\n\n        errore.append(erroreX)\n        fxnew = # to do\n        erroreF = np.linalg.norm(fxnew, 1)\n        X = Xnew\n        it += 1\n\n    return X, it, errore\n", "test": "\ndef F(x): return np.array([x[0]**2 + x[1]**2 - 4, x[0]*x[1] - 1])\ndef J(x): return np.array([[2*x[0], 2*x[1]], [x[1], x[0]]])\nres = newton_raphson([1.5, 0.5], F, J, 1e-8, 1e-8, 50)\nassert res[0] is not None\nassert np.linalg.norm(F(res[0])) < 1e-6\nprint(\"✓ Newton-Raphson corretto!\")\n"}, {"id": "newton_raphson_corde", "cat": "sys_nonlin", "title": "Newton-Raphson (Corde)", "template": "import numpy as np\n\ndef newton_raphson_corde(initial_guess, F_numerical, J_numerical, tolX, tolF, max_iterations):\n    X = np.array(initial_guess, dtype=float)\n    it = 0\n    erroreF = 1 + tolF\n    erroreX = 1 + tolX\n    errore = []\n\n    # La Jacobiana viene calcolata SOLO alla prima iterazione\n    jx = # to do\n\n    if # to do:\n        print(\"La matrice Jacobiana non è a rango massimo\")\n        return None, None, None\n\n    while # to do:\n        fx = # to do\n        s = # to do\n        Xnew = # to do\n\n        normaXnew = np.linalg.norm(Xnew, 1)\n        if normaXnew != 0:\n            erroreX = # to do\n        else:\n            erroreX = # to do\n\n        errore.append(erroreX)\n        fxnew = # to do\n        erroreF = np.linalg.norm(fxnew, 1)\n        X = Xnew\n        it += 1\n\n    return X, it, errore\n", "test": "\ndef F(x): return np.array([x[0]**2 + x[1]**2 - 4, x[0]*x[1] - 1])\ndef J(x): return np.array([[2*x[0], 2*x[1]], [x[1], x[0]]])\nres = newton_raphson_corde([1.5, 0.5], F, J, 1e-8, 1e-8, 50)\nassert res[0] is not None\nassert np.linalg.norm(F(res[0])) < 1e-5\nprint(\"✓ Newton-Raphson (Corde) corretto!\")\n"}, {"id": "newton_sham", "cat": "sys_nonlin", "title": "Newton-Shamanskii", "template": "import numpy as np\n\ndef newton_raphson_sham(initial_guess, F_numerical, J_numerical, tolX, tolF, update, max_iterations):\n    X = np.array(initial_guess, dtype=float)\n    it = 0\n    erroreF = 1 + tolF\n    erroreX = 1 + tolX\n    errore = []\n\n    while # to do:\n        if it % update == 0:\n            jx = # to do\n            if # to do:\n                return None, None, None\n\n        fx = # to do\n        s = # to do\n        Xnew = # to do\n\n        normaXnew = np.linalg.norm(Xnew, 1)\n        if normaXnew != 0:\n            erroreX = np.linalg.norm(Xnew - X, 1) / normaXnew\n        else:\n            erroreX = np.linalg.norm(Xnew - X, 1)\n\n        errore.append(erroreX)\n        fxnew = F_numerical(Xnew)\n        erroreF = np.linalg.norm(fxnew, 1)\n        X = Xnew\n        it += 1\n\n    return X, it, errore\n", "test": "\ndef F(x): return np.array([x[0]**2 + x[1]**2 - 4, x[0]*x[1] - 1])\ndef J(x): return np.array([[2*x[0], 2*x[1]], [x[1], x[0]]])\nres = newton_raphson_sham([1.5, 0.5], F, J, 1e-8, 1e-8, 3, 50)\nassert res[0] is not None\nassert np.linalg.norm(F(res[0])) < 1e-6\nprint(\"✓ Newton-Shamanskii corretto!\")\n"}, {"id": "jacobi", "cat": "sys_lin_iter", "title": "Metodo di Jacobi", "template": "import numpy as np\n\ndef jacobi(A, b, x0, toll, it_max):\n    errore = 1 + toll\n    d = # to do\n    D = # to do\n    n = A.shape[0]\n\n    E = # to do\n    F = # to do\n\n    M = # to do\n    N = # to do\n    T = # to do\n\n    autovalori = np.linalg.eigvals(T)\n    raggiospettrale = # to do\n\n    it = 0\n    er_vet = []\n\n    while # to do:\n        x = # to do\n        errore = # to do\n        er_vet.append(errore)\n        x0 = x.copy()\n        it += 1\n\n    return x, it, er_vet\n", "test": "\nA = np.array([[4.0, 1.0], [2.0, 3.0]])\nb = np.array([1.0, 2.0])\nx0 = np.zeros(2)\nx, it, err = jacobi(A, b, x0, 1e-10, 100)\nassert x is not None\nassert np.allclose(A @ x, b, atol=1e-5)\nprint(\"✓ Metodo di Jacobi corretto!\")\n"}, {"id": "gauss_seidel", "cat": "sys_lin_iter", "title": "Metodo di Gauss-Seidel", "template": "import numpy as np\n\ndef gauss_seidel(A, b, x0, toll, it_max):\n    errore = 1 + toll\n    d = # to do\n    D = # to do\n\n    E = # to do\n    F = # to do\n\n    M = # to do\n    N = # to do\n    T = # to do\n\n    autovalori = np.linalg.eigvals(T)\n    raggiospettrale = np.max(np.abs(autovalori))\n\n    it = 0\n    er_vet = []\n\n    while # to do:\n        x = # to do\n        errore = # to do\n        er_vet.append(errore)\n        x0 = x.copy()\n        it += 1\n\n    return x, it, er_vet\n", "test": "\nA = np.array([[4.0, 1.0], [2.0, 3.0]])\nb = np.array([1.0, 2.0])\nx0 = np.zeros(2)\nx, it, err = gauss_seidel(A, b, x0, 1e-10, 100)\nassert x is not None\nassert np.allclose(A @ x, b, atol=1e-5)\nprint(\"✓ Metodo di Gauss-Seidel corretto!\")\n"}, {"id": "gauss_seidel_sor", "cat": "sys_lin_iter", "title": "Gauss-Seidel (SOR)", "template": "import numpy as np\n\ndef gauss_seidel_sor(A,b,x0,toll,it_max,omega):\n    errore=1+toll\n    d= # to do\n    D= # to do\n\n    E= # to do\n    F= # to do\n\n    Momega=D+omega*E\n    Nomega=(1-omega)*D-omega*F\n\n    T=np.dot(np.linalg.inv(Momega),Nomega)\n    autovalori=np.linalg.eigvals(T)\n    raggiospettrale= # to do\n    print(\"raggio spettrale Gauss-Seidel SOR \", raggiospettrale)\n\n    M= # to do\n    N= # to do\n\n    it=0\n    er_vet=[]\n\n    while # to do:\n        xtilde= # to do\n        x= # to do\n        errore= # to do\n        er_vet.append(errore)\n        x0=x.copy()\n        it=it+1\n\n    return x,it,er_vet\n", "test": "\nA = np.array([[4.0, 1.0], [2.0, 3.0]])\nb = np.array([1.0, 2.0])\nx0 = np.zeros(2)\nx, it, err = gauss_seidel_sor(A, b, x0, 1e-10, 100, 1.1)\nassert x is not None\nassert np.allclose(A @ x, b, atol=1e-5)\nprint(\"✓ Metodo SOR corretto!\")\n"}, {"id": "steepest", "cat": "opt_grad", "title": "Steepest Descent (Gradiente)", "template": "import numpy as np\n\ndef steepestdescent(A, b, x0, itmax, tol):\n    n, m = A.shape\n    if n != m:\n        return [], []\n\n    x = x0.copy()\n    r = # to do\n    p = # to do\n    it = 0\n    nb = np.linalg.norm(b)\n    errore = # to do\n\n    vec_sol = [x.copy()]\n    vet_r = [errore]\n\n    while # to do:\n        it += 1\n        Ap = # to do\n        alpha = # to do\n\n        x = # to do\n        vec_sol.append(x.copy())\n\n        r = # to do\n        errore = # to do\n        vet_r.append(errore)\n        p = # to do\n\n    return x, vet_r, np.array(vec_sol), it\n", "test": "\nA = np.array([[4.0, 1.0], [1.0, 3.0]])\nb = np.array([1.0, 2.0])\nx0 = np.zeros(2)\nres = steepestdescent(A, b, x0, 100, 1e-8)\nassert len(res[0]) > 0\nassert np.allclose(A @ res[0], b, atol=1e-5)\nprint(\"✓ Steepest Descent corretto!\")\n"}, {"id": "conjugate", "cat": "opt_grad", "title": "Gradiente Coniugato", "template": "import numpy as np\n\ndef conjugate_gradient(A, b, x0, itmax, tol):\n    n, m = A.shape\n    if n != m:\n        return [], []\n\n    x = x0.copy()\n    r = # to do\n    p = # to do\n    it = 0\n    nb = np.linalg.norm(b)\n    errore = # to do\n\n    vec_sol = [x.copy()]\n    vet_r = [errore]\n\n    while # to do:\n        it += 1\n        Ap = # to do\n        alpha = # to do\n        x = # to do\n        vec_sol.append(x.copy())\n\n        rtr_old = # to do\n        r = # to do\n        gamma = # to do\n        errore = np.linalg.norm(r)/nb\n        vet_r.append(errore)\n\n        p = # to do\n\n    return x, vet_r, np.array(vec_sol).squeeze(), it\n", "test": "\nA = np.array([[4.0, 1.0], [1.0, 3.0]])\nb = np.array([1.0, 2.0])\nx0 = np.zeros(2)\nres = conjugate_gradient(A, b, x0, 100, 1e-8)\nassert len(res[0]) > 0\nassert np.allclose(A @ res[0], b, atol=1e-5)\nprint(\"✓ Gradiente Coniugato corretto!\")\n"}, {"id": "eqnorm", "cat": "min_quad", "title": "Equazioni Normali (Minimi Quadrati)", "template": "import numpy as np\nimport scipy.linalg as spLin\n\ndef eqnorm(A, b):\n    # matrice delle equazioni normali \n    G = # to do\n\n    # termine noto\n    f = # to do\n\n    # Fattorizzazione di Cholesky e risoluzione\n    L = # to do\n    y = # to do (solve_triangular lower=True)\n    x = # to do (solve_triangular lower=False)\n\n    return x\n", "test": "\nA = np.array([[1., 1.], [1., 2.], [1., 3.]])\nb = np.array([1., 2., 2.])\nx = eqnorm(A, b)\nassert len(x) == 2\nprint(\"✓ Metodo Equazioni Normali corretto!\")\n"}, {"id": "qrls", "cat": "min_quad", "title": "Fattorizzazione QR (Minimi Quadrati)", "template": "import numpy as np\nimport scipy.linalg as spLin\n\ndef qrLS(A, b):\n    n = A.shape[1]\n\n    # Fattorizzazione QR\n    Q, R = # to do\n\n    h = # to do\n    x = # to do (solve_triangular)\n\n    residuo = # to do\n\n    return x, residuo\n", "test": "\nA = np.array([[1., 1.], [1., 2.], [1., 3.]])\nb = np.array([1., 2., 2.])\nx, res = qrLS(A, b)\nassert len(x) == 2\nprint(\"✓ Metodo QR per LS corretto!\")\n"}, {"id": "svdls", "cat": "min_quad", "title": "Decomposizione SVD (Minimi Quadrati)", "template": "import numpy as np\nimport scipy.linalg as spLin\n\ndef SVDLS(A, b):\n    m, n = A.shape\n\n    U, s, VT = # to do\n    V = VT.T\n\n    thresh = np.spacing(1) * m * s[0]\n    k = np.count_nonzero(s > thresh)\n\n    d = # to do\n    d1 = # to do\n    s1 = # to do\n    c = # to do\n\n    x = # to do\n    residuo = # to do\n\n    return x, residuo\n", "test": "\nA = np.array([[1., 1.], [1., 2.], [1., 3.]])\nb = np.array([1., 2., 2.])\nx, res = SVDLS(A, b)\nassert len(x) == 2\nprint(\"✓ Metodo SVD per LS corretto!\")\n"}, {"id": "lagrange", "cat": "interp", "title": "Polinomio di Lagrange", "template": "import numpy as np\n\ndef plagr(xnodi, j):\n    xzeri = np.zeros_like(xnodi)\n    n = xnodi.size\n\n    if j == 0:\n        xzeri = # to do\n    else:\n        xzeri = np.append( # to do )\n\n    num = # to do\n    den = # to do\n    p = # to do\n\n    return p\n", "test": "\nx = np.array([0., 1., 2.])\np = plagr(x, 1)\nassert np.isclose(np.polyval(p, 1.0), 1.0)\nassert np.isclose(np.polyval(p, 0.0), 0.0)\nprint(\"✓ Polinomio Fondamentale corretto!\")\n"}, {"id": "interpL", "cat": "interp", "title": "Valutazione Interpolante", "template": "import numpy as np\n# Assumiamo che plagr sia già stata definita correttamente per il test\n\ndef InterpL(x, y, xx):\n    n = x.size\n    m = xx.size\n    L = np.zeros((m, n))\n\n    for j in range(n):\n        p = # to do (usa plagr)\n        L[:, j] = # to do\n\n    pol = # to do\n    return pol\n", "test": "\ndef plagr(xnodi, j):\n    if j == 0: xzeri = xnodi[1:]\n    else: xzeri = np.append(xnodi[:j], xnodi[j + 1:])\n    num = np.poly(xzeri)\n    den = np.polyval(num, xnodi[j])\n    return num / den\n\nx = np.array([0., 1., 2.])\ny = np.array([0., 1., 4.])\nxx = np.array([0.5, 1.5])\nyy = InterpL(x, y, xx)\nassert np.isclose(yy[0], 0.25)\nassert np.isclose(yy[1], 2.25)\nprint(\"✓ Interpolazione di Lagrange applicata correttamente!\")\n"}, {"id": "analisi_matrici", "cat": "utils", "title": "Playground: Proprietà Matrici", "template": "import numpy as np\nimport scipy.linalg as spLin\n\n# --- DEFINISCI LA MATRICE DA TESTARE ---\nA = np.array([\n    [4, -1,  0],\n    [-1, 4, -1],\n    [0, -1,  4]\n], dtype=float)\n\nb = np.array([1, 2, 1], dtype=float)\n\n# --- SCRIVI QUI IL TUO CODICE ---\n# Usa questo spazio per implementare i controlli sulle proprietà\n# della matrice A (es. simmetria, dominanza diagonale, ecc.)\n\n# to do: analizza la matrice\n\n", "test": "\n# Nessun assert richiesto. Questo è un ambiente libero.\nprint(\"\\n✓ Playground eseguito.\")\n"}];
@@ -2136,16 +2284,38 @@ function setupControls() {
     if (dlBtn && dlMenu) {
         dlBtn.onclick = (e) => {
             e.stopPropagation();
-            dlMenu.classList.toggle('show');
-            if (themeMenu) themeMenu.classList.remove('show');
+            const isOpen = dlMenu.classList.contains('show');
+            if (isOpen) {
+                dlMenu.classList.remove('show');
+            } else {
+                const rect = dlBtn.getBoundingClientRect();
+                dlMenu.style.position = 'fixed';
+                dlMenu.style.top = (rect.bottom + 6) + 'px';
+                dlMenu.style.right = (window.innerWidth - rect.right) + 'px';
+                dlMenu.style.left = 'auto';
+                dlMenu.style.zIndex = '99999';
+                dlMenu.classList.add('show');
+                if (themeMenu) themeMenu.classList.remove('show');
+            }
         };
     }
 
     if (themeMenuBtn && themeMenu) {
         themeMenuBtn.onclick = (e) => {
             e.stopPropagation();
-            themeMenu.classList.toggle('show');
-            if (dlMenu) dlMenu.classList.remove('show');
+            const isOpen = themeMenu.classList.contains('show');
+            if (isOpen) {
+                themeMenu.classList.remove('show');
+            } else {
+                const rect = themeMenuBtn.getBoundingClientRect();
+                themeMenu.style.position = 'fixed';
+                themeMenu.style.top = (rect.bottom + 6) + 'px';
+                themeMenu.style.right = (window.innerWidth - rect.right) + 'px';
+                themeMenu.style.left = 'auto';
+                themeMenu.style.zIndex = '99999';
+                themeMenu.classList.add('show');
+                if (dlMenu) dlMenu.classList.remove('show');
+            }
         };
     }
 
@@ -2214,6 +2384,7 @@ function selectTheme(themeId) {
 
     validThemes.forEach(t => {
         document.body.classList.remove('theme-' + t);
+        document.documentElement.classList.remove('theme-' + t);
         const check = document.getElementById('tcheck-' + t);
         const opt = document.getElementById('topt-' + t);
         if (check) check.textContent = (t === themeId) ? '✓' : '';
@@ -2224,6 +2395,7 @@ function selectTheme(themeId) {
     });
 
     document.body.classList.add('theme-' + themeId);
+    document.documentElement.classList.add('theme-' + themeId);
 
     // Synchronize CodeMirror theme
     if (editor) {
@@ -2263,6 +2435,21 @@ window.addEventListener('resize', () => {
     clampPanelHeights();
     refreshEditor();
 });
+
+
+// Global window bindings for inline HTML handlers
+window.selectTheme = selectTheme;
+window.applyTheme = applyTheme;
+if (typeof loadSympyPreset !== 'undefined') window.loadSympyPreset = loadSympyPreset;
+if (typeof runSympyCalc !== 'undefined') window.runSympyCalc = runSympyCalc;
+if (typeof setCountdown !== 'undefined') window.setCountdown = setCountdown;
+if (typeof toggleExamTimer !== 'undefined') window.toggleExamTimer = toggleExamTimer;
+if (typeof resetExamTimer !== 'undefined') window.resetExamTimer = resetExamTimer;
+if (typeof flipFlashcard !== 'undefined') window.flipFlashcard = flipFlashcard;
+if (typeof showFlashcard !== 'undefined') window.showFlashcard = showFlashcard;
+if (typeof shuffleFlashcards !== 'undefined') window.shuffleFlashcards = shuffleFlashcards;
+if (typeof renderQuiz !== 'undefined') window.renderQuiz = renderQuiz;
+if (typeof selectQuizOption !== 'undefined') window.selectQuizOption = selectQuizOption;
 
 </script>
 </body>
