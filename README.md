@@ -1,4 +1,4 @@
-# 🧮 Palestra Metodi Numerici in Python
+# 🧮 Palestra Metodi Numerici & Intelligenza Artificiale in Python
 
 [![Live Demo](https://img.shields.io/badge/Demo-GitHub%20Pages-brightgreen?logo=github)](https://palmucciarianna.github.io/metodi-num-algo/)
 [![Python - Pyodide](https://img.shields.io/badge/Python-Pyodide%20v0.25.0-3776AB?logo=python&logoColor=white)](https://pyodide.org/)
@@ -6,26 +6,26 @@
 [![SciPy](https://img.shields.io/badge/SciPy-Supported-8CAAE6?logo=scipy&logoColor=white)](https://scipy.org/)
 [![Matplotlib](https://img.shields.io/badge/Matplotlib-Supported-11557c)](https://matplotlib.org/)
 
-Ambiente web interattivo per implementare, testare e verificare gli algoritmi di **Metodi Numerici per l'Intelligenza Artificiale e il Calcolo Scientifico**, direttamente nel browser senza alcuna installazione.
+Piattaforma web interattiva e archivio completo per lo studio, l'implementazione e la preparazione dell'esame di **Metodi Numerici per l'Intelligenza Artificiale** (Università di Bologna - Docenti: Prof.ssa Damiana Lazzaro [Modulo I] e Prof. Lorenzo Pellegrini [Modulo II]).
 
-> 📚 **Materiali del Corso & Laboratori Didattici**:  
-> Le formule, le notazioni e i criteri d'arresto seguono fedelmente le **slide della docente** (UniBo). I materiali didattici completi, dispense e prossimamente la sezione con i **laboratori d'esame guidati** saranno raccolti nel repository dedicato:  
+> 📚 **Materiali Ufficiali & Repository del Corso**:  
+> Tutte le definizioni, notazioni, teoremi e criteri d'arresto sono conformi alle slide e dispense d'esame UniBo. I materiali completi sono consultabili anche su:  
 > 👉 **[github.com/palmucciarianna/metodinumericiAI](https://github.com/palmucciarianna/metodinumericiAI)**
 
 ---
 
 ## 🚀 Come farlo funzionare
 
-Non occorre installare Python, né configurare ambienti virtuali o scaricare librerie.
+Non serve installare Python, né configurare ambienti virtuali o scaricare librerie sul proprio computer.
 
 ### 1. Online (Consigliato - Immediato)
-L'applicazione è pubblicata su GitHub Pages ed è utilizzabile direttamente dal browser:
+L'applicazione è attiva su GitHub Pages ed è fruibile direttamente dal browser:  
 👉 **[https://palmucciarianna.github.io/metodi-num-algo/](https://palmucciarianna.github.io/metodi-num-algo/)**
 
 ---
 
 ### 2. In Locale sul proprio computer
-Se preferisci aprirlo offline o lavorarci in locale:
+Se preferisci aprirlo offline:
 
 1. Clona il repository:
    ```bash
@@ -33,106 +33,114 @@ Se preferisci aprirlo offline o lavorarci in locale:
    cd metodi-num-algo
    ```
 
-2. Puoi aprirlo in due modi:
-   - **Opzione A (Server locale - Consigliata)**:
-     ```bash
-     python3 -m http.server 8000
-     ```
-     Poi apri nel browser l'indirizzo: `http://localhost:8000`
-   - **Opzione B (Apertura diretta)**:
-     Fai doppio clic su `index.html` (oppure su `metodi-num-algo.html`) per aprirlo direttamente con il tuo browser (Chrome, Firefox, Safari, Edge).
+2. Avvia un server locale rapido:
+   ```bash
+   python3 -m http.server 8000
+   ```
+   Poi apri nel browser: `http://localhost:8000` (oppure fai doppio clic su `index.html`).
 
 ---
 
-### 3. Come svolgere gli esercizi nell'app
+## ✨ Funzionalità della Piattaforma
 
-1. **Seleziona un esercizio** dal menu laterale a sinistra.
-2. **Completa il codice**: sostituisci i placeholder `# to do` con le istruzioni matematiche dell'algoritmo.
-3. **Esegui e Valuta**: premi il pulsante **▶ Valuta Codice (Run)** in alto a destra (oppure usa la combinazione da tastiera).
-4. **Verifica il risultato nel Terminale**:
-   - ✅ Se l'algoritmo è corretto, comparirà il messaggio di conferma:
-     ```text
-     ✓ [Nome Algoritmo] corretto!
-     ⭐⭐⭐ VALUTAZIONE COMPLETATA CON SUCCESSO! ⭐⭐⭐
-     ```
-   - ❌ Se il test fallisce o genera errori, la console indicherà l'asserzione o l'errore esatto per aiutarti a correggere il codice.
-5. **Grafici**: se l'esercizio o il tuo codice genera grafici con `matplotlib.pyplot`, il pannello dedicato in basso si espanderà automaticamente mostrando la figura.
+1. **🌳 Albero Decisionale per $Ax=b$ (Mappa Concettuale Interattiva)**:
+   - **Diagnostica rapida**: inserisci la forma della matrice ($m > n$ sovradeterminata o $m = n$ quadrata), la sparsità (densa vs sparsa) e le proprietà algebriche (SPD, dominanza diagonale, condizionamento) per ottenere all'istante l'algoritmo consigliato, la complessità in flops, la funzione SciPy corrispondente e le avvertenze di stabilità.
+   - **Mappa completa a schede**: schema riassuntivo per Equazioni Normali (Cholesky), Fattorizzazione QR, Decomposizione SVD, Cholesky $LL^T$, Eliminazione di Gauss $PA=LU$, Jacobi, Gauss-Seidel, SOR e Gradiente Coniugato (CG).
 
----
+2. **🧠 Modulo II: Reti Neurali & 22 Domande d'Esame Svolte**:
+   - Schede di ripasso rapido ad alto rendimento con accordion e barra di ricerca istantanea.
+   - Copre tutte le **22 domande aperte ufficiali** del Modulo II (Prof. Pellegrini):
+     - Fondamenti e storia dell'IA (Turing, inverni dell'IA, 2011 DL revolution).
+     - Neurone biologico vs artificiale, funzioni di attivazione (Sigmoide, Tanh, ReLU, Leaky ReLU).
+     - Architettura MLP, CNN (convoluzione 2D, kernel, feature maps, pooling).
+     - Loss functions (MSE, MAE, Binary Cross-Entropy, Categorical Cross-Entropy).
+     - Addestramento, non-convessità della loss, backpropagation (con derivazione completa del caso MLP 1-1-1-1).
+     - Ottimizzatori: Batch GD vs SGD vs Mini-Batch GD, Momentum, Learning Rate Scheduling (step, exponential, time-based), e algoritmi adattivi (Adagrad, RMSProp, Adam).
 
-## 📦 Cosa include nello specifico
+3. **🧪 Laboratori Didattici con 1-Click su Google Colab**:
+   - Accesso istantaneo con GPU gratuita ai Jupyter Notebook ufficiali:
+     - 🚀 `1_Classificazione_di_immagini_tramite_MLP.ipynb` (Multi-Layer Perceptron su dataset immagini).
+     - 🚀 `2_Classificazione_di_immagini_con_Convolutional_Neural_Network.ipynb` (CNN con convoluzioni, pooling, dropout e metriche).
+     - 🚀 `Simulazione_III.ipynb` (Simulazione prova d'esame al calcolatore con zeri, sistemi lineari, minimi quadrati e interpolazione).
 
-### Funzionalità dell'Ambiente
+4. **💾 Salvataggio Automatico (`localStorage`) & Tracciamento Progressi**:
+   - Il codice digitato per ciascun esercizio viene salvato in tempo reale nel browser. Se chiudi la pagina o ricarichi, il tuo lavoro non viene perso.
+   - Spunta verde `✓` nella sidebar quando un test viene superato con successo.
+   - Barra di avanzamento percentuale globale (`0 / 21 completati`).
+   - Tasti dedicati per ripristinare il template iniziale (`↺ Reset`) o azzerare tutti i progressi locali.
 
-- **📖 Mini Guida & Formulario Teorico Integrato**: pulsante interattivo `📖 Teoria & Formule` nell'header che apre un pannello dedicato con il modello matematico, teoremi, formule, criteri d'arresto e guida ai passaggi `# to do` per tutti i 21 algoritmi (ispirato alle slide del corso UniBo).
-- **Motore Python in WebAssembly (Pyodide)**: esecuzione 100% client-side di codice Python con librerie scientifiche reali (**NumPy**, **SciPy**, **Matplotlib**). Nessun dato o codice viene inviato a server esterni.
-- **Editor CodeMirror**: sintassi evidenziata con tema Dracula, supporto a tabulazioni e indentazioni corrette per Python, e mantenimento dello stato separato per ogni esercizio.
-- **Test di Valutazione Automatici**: ogni esercizio è accompagnato da test rigorosi su casi noti con tolleranze numeriche prestabilite.
-- **Terminale Interattivo**: console ridimensionabile (con controlli `+`, `-`, reset `↺` e trascinamento del bordo) con output separato per print ed errori.
-- **Pannello Grafici Matplotlib**: visualizzazione responsive dei grafici con pulsante di pulizia e ridimensionamento.
+5. **💡 Suggerimenti (Hint) & Soluzioni Ufficiali**:
+   - Pulsante `💡 Hint`: fornisce l'indizio matematico e la funzione NumPy/SciPy da usare.
+   - Pulsante `👁️ Soluzione`: mostra il codice ufficiale verificato con tasto rapido per incollarlo nell'editor.
 
----
+6. **📈 Grafici di Convergenza Automatici (`semilogy`)**:
+   - Tracciamento della curva di convergenza dell'errore asintotico su scala semilogaritmica (`plt.semilogy`) per metodi di ricerca zeri, sistemi lineari iterativi (Jacobi, Gauss-Seidel, SOR) e metodi di discesa del gradiente.
+   - Confronto grafico del fenomeno di Runge su nodi equispaziati per l'interpolazione polinomiale.
 
-### Elenco Dettagliato degli Algoritmi ed Esercizi
+7. **⌨️ Scorciatoie da Tastiera & Ricerca Veloce**:
+   - <kbd>Cmd</kbd> + <kbd>Invio</kbd> (Mac) o <kbd>Ctrl</kbd> + <kbd>Invio</kbd> (Windows/Linux) per eseguire e testare all'istante il codice.
+   - <kbd>Esc</kbd> per chiudere qualsiasi modal aperto.
+   - Barra di ricerca dinamica nella sidebar per filtrare gli esercizi per nome o parola chiave.
 
-#### 1. Zeri di Funzione
-- **Metodo di Bisezione**: implementazione dell'algoritmo di bisezione su intervallo $[a, b]$, con stima a priori del numero massimo di iterazioni necessarie in base alla tolleranza.
-- **Falsa Posizione (Regula Falsi)**: metodo di interpolazione lineare (corda) con criteri di arresto su scarto assoluto/relativo e residuo.
-- **Metodo delle Corde**: iterazione con coefficiente angolare costante per ridurre il costo computazionale ad ogni passo.
-- **Metodo di Newton (delle Tangenti)**: iterazione a convergenza quadratica mediante valutazione analitica di funzione e derivata prima.
-- **Newton Modificato**: variante per radici con molteplicità nota $m > 1$ per preservare la convergenza di secondo ordine.
-- **Metodo delle Secanti**: variante di Newton che approssima la derivata prima mediante rapporto incrementale su due iterati precedenti.
-- **Stima dell'Ordine di Convergenza**: stima asintotica sperimentale dell'ordine di convergenza $p$ a partire dal vettore degli iterati $x_k$.
+8. **📥 Esportazione Script (`.py`)**:
+   - Scarica il codice dell'esercizio corrente formattato con header e test di verifica.
+   - Scarica la raccolta unificata con tutti i 21 algoritmi pronti per l'esame.
 
-#### 2. Sistemi di Equazioni Non Lineari
-- **Newton-Raphson per Sistemi**: risoluzione di sistemi non lineari $F(x) = 0$ con calcolo e inversione/risoluzione del sistema lineare con matrice Jacobiana $J(x_k)$ ad ogni iterazione.
-- **Newton-Raphson a Jacobiana Costante (Corde)**: calcolo della matrice Jacobiana unicamente alla prima iterazione $J(x_0)$ per abbattere il costo computazionale per iterazione.
-- **Newton-Shamanskii**: compromesso efficiente in cui la matrice Jacobiana viene ricalcolata solo ogni $k$ iterazioni (parametro `update`).
-
-#### 3. Sistemi Lineari (Metodi Iterativi)
-- **Metodo di Jacobi**: decomposizione della matrice $A = D - E - F$, costruzione della matrice di iterazione $T_J$, calcolo del raggio spettrale $\rho(T_J)$ e iterazione di punto fisso.
-- **Metodo di Gauss-Seidel**: iterazione con matrice triangolare inferiore $M = D - E$, calcolo del raggio spettrale $\rho(T_{GS})$ e convergenza più rapida rispetto a Jacobi.
-- **Gauss-Seidel SOR (Successive Over-Relaxation)**: accelerazione della convergenza tramite fattore di rilassamento $\omega \in (0, 2)$, con raggio spettrale $\rho(T_\omega)$.
-
-#### 4. Ottimizzazione & Metodi del Gradiente
-- **Steepest Descent (Metodo del Gradiente)**: ricerca del minimo per forme quadratiche con matrice simmetrica e definita positiva lungo la direzione dell'antigradiente (residuo), con calcolo analitico dello step-size ottimale $\alpha_k$.
-- **Gradiente Coniugato (Conjugate Gradient)**: algoritmo iterativo per matrici simmetriche e definite positive basato su direzioni $A$-coniugate e coefficiente di aggiornamento $\beta_k / \gamma_k$.
-
-#### 5. Minimi Quadrati (Least Squares)
-- **Equazioni Normali**: risoluzione del problema ai minimi quadrati $\min \|Ax - b\|_2$ tramite il sistema $A^T A x = A^T b$, risolto stabilmente mediante fattorizzazione di Cholesky ($L L^T$).
-- **Fattorizzazione QR**: approccio ortogonale stabile $A = Q R$, calcolo del vettore proiettato e risoluzione del sistema triangolare superiore.
-- **Decomposizione SVD**: decomposizione ai valori singolari $A = U \Sigma V^T$, gestione del rango numerico con soglia di troncamento e calcolo della soluzione di norma minima e del residuo.
-
-#### 6. Interpolazione Polinomiale
-- **Polinomi Fondamentali di Lagrange**: calcolo dei coefficienti polinomiali della base di Lagrange $L_j(x)$ associata a un insieme di nodi.
-- **Valutazione Interpolante**: costruzione della matrice di interpolazione di Lagrange e valutazione del polinomio interpolatore $P(x)$ su nodi densi di valutazione.
-
-#### 7. Playground & Utility
-- **Analisi Proprietà Matrici**: ambiente di calcolo libero con NumPy e SciPy per analizzare matrici di test (verifica simmetria, dominanza diagonale stretta, calcolo autovalori, raggio spettrale, numero di condizionamento).
+9. **🌙 Tema Dark & ☀️ Tema Chiaro**:
+   - Modalità scura completa basata sulla palette Dracula / Slate, alternabile con un clic e memorizzata nel browser.
 
 ---
 
-## 🗂️ Struttura dei File
+## 📁 Struttura del Repository
 
 ```text
 metodi-num-algo/
 ├── index.html              # Entry point per GitHub Pages (Web Application completa)
-├── metodi-num-algo.html    # File applicativo sorgente
-└── README.md               # Questa documentazione
+├── metodi-num-algo.html    # Applicativo web sorgente
+├── README.md               # Documentazione completa del progetto
+│
+├── laboratori/             # Notebooks Jupyter dei laboratori didattici
+│   ├── 1_Classificazione_di_immagini_tramite_MLP.ipynb
+│   └── 2_Classificazione_di_immagini_con_Convolutional_Neural_Network.ipynb
+│
+├── simulazioni_esame/      # Prove d'esame pratiche simulate
+│   └── Simulazione_III.ipynb
+│
+├── scripts_py/             # Script Python e scheletri con tutti gli algoritmi
+│   ├── SolveTriangular.py  # Risoluzione forward/backward (Lsolve, Usolve)
+│   ├── Pattern_25_26.py    # Pattern e condizioni d'arresto esame 2025/2026
+│   ├── Scheletri_24_25.py  # Scheletri di implementazione
+│   ├── Utilities_24_25.py  # Funzioni simboliche sympy per gradiente e Jacobiano
+│   └── metodi_diego.py     # Implementazioni di riferimento
+│
+└── dispense_pdf/           # Slide e dispense ufficiali del corso
+    ├── 1_Introduzione_AI.pdf
+    ├── 2_MLP.pdf
+    ├── 3_CNN.pdf
+    ├── DomandeIA_25_26.pdf
+    ├── Sistemi_Lineari_Metodi_Numerici_Diretti.pdf
+    ├── Sistemi_Lineari_Metodi_Numerici_Iterativi.pdf
+    ├── SoluzioneSistemiSovradeterminati.pdf
+    ├── EquazioniNonLineari.pdf
+    ├── InterpolazionePolinomiale.pdf
+    ├── Condizionamento_e_stabilita.pdf
+    ├── Norme_vettoriali_e_matriciali.pdf
+    └── MappaConcettuale_SistemiLineari.pdf
 ```
 
 ---
 
 ## 🧰 Stack Tecnologico
 
-- **Runtime Web**: [Pyodide](https://pyodide.org/) (Python 3.12 WebAssembly)
+- **Runtime Web**: [Pyodide](https://pyodide.org/) (Python 3.12 WebAssembly client-side)
 - **Librerie Scientifiche**: NumPy, SciPy, Matplotlib
-- **Editor**: CodeMirror 5 (tema Dracula)
-- **Tecnologie Web**: HTML5, CSS3, JavaScript Vanilla (ES6+)
+- **Formule Matematiche**: [KaTeX](https://katex.org/)
+- **Editor di Codice**: CodeMirror 5 (tema Dracula con bracket matching)
+- **Tecnologie Web**: HTML5, CSS3 Variables, JavaScript Vanilla (ES6+)
 
 ---
 
 ## 👥 Autori e Riconoscimenti
 
 - **[Favour Osaretin Emuwahen](https://github.com/favess)** — Autore originale dell'applicativo e ideatore degli scheletri degli esercizi di metodi numerici.
-- **[Arianna Palmucci](https://github.com/palmucciarianna)** — Pubblicazione su GitHub, deployment su GitHub Pages, ottimizzazione e miglioramenti dell'interfaccia (gestione e ridimensionamento pannelli console/grafici, layout responsive), documentazione e manutenzione.
+- **[Arianna Palmucci](https://github.com/palmucciarianna)** — Pubblicazione su GitHub, deployment su GitHub Pages, espansione della piattaforma (albero decisionale, schede d'esame del Modulo II, integrazione Google Colab, auto-save in LocalStorage, grafici di convergenza semilogaritmici, sistema di suggerimenti e soluzioni, tema dark/light, ricerca e scorciatoie), organizzazione dei materiali didattici e documentazione.
