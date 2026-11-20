@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Palestra Metodi Numerici Completa</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/theme/dracula.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/python/python.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js"></script>
+    <style>
+        body { font-family: system-ui, sans-serif; margin: 0; padding: 0; display: flex; height: 100vh; background: #f4f4f5; }
+        #sidebar { width: 320px; background: #fff; border-right: 1px solid #ddd; display: flex; flex-direction: column; overflow-y: auto; }
+        #sidebar h2 { font-size: 1.1rem; padding: 15px; margin: 0; background: #0f172a; color: white; position: sticky; top: 0; }
+        .cat-title { background: #e2e8f0; font-weight: bold; padding: 10px 15px; font-size: 0.9rem; color: #334155; border-bottom: 1px solid #cbd5e1; border-top: 1px solid #cbd5e1; }
+        .ex-btn { padding: 12px 15px 12px 25px; text-align: left; background: none; border: none; border-bottom: 1px solid #eee; cursor: pointer; font-size: 0.95rem; color: #1e293b; width: 100%; display: block; }
+        .ex-btn:hover { background: #f8fafc; }
+        .ex-btn.active { background: #e0f2fe; border-left: 4px solid #0284c7; font-weight: bold; color: #0369a1; }
+        #main { flex: 1; min-width: 0; min-height: 0; display: flex; flex-direction: column; overflow: hidden; }
+        #header { flex: 0 0 auto; padding: 15px 20px; background: #fff; border-bottom: 1px solid #ddd; display: flex; justify-content: space-between; align-items: center; }
+        #editor-container { flex: 1 1 0; min-height: 120px; min-width: 0; position: relative; display: flex; flex-direction: column; overflow: hidden; }
+        .CodeMirror { flex: 1 1 auto; min-height: 0; height: auto !important; font-size: 15px; overflow: hidden; }
+        .CodeMirror-scroll { max-height: 100%; overflow: auto !important; }
+        #console-wrap { flex: 0 0 260px; height: 260px; min-height: 110px; max-height: calc(100% - 120px); display: flex; flex-direction: column; position: relative; overflow: hidden; }
+        #console-resizer { height: 8px; flex: 0 0 8px; cursor: ns-resize; background: #333; border-top: 1px solid #555; border-bottom: 1px solid #111; }
+        #console-resizer:hover, #console-resizer.dragging { background: #0ea5a4; }
+        #console { flex: 1 1 auto; min-height: 0; box-sizing: border-box; background: #1e1e1e; color: #fff; padding: 15px; overflow-y: auto; font-family: 'Consolas', 'Courier New', monospace; }
+        #console-toolbar { flex: 0 0 auto; display: flex; align-items: center; gap: 8px; padding: 6px 10px; background: #252526; color: #ddd; font-size: 13px; }
+        #console-toolbar button { border: 1px solid #666; background: #3a3a3a; color: #fff; border-radius: 4px; padding: 3px 8px; cursor: pointer; }
+        #console-toolbar button:hover { background: #555; }
+        #plot-panel { flex: 0 0 240px; height: 240px; min-height: 120px; max-height: calc(100% - 120px); min-width: 0; display: flex; flex-direction: column; background: #fff; border-top: 4px solid #334155; overflow: hidden; transition: height .18s ease, flex-basis .18s ease; }
+        #plot-panel.collapsed { flex-basis: 42px !important; height: 42px !important; min-height: 42px; }
+        #plot-panel.collapsed #plot-resizer, #plot-panel.collapsed #plot-area, #plot-panel.collapsed #clear-plot { display: none; }
+        #plot-resizer { height: 8px; flex: 0 0 8px; cursor: ns-resize; background: #334155; border-top: 1px solid #64748b; border-bottom: 1px solid #0f172a; }
+        #plot-resizer:hover, #plot-resizer.dragging { background: #0ea5a4; }
+        #plot-toolbar { flex: 0 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 8px 10px; background: #f1f5f9; color: #0f172a; font-size: 13px; font-weight: 600; }
+        #plot-toolbar-actions { display: flex; align-items: center; gap: 8px; }
+        #plot-toolbar button { border: 1px solid #94a3b8; background: #fff; color: #0f172a; border-radius: 4px; padding: 4px 8px; cursor: pointer; }
+        #plot-toolbar button:hover { background: #e2e8f0; }
+        #plot-area { flex: 1 1 auto; min-height: 0; overflow: auto; padding: 10px; }
+        #plot-area canvas, #plot-area img, #plot-area svg { max-width: 100%; height: auto; }
+        .plot-placeholder { color: #64748b; font-size: .9rem; font-style: italic; }
+        button.run { background: #16a34a; color: white; border: none; padding: 10px 20px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 1rem; }
+        button.run:hover { background: #15803d; }
+        button.run:disabled { background: #9ca3af; cursor: not-allowed; }
+        .pass { color: #4ade80; }
+        .fail { color: #f87171; white-space: pre-wrap; }
+        .system { color: #93c5fd; }
+        .output { color: #e5e7eb; white-space: pre-wrap; }
+    </style>
+</head>
+<body>
+
+<div id="sidebar">
+    <h2>💻 Metodi Numerici in Python</h2>
+    <div id="ex-list"></div>
+</div>
+
+<div id="main">
+    <div id="header">
+        <h3 id="ex-title" style="margin:0;">Seleziona un esercizio</h3>
+        <button id="run-btn" class="run" disabled>Caricamento Python...</button>
+    </div>
+    <div id="editor-container">
+        <textarea id="code"></textarea>
+    </div>
+    <div id="console-wrap">
+        <div id="console-resizer" title="Trascina per ridimensionare il terminale"></div>
+        <div id="console-toolbar">
+            <span>Terminale</span>
+            <button id="console-smaller" type="button">−</button>
+            <button id="console-larger" type="button">+</button>
+            <button id="console-reset" type="button">↺</button>
+            <span id="console-size">35%</span>
+        </div>
+        <div id="console">
+            <div class="system">⬇ L'output dell'esecuzione e degli errori comparirà qui.</div>
+            <div class="system">⏳ Inizializzazione motore Python (Pyodide) in corso... attendere.</div>
+        </div>
+    </div>
+    <div id="plot-panel" class="collapsed">
+        <div id="plot-resizer" title="Trascina per ridimensionare il grafico"></div>
+        <div id="plot-toolbar">
+            <span>Grafico Matplotlib</span>
+            <div id="plot-toolbar-actions">
+                <button id="clear-plot" type="button">Pulisci grafico</button>
+                <button id="toggle-plot" type="button" aria-expanded="false">Espandi</button>
+            </div>
+        </div>
+        <div id="plot-area">
+            <div class="plot-placeholder">I grafici generati con Matplotlib compariranno qui.</div>
+        </div>
+    </div>
+</div>
+
+<script>
+const categories = [{"id": "zeri", "name": "Zeri di Funzione"}, {"id": "sys_nonlin", "name": "Sistemi Non Lineari"}, {"id": "sys_lin_iter", "name": "Sistemi Lineari (Iterativi)"}, {"id": "opt_grad", "name": "Ottimizzazione (Gradiente)"}, {"id": "min_quad", "name": "Minimi Quadrati"}, {"id": "interp", "name": "Interpolazione"}, {"id": "utils", "name": "Playground / Extra"}];
+const exercises = [{"id": "bisezione", "cat": "zeri", "title": "Metodo di Bisezione", "template": "import numpy as np\n\ndef metodo_bisezione(fname, a, b, tolx, tolf):\n    fa = fname(a)\n    fb = fname(b)\n    if # to do:\n        print(\"Non \u00e8 possibile applicare il metodo di bisezione \\n\")\n        return None, None, None\n\n    it = 0\n    v_xk = []\n    max_it = int(np.ceil(np.log2((b - a) / tolx))) - 1\n\n    while # to do:\n        xk = # to do\n        v_xk.append(xk)\n        it += 1\n        fxk = fname(xk)\n\n        if np.abs(fxk) < tolf:\n            return xk, it, np.array(v_xk)\n\n        if # to do:\n            b = xk\n            fb = fxk\n        elif # to do:\n            a = xk\n            fa = fxk\n\n    return xk, it, np.array(v_xk)\n", "test": "\nf = lambda x: x**2 - 2\nres = metodo_bisezione(f, 1, 2, 1e-8, 1e-8)\nassert res[0] is not None, \"Ritorno nullo\"\nassert abs(res[0] - np.sqrt(2)) < 1e-5, \"Soluzione errata\"\nprint(\"\u2713 Bisezione corretta!\")\n"}, {"id": "falsi", "cat": "zeri", "title": "Falsa Posizione", "template": "import numpy as np\n\ndef falsi(fname, a, b, maxit, tolx, tolf):\n    fa = fname(a)\n    fb = fname(b)\n    if # to do:\n        print(\"Non \u00e8 possibile applicare\\n\")\n        return None, None, None\n\n    it = 0\n    v_xk = []\n    fxk = tolf + 1\n    errore = tolx + 1\n    xk = None\n    xprec = a\n\n    while # to do:\n        xk = # to do\n        fxk = fname(xk)\n\n        if np.abs(fxk) < tolf:\n            return xk, it, np.array(v_xk)\n\n        if # to do:\n            b = xk\n            fb = fxk\n        elif # to do:\n            a = xk\n            fa = fxk\n\n        if xk != 0:\n            errore = # to do\n        else:\n            errore = # to do\n\n        xprec = xk\n        v_xk.append(xk)\n        it += 1\n\n    return xk, it, np.array(v_xk)\n", "test": "\nf = lambda x: x**2 - 2\nres = falsi(f, 1, 2, 100, 1e-8, 1e-8)\nassert res[0] is not None, \"Ritorno nullo\"\nassert abs(res[0] - np.sqrt(2)) < 1e-5, \"Soluzione errata\"\nprint(\"\u2713 Falsa posizione corretta!\")\n"}, {"id": "corde", "cat": "zeri", "title": "Metodo delle Corde", "template": "import numpy as np\n\ndef corde(fname, a, b, coeff_ang, x0, tolx, tolf, nmax):\n    v_xk = []\n    xk = x0\n    it = 0\n    errorex = 1 + tolx\n    erroref = 1 + tolf\n    xk1 = None\n\n    if abs(coeff_ang) <= np.spacing(1):\n        print(\"Coefficiente angolare nullo\")\n        return None, None, None\n\n    while # to do:\n        fxk = fname(xk)\n        d = # to do\n        xk1 = # to do\n        fxk1 = fname(xk1)\n\n        if xk1 != 0:\n            errorex = # to do\n        else:\n            errorex = # to do\n\n        erroref = np.abs(fxk1)\n        xk = xk1\n        it += 1\n        v_xk.append(xk1)\n\n    return xk1, it, np.array(v_xk)\n", "test": "\nf = lambda x: x**2 - 2\nres = corde(f, 1, 2, 3.0, 1.5, 1e-8, 1e-8, 100)\nassert res[0] is not None, \"Ritorno nullo\"\nassert abs(res[0] - np.sqrt(2)) < 1e-5, \"Soluzione errata\"\nprint(\"\u2713 Metodo delle corde corretto!\")\n"}, {"id": "newton", "cat": "zeri", "title": "Metodo di Newton", "template": "import numpy as np\n\ndef newton(fname, fpname, x0, tolx, tolf, nmax):\n    v_xk = []\n    xk = x0\n    it = 0\n    xk1 = None\n    errorex = 1 + tolx\n    erroref = 1 + tolf\n\n    while # to do:\n        fxk = fname(xk)\n        fpxk = fpname(xk)\n\n        if # to do:\n            print(\"Derivata nulla\")\n            return None, None, None\n\n        d = # to do\n        xk1 = # to do\n        fxk1 = fname(xk1)\n\n        if xk1 != 0:\n            errorex = # to do\n        else:\n            errorex = # to do\n\n        erroref = np.abs(fxk1)\n        v_xk.append(xk1)\n        xk = xk1\n        it += 1\n\n    return xk1, it, np.array(v_xk)\n", "test": "\nf = lambda x: x**2 - 2\nfp = lambda x: 2*x\nres = newton(f, fp, 1.5, 1e-8, 1e-8, 100)\nassert res[0] is not None\nassert abs(res[0] - np.sqrt(2)) < 1e-5\nprint(\"\u2713 Metodo di Newton corretto!\")\n"}, {"id": "newton_modificato", "cat": "zeri", "title": "Newton Modificato (Radici Multiple)", "template": "import numpy as np\n\ndef newton_modificato(fname,fpname,m,x0,tolx,tolf,nmax):\n    v_xk=[]\n    xk=x0\n    xk1=None\n    it=0\n    errorex=1+tolx\n    erroref=1+tolf\n\n    while # to do:\n        fxk=fname(xk)\n        fpxk=fpname(xk)\n\n        if # to do: # derivata vicina a zero\n            print(\"Newton Modificato: La derivata prima si annulla\")\n            return None,None,None\n\n        d= # to do\n        xk1= # to do\n        fxk1=fname(xk1)\n\n        if xk1!=0:\n            errorex= # to do\n        else:\n            errorex= # to do\n\n        erroref=np.abs(fxk1)\n        v_xk.append(xk1)\n        xk=xk1\n        it=it+1\n\n    return xk1,it,np.array(v_xk)\n", "test": "\nf = lambda x: (x-2)**2\nfp = lambda x: 2*(x-2)\nres = newton_modificato(f, fp, 2, 1.0, 1e-8, 1e-8, 100)\nassert res[0] is not None\nassert abs(res[0] - 2.0) < 1e-5\nprint(\"\u2713 Metodo di Newton Modificato corretto!\")\n"}, {"id": "secanti", "cat": "zeri", "title": "Metodo delle Secanti", "template": "import numpy as np\n\ndef secanti(fname, xm1, x0, tolx, tolf, nmax):\n    v_xk = []\n    it = 0\n    errorex = 1 + tolx\n    erroref = 1 + tolf\n    xkm1 = xm1\n    xk = x0\n    xk1 = None\n\n    while # to do:\n        fxkm1 = fname(xkm1)\n        fxk = fname(xk)\n        c_ang_k = # to do\n\n        if # to do:\n            return None, None, None\n\n        d = # to do\n        xk1 = # to do\n        fxk1 = fname(xk1)\n        v_xk.append(xk1)\n\n        if xk1 != 0:\n            errorex = abs(d) / abs(xk1)\n        else:\n            errorex = abs(d)\n\n        erroref = np.abs(fxk1)\n        xkm1 = xk\n        xk = xk1\n        it += 1\n\n    return xk1, it, np.array(v_xk)\n", "test": "\nf = lambda x: x**2 - 2\nres = secanti(f, 1.0, 2.0, 1e-8, 1e-8, 100)\nassert res[0] is not None\nassert abs(res[0] - np.sqrt(2)) < 1e-5\nprint(\"\u2713 Metodo delle Secanti corretto!\")\n"}, {"id": "stima_ordine", "cat": "zeri", "title": "Stima dell'Ordine", "template": "import numpy as np\n\ndef stima_ordine(xk, iterazioni):\n    # La funzione calcola l'ordine di convergenza p \n    k = iterazioni - 4\n\n    p = # to do\n\n    ordine = p\n    return ordine\n", "test": "\n# Testiamo con una successione che converge quadraticamente\nxk = np.array([2.0, 1.5, 1.42, 1.4142, 1.41421356])\ntry:\n    p = stima_ordine(xk, len(xk))\n    print(\"Ordine stimato:\", p)\n    assert p > 0, \"Ordine calcolato in modo errato o negativo\"\n    print(\"\u2713 Stima ordine calcolata correttamente!\")\nexcept Exception as e:\n    print(f\"Errore nella stima dell'ordine: {e}\")\n    raise\n"}, {"id": "newton_raphson", "cat": "sys_nonlin", "title": "Newton-Raphson", "template": "import numpy as np\n\ndef newton_raphson(initial_guess, F_numerical, J_numerical, tolX, tolF, max_iterations):\n    X = np.array(initial_guess, dtype=float)\n    it = 0\n    erroreF = 1 + tolF\n    erroreX = 1 + tolX\n    errore = []\n\n    while # to do:\n        jx = # to do\n        if # to do:\n            return None, None, None\n\n        fx = # to do\n        s = # to do\n        Xnew = # to do\n\n        normaXnew = np.linalg.norm(Xnew, 1)\n        if normaXnew != 0:\n            erroreX = # to do\n        else:\n            erroreX = # to do\n\n        errore.append(erroreX)\n        fxnew = # to do\n        erroreF = np.linalg.norm(fxnew, 1)\n        X = Xnew\n        it += 1\n\n    return X, it, errore\n", "test": "\ndef F(x): return np.array([x[0]**2 + x[1]**2 - 4, x[0]*x[1] - 1])\ndef J(x): return np.array([[2*x[0], 2*x[1]], [x[1], x[0]]])\nres = newton_raphson([1.5, 0.5], F, J, 1e-8, 1e-8, 50)\nassert res[0] is not None\nassert np.linalg.norm(F(res[0])) < 1e-6\nprint(\"\u2713 Newton-Raphson corretto!\")\n"}, {"id": "newton_raphson_corde", "cat": "sys_nonlin", "title": "Newton-Raphson (Corde)", "template": "import numpy as np\n\ndef newton_raphson_corde(initial_guess, F_numerical, J_numerical, tolX, tolF, max_iterations):\n    X = np.array(initial_guess, dtype=float)\n    it = 0\n    erroreF = 1 + tolF\n    erroreX = 1 + tolX\n    errore = []\n\n    # La Jacobiana viene calcolata SOLO alla prima iterazione\n    jx = # to do\n\n    if # to do:\n        print(\"La matrice Jacobiana non \u00e8 a rango massimo\")\n        return None, None, None\n\n    while # to do:\n        fx = # to do\n        s = # to do\n        Xnew = # to do\n\n        normaXnew = np.linalg.norm(Xnew, 1)\n        if normaXnew != 0:\n            erroreX = # to do\n        else:\n            erroreX = # to do\n\n        errore.append(erroreX)\n        fxnew = # to do\n        erroreF = np.linalg.norm(fxnew, 1)\n        X = Xnew\n        it += 1\n\n    return X, it, errore\n", "test": "\ndef F(x): return np.array([x[0]**2 + x[1]**2 - 4, x[0]*x[1] - 1])\ndef J(x): return np.array([[2*x[0], 2*x[1]], [x[1], x[0]]])\nres = newton_raphson_corde([1.5, 0.5], F, J, 1e-8, 1e-8, 50)\nassert res[0] is not None\nassert np.linalg.norm(F(res[0])) < 1e-5\nprint(\"\u2713 Newton-Raphson (Corde) corretto!\")\n"}, {"id": "newton_sham", "cat": "sys_nonlin", "title": "Newton-Shamanskii", "template": "import numpy as np\n\ndef newton_raphson_sham(initial_guess, F_numerical, J_numerical, tolX, tolF, update, max_iterations):\n    X = np.array(initial_guess, dtype=float)\n    it = 0\n    erroreF = 1 + tolF\n    erroreX = 1 + tolX\n    errore = []\n\n    while # to do:\n        if it % update == 0:\n            jx = # to do\n            if # to do:\n                return None, None, None\n\n        fx = # to do\n        s = # to do\n        Xnew = # to do\n\n        normaXnew = np.linalg.norm(Xnew, 1)\n        if normaXnew != 0:\n            erroreX = np.linalg.norm(Xnew - X, 1) / normaXnew\n        else:\n            erroreX = np.linalg.norm(Xnew - X, 1)\n\n        errore.append(erroreX)\n        fxnew = F_numerical(Xnew)\n        erroreF = np.linalg.norm(fxnew, 1)\n        X = Xnew\n        it += 1\n\n    return X, it, errore\n", "test": "\ndef F(x): return np.array([x[0]**2 + x[1]**2 - 4, x[0]*x[1] - 1])\ndef J(x): return np.array([[2*x[0], 2*x[1]], [x[1], x[0]]])\nres = newton_raphson_sham([1.5, 0.5], F, J, 1e-8, 1e-8, 3, 50)\nassert res[0] is not None\nassert np.linalg.norm(F(res[0])) < 1e-6\nprint(\"\u2713 Newton-Shamanskii corretto!\")\n"}, {"id": "jacobi", "cat": "sys_lin_iter", "title": "Metodo di Jacobi", "template": "import numpy as np\n\ndef jacobi(A, b, x0, toll, it_max):\n    errore = 1 + toll\n    d = # to do\n    D = # to do\n    n = A.shape[0]\n\n    E = # to do\n    F = # to do\n\n    M = # to do\n    N = # to do\n    T = # to do\n\n    autovalori = np.linalg.eigvals(T)\n    raggiospettrale = # to do\n\n    it = 0\n    er_vet = []\n\n    while # to do:\n        x = # to do\n        errore = # to do\n        er_vet.append(errore)\n        x0 = x.copy()\n        it += 1\n\n    return x, it, er_vet\n", "test": "\nA = np.array([[4.0, 1.0], [2.0, 3.0]])\nb = np.array([1.0, 2.0])\nx0 = np.zeros(2)\nx, it, err = jacobi(A, b, x0, 1e-10, 100)\nassert x is not None\nassert np.allclose(A @ x, b, atol=1e-5)\nprint(\"\u2713 Metodo di Jacobi corretto!\")\n"}, {"id": "gauss_seidel", "cat": "sys_lin_iter", "title": "Metodo di Gauss-Seidel", "template": "import numpy as np\n\ndef gauss_seidel(A, b, x0, toll, it_max):\n    errore = 1 + toll\n    d = # to do\n    D = # to do\n\n    E = # to do\n    F = # to do\n\n    M = # to do\n    N = # to do\n    T = # to do\n\n    autovalori = np.linalg.eigvals(T)\n    raggiospettrale = np.max(np.abs(autovalori))\n\n    it = 0\n    er_vet = []\n\n    while # to do:\n        x = # to do\n        errore = # to do\n        er_vet.append(errore)\n        x0 = x.copy()\n        it += 1\n\n    return x, it, er_vet\n", "test": "\nA = np.array([[4.0, 1.0], [2.0, 3.0]])\nb = np.array([1.0, 2.0])\nx0 = np.zeros(2)\nx, it, err = gauss_seidel(A, b, x0, 1e-10, 100)\nassert x is not None\nassert np.allclose(A @ x, b, atol=1e-5)\nprint(\"\u2713 Metodo di Gauss-Seidel corretto!\")\n"}, {"id": "gauss_seidel_sor", "cat": "sys_lin_iter", "title": "Gauss-Seidel (SOR)", "template": "import numpy as np\n\ndef gauss_seidel_sor(A,b,x0,toll,it_max,omega):\n    errore=1+toll\n    d= # to do\n    D= # to do\n\n    E= # to do\n    F= # to do\n\n    Momega=D+omega*E\n    Nomega=(1-omega)*D-omega*F\n\n    T=np.dot(np.linalg.inv(Momega),Nomega)\n    autovalori=np.linalg.eigvals(T)\n    raggiospettrale= # to do\n    print(\"raggio spettrale Gauss-Seidel SOR \", raggiospettrale)\n\n    M= # to do\n    N= # to do\n\n    it=0\n    er_vet=[]\n\n    while # to do:\n        xtilde= # to do\n        x= # to do\n        errore= # to do\n        er_vet.append(errore)\n        x0=x.copy()\n        it=it+1\n\n    return x,it,er_vet\n", "test": "\nA = np.array([[4.0, 1.0], [2.0, 3.0]])\nb = np.array([1.0, 2.0])\nx0 = np.zeros(2)\nx, it, err = gauss_seidel_sor(A, b, x0, 1e-10, 100, 1.1)\nassert x is not None\nassert np.allclose(A @ x, b, atol=1e-5)\nprint(\"\u2713 Metodo SOR corretto!\")\n"}, {"id": "steepest", "cat": "opt_grad", "title": "Steepest Descent (Gradiente)", "template": "import numpy as np\n\ndef steepestdescent(A, b, x0, itmax, tol):\n    n, m = A.shape\n    if n != m:\n        return [], []\n\n    x = x0.copy()\n    r = # to do\n    p = # to do\n    it = 0\n    nb = np.linalg.norm(b)\n    errore = # to do\n\n    vec_sol = [x.copy()]\n    vet_r = [errore]\n\n    while # to do:\n        it += 1\n        Ap = # to do\n        alpha = # to do\n\n        x = # to do\n        vec_sol.append(x.copy())\n\n        r = # to do\n        errore = # to do\n        vet_r.append(errore)\n        p = # to do\n\n    return x, vet_r, np.array(vec_sol), it\n", "test": "\nA = np.array([[4.0, 1.0], [1.0, 3.0]])\nb = np.array([1.0, 2.0])\nx0 = np.zeros(2)\nres = steepestdescent(A, b, x0, 100, 1e-8)\nassert len(res[0]) > 0\nassert np.allclose(A @ res[0], b, atol=1e-5)\nprint(\"\u2713 Steepest Descent corretto!\")\n"}, {"id": "conjugate", "cat": "opt_grad", "title": "Gradiente Coniugato", "template": "import numpy as np\n\ndef conjugate_gradient(A, b, x0, itmax, tol):\n    n, m = A.shape\n    if n != m:\n        return [], []\n\n    x = x0.copy()\n    r = # to do\n    p = # to do\n    it = 0\n    nb = np.linalg.norm(b)\n    errore = # to do\n\n    vec_sol = [x.copy()]\n    vet_r = [errore]\n\n    while # to do:\n        it += 1\n        Ap = # to do\n        alpha = # to do\n        x = # to do\n        vec_sol.append(x.copy())\n\n        rtr_old = # to do\n        r = # to do\n        gamma = # to do\n        errore = np.linalg.norm(r)/nb\n        vet_r.append(errore)\n\n        p = # to do\n\n    return x, vet_r, np.array(vec_sol).squeeze(), it\n", "test": "\nA = np.array([[4.0, 1.0], [1.0, 3.0]])\nb = np.array([1.0, 2.0])\nx0 = np.zeros(2)\nres = conjugate_gradient(A, b, x0, 100, 1e-8)\nassert len(res[0]) > 0\nassert np.allclose(A @ res[0], b, atol=1e-5)\nprint(\"\u2713 Gradiente Coniugato corretto!\")\n"}, {"id": "eqnorm", "cat": "min_quad", "title": "Equazioni Normali (Minimi Quadrati)", "template": "import numpy as np\nimport scipy.linalg as spLin\n\ndef eqnorm(A, b):\n    # matrice delle equazioni normali \n    G = # to do\n\n    # termine noto\n    f = # to do\n\n    # Fattorizzazione di Cholesky e risoluzione\n    L = # to do\n    y = # to do (solve_triangular lower=True)\n    x = # to do (solve_triangular lower=False)\n\n    return x\n", "test": "\nA = np.array([[1., 1.], [1., 2.], [1., 3.]])\nb = np.array([1., 2., 2.])\nx = eqnorm(A, b)\nassert len(x) == 2\nprint(\"\u2713 Metodo Equazioni Normali corretto!\")\n"}, {"id": "qrls", "cat": "min_quad", "title": "Fattorizzazione QR (Minimi Quadrati)", "template": "import numpy as np\nimport scipy.linalg as spLin\n\ndef qrLS(A, b):\n    n = A.shape[1]\n\n    # Fattorizzazione QR\n    Q, R = # to do\n\n    h = # to do\n    x = # to do (solve_triangular)\n\n    residuo = # to do\n\n    return x, residuo\n", "test": "\nA = np.array([[1., 1.], [1., 2.], [1., 3.]])\nb = np.array([1., 2., 2.])\nx, res = qrLS(A, b)\nassert len(x) == 2\nprint(\"\u2713 Metodo QR per LS corretto!\")\n"}, {"id": "svdls", "cat": "min_quad", "title": "Decomposizione SVD (Minimi Quadrati)", "template": "import numpy as np\nimport scipy.linalg as spLin\n\ndef SVDLS(A, b):\n    m, n = A.shape\n\n    U, s, VT = # to do\n    V = VT.T\n\n    thresh = np.spacing(1) * m * s[0]\n    k = np.count_nonzero(s > thresh)\n\n    d = # to do\n    d1 = # to do\n    s1 = # to do\n    c = # to do\n\n    x = # to do\n    residuo = # to do\n\n    return x, residuo\n", "test": "\nA = np.array([[1., 1.], [1., 2.], [1., 3.]])\nb = np.array([1., 2., 2.])\nx, res = SVDLS(A, b)\nassert len(x) == 2\nprint(\"\u2713 Metodo SVD per LS corretto!\")\n"}, {"id": "lagrange", "cat": "interp", "title": "Polinomio di Lagrange", "template": "import numpy as np\n\ndef plagr(xnodi, j):\n    xzeri = np.zeros_like(xnodi)\n    n = xnodi.size\n\n    if j == 0:\n        xzeri = # to do\n    else:\n        xzeri = np.append( # to do )\n\n    num = # to do\n    den = # to do\n    p = # to do\n\n    return p\n", "test": "\nx = np.array([0., 1., 2.])\np = plagr(x, 1)\nassert np.isclose(np.polyval(p, 1.0), 1.0)\nassert np.isclose(np.polyval(p, 0.0), 0.0)\nprint(\"\u2713 Polinomio Fondamentale corretto!\")\n"}, {"id": "interpL", "cat": "interp", "title": "Valutazione Interpolante", "template": "import numpy as np\n# Assumiamo che plagr sia gi\u00e0 stata definita correttamente per il test\n\ndef InterpL(x, y, xx):\n    n = x.size\n    m = xx.size\n    L = np.zeros((m, n))\n\n    for j in range(n):\n        p = # to do (usa plagr)\n        L[:, j] = # to do\n\n    pol = # to do\n    return pol\n", "test": "\ndef plagr(xnodi, j):\n    if j == 0: xzeri = xnodi[1:]\n    else: xzeri = np.append(xnodi[:j], xnodi[j + 1:])\n    num = np.poly(xzeri)\n    den = np.polyval(num, xnodi[j])\n    return num / den\n\nx = np.array([0., 1., 2.])\ny = np.array([0., 1., 4.])\nxx = np.array([0.5, 1.5])\nyy = InterpL(x, y, xx)\nassert np.isclose(yy[0], 0.25)\nassert np.isclose(yy[1], 2.25)\nprint(\"\u2713 Interpolazione di Lagrange applicata correttamente!\")\n"}, {"id": "analisi_matrici", "cat": "utils", "title": "Playground: Propriet\u00e0 Matrici", "template": "import numpy as np\nimport scipy.linalg as spLin\n\n# --- DEFINISCI LA MATRICE DA TESTARE ---\nA = np.array([\n    [4, -1,  0],\n    [-1, 4, -1],\n    [0, -1,  4]\n], dtype=float)\n\nb = np.array([1, 2, 1], dtype=float)\n\n# --- SCRIVI QUI IL TUO CODICE ---\n# Usa questo spazio per implementare i controlli sulle propriet\u00e0\n# della matrice A (es. simmetria, dominanza diagonale, ecc.)\n\n# to do: analizza la matrice\n\n", "test": "\n# Nessun assert richiesto. Questo \u00e8 un ambiente libero.\nprint(\"\\n\u2713 Playground eseguito.\")\n"}];
+
+let pyodide;
+let editor;
+let currentEx = null;
+const exerciseDocs = new Map();
+
+const plotPanel = document.getElementById('plot-panel');
+const plotArea = document.getElementById('plot-area');
+const plotResizer = document.getElementById('plot-resizer');
+const togglePlotButton = document.getElementById('toggle-plot');
+document.pyodideMplTarget = plotArea;
+
+function clearPlot() {
+    plotArea.innerHTML = '<div class="plot-placeholder">I grafici generati con Matplotlib compariranno qui.</div>';
+}
+
+function setPlotCollapsed(collapsed) {
+    plotPanel.classList.toggle('collapsed', collapsed);
+    togglePlotButton.textContent = collapsed ? 'Espandi' : 'Comprimi';
+    togglePlotButton.setAttribute('aria-expanded', String(!collapsed));
+    requestAnimationFrame(refreshEditor);
+}
+
+document.getElementById('clear-plot').addEventListener('click', clearPlot);
+togglePlotButton.addEventListener('click', () => setPlotCollapsed(!plotPanel.classList.contains('collapsed')));
+
+const consoleWrap = document.getElementById('console-wrap');
+const consoleSize = document.getElementById('console-size');
+const resizer = document.getElementById('console-resizer');
+let consoleHeight = 260;
+let plotHeight = 240;
+
+function workspaceHeight() {
+    const main = document.getElementById('main').getBoundingClientRect();
+    const header = document.getElementById('header').getBoundingClientRect();
+    return Math.max(0, main.bottom - header.bottom);
+}
+
+function refreshEditor() {
+    if (editor) editor.refresh();
+}
+
+function clampPanelHeights() {
+    const available = workspaceHeight();
+    const minimumEditor = 120;
+    const currentPlot = plotPanel.classList.contains('collapsed') ? 42 : plotHeight;
+    const allowedTotal = Math.max(220, available - minimumEditor);
+    if (consoleHeight + currentPlot > allowedTotal) {
+        const excess = consoleHeight + currentPlot - allowedTotal;
+        if (!plotPanel.classList.contains('collapsed') && plotHeight > 120) {
+            plotHeight = Math.max(120, plotHeight - excess);
+        }
+        const adjustedPlot = plotPanel.classList.contains('collapsed') ? 42 : plotHeight;
+        consoleHeight = Math.max(110, Math.min(consoleHeight, allowedTotal - adjustedPlot));
+    }
+    consoleWrap.style.flexBasis = consoleHeight + 'px';
+    consoleWrap.style.height = consoleHeight + 'px';
+    if (!plotPanel.classList.contains('collapsed')) {
+        plotPanel.style.flexBasis = plotHeight + 'px';
+        plotPanel.style.height = plotHeight + 'px';
+    }
+    consoleSize.textContent = Math.round(consoleHeight) + 'px';
+    refreshEditor();
+}
+
+function setConsoleHeight(value) {
+    consoleHeight = Math.max(110, value);
+    clampPanelHeights();
+}
+
+function setPlotHeight(value) {
+    plotHeight = Math.max(120, value);
+    clampPanelHeights();
+}
+
+setConsoleHeight(260);
+document.getElementById('console-larger').addEventListener('click', () => setConsoleHeight(consoleHeight + 40));
+document.getElementById('console-smaller').addEventListener('click', () => setConsoleHeight(consoleHeight - 40));
+document.getElementById('console-reset').addEventListener('click', () => setConsoleHeight(260));
+
+let resizingConsole = false;
+resizer.addEventListener('pointerdown', event => {
+    resizingConsole = true;
+    resizer.classList.add('dragging');
+    resizer.setPointerCapture(event.pointerId);
+});
+resizer.addEventListener('pointermove', event => {
+    if (!resizingConsole) return;
+    const main = document.getElementById('main').getBoundingClientRect();
+    setConsoleHeight(main.bottom - event.clientY);
+});
+resizer.addEventListener('pointerup', () => {
+    resizingConsole = false;
+    resizer.classList.remove('dragging');
+});
+
+let resizingPlot = false;
+plotResizer.addEventListener('pointerdown', event => {
+    if (plotPanel.classList.contains('collapsed')) return;
+    resizingPlot = true;
+    plotResizer.classList.add('dragging');
+    plotResizer.setPointerCapture(event.pointerId);
+});
+plotResizer.addEventListener('pointermove', event => {
+    if (!resizingPlot) return;
+    const main = document.getElementById('main').getBoundingClientRect();
+    setPlotHeight(main.bottom - event.clientY);
+});
+plotResizer.addEventListener('pointerup', () => {
+    resizingPlot = false;
+    plotResizer.classList.remove('dragging');
+});
+
+window.addEventListener('resize', clampPanelHeights);
+
+// Expand only when the plotting backend actually inserts a rendered figure.
+const plotObserver = new MutationObserver(() => {
+    if (plotArea.querySelector('canvas, img, svg')) {
+        setPlotCollapsed(false);
+        clampPanelHeights();
+    }
+});
+plotObserver.observe(plotArea, {childList: true, subtree: true});
+
+
+
+function printConsole(text, type='output') {
+    const cons = document.getElementById('console');
+    const div = document.createElement('div');
+    div.className = type;
+    div.textContent = text;
+    cons.appendChild(div);
+    cons.scrollTop = cons.scrollHeight;
+}
+
+async function init() {
+    editor = CodeMirror.fromTextArea(document.getElementById('code'), {
+        mode: 'python',
+        theme: 'dracula',
+        lineNumbers: true,
+        indentUnit: 4,
+        matchBrackets: true,
+        extraKeys: {"Tab": function(cm){ cm.replaceSelection("    ", "end"); }}
+    });
+
+    const list = document.getElementById('ex-list');
+
+    categories.forEach(cat => {
+        const catDiv = document.createElement('div');
+        catDiv.className = 'cat-title';
+        catDiv.textContent = cat.name;
+        list.appendChild(catDiv);
+
+        const catExs = exercises.filter(e => e.cat === cat.id);
+        catExs.forEach(ex => {
+            const btn = document.createElement('button');
+            btn.className = 'ex-btn';
+            btn.textContent = ex.title;
+            btn.onclick = () => loadExercise(ex.id, btn);
+            list.appendChild(btn);
+
+            if(!currentEx) {
+                loadExercise(ex.id, btn);
+            }
+        });
+    });
+
+    try {
+        pyodide = await loadPyodide();
+        printConsole("Caricamento pacchetti (Numpy/Scipy)...", "system");
+        await pyodide.loadPackage(['numpy', 'scipy', 'matplotlib']);
+        printConsole("✅ Ambiente Python pronto! Puoi compilare e valutare.", "pass");
+        document.getElementById('run-btn').disabled = false;
+        document.getElementById('run-btn').textContent = "▶ Valuta Codice (Run)";
+    } catch(e) {
+        printConsole("Errore caricamento Pyodide: " + e, "fail");
+    }
+}
+
+function loadExercise(id, btnElement) {
+    const ex = exercises.find(e => e.id === id);
+    if (!ex) return;
+    const reset = currentEx === id;
+    if (reset || !exerciseDocs.has(id)) {
+        exerciseDocs.set(id, new CodeMirror.Doc(ex.template, 'python'));
+    }
+    currentEx = id;
+    editor.swapDoc(exerciseDocs.get(id));
+    document.getElementById('ex-title').textContent = ex.title;
+    if (btnElement) {
+        document.querySelectorAll('.ex-btn').forEach(b => b.classList.remove('active'));
+        btnElement.classList.add('active');
+    }
+    document.getElementById('console').innerHTML = '';
+    printConsole(reset ? '↺ ' + ex.title + ' ripristinato.' : '📝 ' + ex.title + ' caricato.', 'system');
+    editor.refresh();
+}
+
+document.getElementById('run-btn').onclick = async () => {
+    if(!pyodide) return;
+    const ex = exercises.find(e => e.id === currentEx);
+    const userCode = editor.getValue();
+    clearPlot();
+    setPlotCollapsed(true);
+    clampPanelHeights();
+    const testCode = ex.test;
+
+    printConsole("\n--- Esecuzione ---", "system");
+
+    pyodide.setStdout({ batched: (str) => printConsole(str, "output") });
+    pyodide.setStderr({ batched: (str) => printConsole(str, "fail") });
+
+    const fullCode = userCode + "\n" + testCode;
+
+    try {
+        await pyodide.runPythonAsync(fullCode);
+        printConsole("⭐⭐⭐ VALUTAZIONE COMPLETATA CON SUCCESSO! ⭐⭐⭐", "pass");
+    } catch(err) {
+        printConsole("❌ ERRORE O TEST FALLITO:", "fail");
+        printConsole(err.message, "fail");
+    }
+};
+
+init();
+</script>
+</body>
+</html>
