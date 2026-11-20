@@ -127,6 +127,7 @@ metodi-num-algo/
 
 ---
 
-## 👩‍💻 Autore
+## 👥 Autori e Riconoscimenti
 
-Creato per la preparazione ed esercitazione di **Metodi Numerici per l'Intelligenza Artificiale** (Università di Bologna).
+- **Favour [Cognome]** — Autore originale dell'applicativo e ideatore degli scheletri degli esercizi di metodi numerici.
+- **[Arianna Palmucci](https://github.com/palmucciarianna)** — Pubblicazione su GitHub, deployment su GitHub Pages, ottimizzazione e miglioramenti dell'interfaccia (gestione e ridimensionamento pannelli console/grafici, layout responsive), documentazione e manutenzione.
