@@ -51,13 +51,16 @@
         .repo-warning-close { background: none; border: none; font-size: 1.3rem; line-height: 1; color: #a16207; cursor: pointer; padding: 2px 6px; border-radius: 4px; }
         .repo-warning-close:hover { background: #fef08a; color: #713f12; }
 
-        /* Header Workspace */
-        #header { flex: 0 0 auto; padding: 12px 18px; background: #ffffff; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
-        .header-left { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-        .header-right { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+        /* Header Workspace - Singola Riga Compatta */
+        #header { flex: 0 0 auto; padding: 7px 12px; background: #ffffff; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; flex-wrap: nowrap; gap: 8px; overflow-x: auto; overflow-y: hidden; }
+        #header::-webkit-scrollbar { height: 3px; }
+        #header::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        body.theme-dark #header::-webkit-scrollbar-thumb { background: #334155; }
+        .header-left { display: flex; align-items: center; gap: 5px; flex-wrap: nowrap; flex-shrink: 0; }
+        .header-right { display: flex; align-items: center; gap: 5px; flex-wrap: nowrap; flex-shrink: 0; }
         
-        /* Pulsanti Strumenti con tonalità chiare e grigio scuro */
-        .tool-btn { background: #ffffff; color: #334155; border: 1px solid #cbd5e1; border-radius: 6px; padding: 6px 12px; font-weight: 600; font-size: 0.86rem; cursor: pointer; transition: all .15s ease; display: inline-flex; align-items: center; gap: 5px; }
+        /* Pulsanti Strumenti su Singola Riga */
+        .tool-btn { background: #ffffff; color: #334155; border: 1px solid #cbd5e1; border-radius: 6px; padding: 5px 8px; font-weight: 600; font-size: 0.82rem; cursor: pointer; transition: all .15s ease; display: inline-flex; align-items: center; gap: 4px; white-space: nowrap; flex-shrink: 0; }
         .tool-btn:hover { background: #f1f5f9; border-color: #94a3b8; color: #0f172a; }
         .tool-btn.theory { background: #e0f2fe; color: #0369a1; border-color: #7dd3fc; }
         .tool-btn.theory:hover { background: #bae6fd; }
@@ -68,7 +71,7 @@
         .tool-btn.nav { background: #f8fafc; color: #1e3a8a; border-color: #cbd5e1; }
         .tool-btn.nav:hover { background: #eff6ff; border-color: #93c5fd; }
 
-        button.run { background: #16a34a; color: white; border: none; padding: 8px 18px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 6px; transition: background .15s; }
+        button.run { background: #16a34a; color: white; border: none; padding: 5px 14px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 0.86rem; display: inline-flex; align-items: center; gap: 5px; white-space: nowrap; flex-shrink: 0; transition: background .15s; }
         button.run:hover { background: #15803d; }
         button.run:disabled { background: #9ca3af; cursor: not-allowed; }
 
@@ -457,13 +460,13 @@
 
     <div id="header">
         <div class="header-left">
-            <h3 id="ex-title" style="margin:0; font-size:1.15rem; color:#0f172a;">Seleziona un esercizio</h3>
+            <h3 id="ex-title" style="margin:0 4px 0 0; font-size:1.02rem; color:#0f172a; white-space:nowrap; flex-shrink:0;">Seleziona un esercizio</h3>
             <button id="theory-btn" class="tool-btn theory" type="button" title="Apri guida teorica e formule del metodo">📖 Teoria</button>
             <button id="tree-modal-btn" class="tool-btn nav" type="button" title="Mappa decisionale per scegliere il metodo per Ax=b">🌳 Albero Ax=b</button>
-            <button id="exam-modal-btn" class="tool-btn nav" type="button" title="22 Domande d'esame svolte del Modulo II">🧠 Modulo II: Domande Esame</button>
-            <button id="labs-modal-btn" class="tool-btn nav" type="button" title="Laboratori con 1-clic su Google Colab">🧪 Laboratori Colab</button>
-            <button id="sympy-modal-btn" class="tool-btn nav" type="button" title="Calcola derivate, Jacobiano ed Hessiana con SymPy">🧮 Calcolatore SymPy</button>
-            <button id="quiz-modal-btn" class="tool-btn nav" type="button" title="Flashcard 3D e quiz con domande d'esame">🃏 Flashcard & Quiz</button>
+            <button id="exam-modal-btn" class="tool-btn nav" type="button" title="22 Domande d'esame svolte del Modulo II">🧠 Modulo II</button>
+            <button id="labs-modal-btn" class="tool-btn nav" type="button" title="Laboratori con 1-clic su Google Colab">🧪 Laboratori</button>
+            <button id="sympy-modal-btn" class="tool-btn nav" type="button" title="Calcola derivate, Jacobiano ed Hessiana con SymPy">🧮 SymPy</button>
+            <button id="quiz-modal-btn" class="tool-btn nav" type="button" title="Flashcard 3D e quiz con domande d'esame">🃏 Quiz & Flashcard</button>
         </div>
         <div class="header-right">
             <span id="timer-display" class="tool-btn" style="cursor:pointer; font-family:monospace; font-weight:700; color:#0369a1; background:#e0f2fe; border-color:#7dd3fc;" title="Tempo speso sull'esercizio corrente (clicca per timer esame)">⏱️ 00:00</span>
