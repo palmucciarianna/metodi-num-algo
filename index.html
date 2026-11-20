@@ -11,7 +11,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/python/python.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/edit/matchbrackets.min.js"></script>
     <!-- Pyodide -->
-    <script src="https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js"></script>
     <!-- KaTeX for math rendering in modals -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
@@ -175,13 +175,13 @@
             background: var(--bg-sidebar);
             border-right: 1px solid var(--border-color);
             display: flex; flex-direction: column;
-            overflow-y: auto; height: 100vh; position: relative;
+            height: 100vh; overflow: hidden; position: relative;
         }
         #sidebar h2 {
+            flex: 0 0 auto;
             font-size: 1.08rem; padding: 15px 16px; margin: 0;
             background: var(--bg-sidebar-header);
             color: #ffffff;
-            position: sticky; top: 0; z-index: 10;
             display: flex; justify-content: space-between; align-items: center; letter-spacing: 0.2px;
         }
         #sidebar-progress-badge {
@@ -192,10 +192,10 @@
         
         /* Box Ricerca Sidebar */
         #search-wrap {
+            flex: 0 0 auto;
             padding: 9px 12px;
             background: var(--bg-sidebar);
             border-bottom: 1px solid var(--border-color);
-            position: sticky; top: 51px; z-index: 9;
         }
         #ex-search {
             width: 100%; padding: 8px 12px;
@@ -208,6 +208,11 @@
         #ex-search:focus {
             border-color: var(--accent);
             box-shadow: 0 0 0 2px var(--accent-subtle);
+        }
+
+        #ex-list {
+            flex: 1 1 auto;
+            overflow-y: auto;
         }
 
         /* Categorie e Pulsanti Esercizio */
@@ -257,26 +262,29 @@
 
         /* Header Workspace - Singola Riga Compatta */
         #header {
-            flex: 0 0 auto; padding: 7px 12px;
+            flex: 0 0 auto; height: 48px; padding: 0 12px;
             background: var(--bg-header);
             border-bottom: 1px solid var(--border-color);
             display: flex; justify-content: space-between; align-items: center;
-            flex-wrap: nowrap; gap: 8px; overflow-x: auto; overflow-y: hidden;
+            flex-wrap: nowrap !important; white-space: nowrap !important;
+            gap: 8px; overflow-x: auto; overflow-y: hidden; box-sizing: border-box;
+            scrollbar-width: thin;
         }
         #header::-webkit-scrollbar { height: 3px; }
         #header::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 4px; }
-        .header-left { display: flex; align-items: center; gap: 5px; flex-wrap: nowrap; flex-shrink: 0; }
-        .header-right { display: flex; align-items: center; gap: 5px; flex-wrap: nowrap; flex-shrink: 0; }
-        #ex-title { margin: 0 4px 0 0; font-size: 1.02rem; color: var(--text-main); white-space: nowrap; flex-shrink: 0; }
+        .header-left { display: flex; align-items: center; gap: 5px; flex-wrap: nowrap !important; white-space: nowrap !important; flex-shrink: 0; }
+        .header-right { display: flex; align-items: center; gap: 5px; flex-wrap: nowrap !important; white-space: nowrap !important; flex-shrink: 0; }
+        #ex-title { margin: 0 6px 0 0; font-size: 0.98rem; font-weight: 700; color: var(--text-main); white-space: nowrap !important; flex-shrink: 0; }
 
         /* Pulsanti Strumenti su Singola Riga */
         .tool-btn {
             background: var(--btn-bg);
             color: var(--btn-text);
             border: 1px solid var(--btn-border);
-            border-radius: 6px; padding: 5px 8px; font-weight: 600; font-size: 0.82rem;
+            border-radius: 6px; padding: 4px 8px; font-weight: 600; font-size: 0.8rem;
             cursor: pointer; transition: all .15s ease;
-            display: inline-flex; align-items: center; gap: 4px; white-space: nowrap; flex-shrink: 0;
+            display: inline-flex; align-items: center; gap: 4px; white-space: nowrap !important; flex-shrink: 0;
+            height: 30px; box-sizing: border-box;
         }
         .tool-btn:hover {
             background: var(--bg-subtle);
@@ -446,6 +454,16 @@
         .theme-color-bullet { width: 13px; height: 13px; border-radius: 50%; display: inline-block; flex-shrink: 0; box-shadow: 0 0 0 1px rgba(0,0,0,0.2); }
         .theme-check { font-weight: bold; color: var(--accent); font-size: 0.92rem; }
     </style>
+    <script>
+        (function() {
+            try {
+                var t = localStorage.getItem('mn_theme');
+                if (t && ['light', 'dark', 'sepia', 'forest', 'nord', 'dracula'].indexOf(t) !== -1) {
+                    document.documentElement.className = 'theme-' + t;
+                }
+            } catch(e) {}
+        })();
+    </script>
 </head>
 <body>
 
@@ -458,7 +476,36 @@
     <div id="search-wrap">
         <input type="text" id="ex-search" placeholder="🔍 Cerca esercizio (Ctrl + F)..." autocomplete="off">
     </div>
-    <div id="ex-list"></div>
+    <div id="ex-list">
+        <div class="cat-title">1. Zeri di Funzione</div>
+        <button class="ex-btn active" data-id="bisezione"><span>Metodo di Bisezione</span><span class="check-badge">✓</span></button>
+        <button class="ex-btn" data-id="falsi"><span>Falsa Posizione</span><span class="check-badge">✓</span></button>
+        <button class="ex-btn" data-id="corde"><span>Metodo delle Corde</span><span class="check-badge">✓</span></button>
+        <button class="ex-btn" data-id="newton"><span>Metodo di Newton</span><span class="check-badge">✓</span></button>
+        <button class="ex-btn" data-id="newton_modificato"><span>Newton Modificato (Radici Multiple)</span><span class="check-badge">✓</span></button>
+        <button class="ex-btn" data-id="secanti"><span>Metodo delle Secanti</span><span class="check-badge">✓</span></button>
+        <button class="ex-btn" data-id="stima_ordine"><span>Stima dell'Ordine</span><span class="check-badge">✓</span></button>
+        <div class="cat-title">2. Sistemi Non Lineari</div>
+        <button class="ex-btn" data-id="newton_raphson"><span>Newton-Raphson</span><span class="check-badge">✓</span></button>
+        <button class="ex-btn" data-id="newton_raphson_corde"><span>Newton-Raphson (Corde)</span><span class="check-badge">✓</span></button>
+        <button class="ex-btn" data-id="newton_sham"><span>Newton-Shamanskii</span><span class="check-badge">✓</span></button>
+        <div class="cat-title">3. Sistemi Lineari Iterativi</div>
+        <button class="ex-btn" data-id="jacobi"><span>Metodo di Jacobi</span><span class="check-badge">✓</span></button>
+        <button class="ex-btn" data-id="gauss_seidel"><span>Metodo di Gauss-Seidel</span><span class="check-badge">✓</span></button>
+        <button class="ex-btn" data-id="gauss_seidel_sor"><span>Gauss-Seidel (SOR)</span><span class="check-badge">✓</span></button>
+        <div class="cat-title">4. Ottimizzazione & Discesa</div>
+        <button class="ex-btn" data-id="steepest"><span>Steepest Descent (Gradiente)</span><span class="check-badge">✓</span></button>
+        <button class="ex-btn" data-id="conjugate"><span>Gradiente Coniugato</span><span class="check-badge">✓</span></button>
+        <div class="cat-title">5. Minimi Quadrati</div>
+        <button class="ex-btn" data-id="eqnorm"><span>Equazioni Normali (Minimi Quadrati)</span><span class="check-badge">✓</span></button>
+        <button class="ex-btn" data-id="qrls"><span>Fattorizzazione QR (Minimi Quadrati)</span><span class="check-badge">✓</span></button>
+        <button class="ex-btn" data-id="svdls"><span>Decomposizione SVD (Minimi Quadrati)</span><span class="check-badge">✓</span></button>
+        <div class="cat-title">6. Interpolazione Polinomiale</div>
+        <button class="ex-btn" data-id="lagrange"><span>Polinomio di Lagrange</span><span class="check-badge">✓</span></button>
+        <button class="ex-btn" data-id="interpL"><span>Valutazione Interpolante</span><span class="check-badge">✓</span></button>
+        <div class="cat-title">7. Analisi Matrici & Extra</div>
+        <button class="ex-btn" data-id="analisi_matrici"><span>Playground: Proprietà Matrici</span><span class="check-badge">✓</span></button>
+    </div>
 </div>
 
 <!-- Main Area -->
@@ -478,7 +525,7 @@
 
     <div id="header">
         <div class="header-left">
-            <h3 id="ex-title" style="margin:0 4px 0 0; font-size:1.02rem; color:#0f172a; white-space:nowrap; flex-shrink:0;">Seleziona un esercizio</h3>
+            <h3 id="ex-title">Metodo di Bisezione</h3>
             <button id="theory-btn" class="tool-btn theory" type="button" title="Apri guida teorica e formule del metodo">📖 Teoria</button>
             <button id="tree-modal-btn" class="tool-btn nav" type="button" title="Mappa decisionale per scegliere il metodo per Ax=b">🌳 Albero Ax=b</button>
             <button id="exam-modal-btn" class="tool-btn nav" type="button" title="22 Domande d'esame svolte del Modulo II">🧠 Modulo II</button>
@@ -554,7 +601,37 @@
     </div>
 
     <div id="editor-container">
-        <textarea id="code"></textarea>
+        <textarea id="code">import numpy as np
+
+def metodo_bisezione(fname, a, b, tolx, tolf):
+    fa = fname(a)
+    fb = fname(b)
+    if # to do:
+        print(&quot;Non è possibile applicare il metodo di bisezione \n&quot;)
+        return None, None, None
+
+    it = 0
+    v_xk = []
+    max_it = int(np.ceil(np.log2((b - a) / tolx))) - 1
+
+    while # to do:
+        xk = # to do
+        v_xk.append(xk)
+        it += 1
+        fxk = fname(xk)
+
+        if np.abs(fxk) &lt; tolf:
+            return xk, it, np.array(v_xk)
+
+        if # to do:
+            b = xk
+            fb = fxk
+        elif # to do:
+            a = xk
+            fa = fxk
+
+    return xk, it, np.array(v_xk)
+</textarea>
     </div>
 
     <div id="console-wrap">
@@ -835,14 +912,11 @@ function printConsole(text, type = "output") {
 
 // Initialize Application
 async function init() {
-    // 1. Populate Sidebar DOM immediately so exercises are visible at once
-    renderSidebar();
-
-    // 2. Check and apply saved theme
+    // 1. Check and apply saved theme
     const savedTheme = localStorage.getItem('mn_theme') || 'light';
     selectTheme(savedTheme);
 
-    // 3. Initialize CodeMirror
+    // 2. Initialize CodeMirror editor FIRST
     const isDark = ['dark', 'nord', 'dracula'].includes(savedTheme);
     editor = CodeMirror.fromTextArea(document.getElementById('code'), {
         mode: 'python',
@@ -857,7 +931,7 @@ async function init() {
         }
     });
 
-    // Auto-save on edit with debounce
+    // 3. Auto-save on edit with debounce
     editor.on('change', () => {
         if (!currentEx) return;
         clearTimeout(saveTimeout);
@@ -871,48 +945,91 @@ async function init() {
         }, 300);
     });
 
-    // Setup Modals
+    // 4. Populate Sidebar DOM (editor is now ready!)
+    renderSidebar();
+
+    // 5. Setup Modals
     setupModals();
 
-    // Setup Decision Tree & Diagnostic
+    // 6. Setup Decision Tree & Diagnostic
     renderDecisionTree();
     setupDiagnostic();
 
-    // Setup Exam Questions
+    // 7. Setup Exam Questions
     renderExamQuestions();
 
-    // Setup Labs
+    // 8. Setup Labs
     renderLabs();
 
-    // Setup Resizers
+    // 9. Setup Resizers
     setupResizers();
 
-    // Setup Dropdowns & Shortcuts
+    // 10. Setup Dropdowns & Shortcuts
     setupControls();
 
-    // Update progress badge
+    // 11. Update progress badge
     updateProgress();
 
-    // Initialize Flashcards & Quiz
+    // 12. Initialize Flashcards & Quiz
     showFlashcard(0);
     renderQuiz();
 
-    // Initialize Pyodide
+    // 13. Initialize Pyodide & Fast Progressive Loading
     try {
+        const runBtn = document.getElementById('run-btn');
+        if (runBtn) runBtn.textContent = "⏳ Avvio Python...";
+        printConsole("Avvio motore Python locale (WebAssembly)...", "system");
         pyodide = await loadPyodide();
-        printConsole("Caricamento pacchetti scientifici (Numpy, Scipy, Matplotlib)...", "system");
-        await pyodide.loadPackage(['numpy', 'scipy', 'matplotlib']);
-        printConsole("✅ Ambiente Python pronto! Puoi completare gli algoritmi e testarli.", "pass");
-        document.getElementById('run-btn').disabled = false;
-        document.getElementById('run-btn').textContent = "▶ Valuta Codice (Run)";
+
+        if (runBtn) runBtn.textContent = "⏳ Caricamento NumPy...";
+        printConsole("Caricamento rapido NumPy...", "system");
+        await pyodide.loadPackage(['numpy']);
+
+        // Sblocco immediato: con NumPy tutti i 21 algoritmi funzionano subito!
+        printConsole("✅ Python & NumPy pronti! Puoi eseguire e verificare gli algoritmi.", "pass");
+        if (runBtn) {
+            runBtn.disabled = false;
+            runBtn.textContent = "▶ Valuta Codice (Run)";
+        }
+
+        // Caricamento asincrono in background per pacchetti pesanti (SciPy & Matplotlib)
+        // Non blocca l'utente e non ritarda l'esecuzione del codice
+        pyodide.loadPackage(['scipy', 'matplotlib']).then(() => {
+            printConsole("📦 Pacchetti avanzati (SciPy & Matplotlib) caricati in background. Grafici di convergenza pronti!", "system");
+        }).catch(err => {
+            console.warn("Background packages note:", err);
+        });
     } catch(e) {
         printConsole("❌ Errore caricamento Pyodide: " + e, "fail");
+        const runBtn = document.getElementById('run-btn');
+        if (runBtn) runBtn.textContent = "Errore Python";
     }
 }
 
 // Sidebar Initial Rendering
 function renderSidebar() {
     const list = document.getElementById('ex-list');
+    if (!list) return;
+
+    // Fast path: if sidebar items are already pre-rendered in HTML, just bind events & sync state instantly
+    const existingBtns = list.querySelectorAll('.ex-btn');
+    if (existingBtns.length > 0) {
+        existingBtns.forEach(btn => {
+            const id = btn.getAttribute('data-id');
+            if (completedSet.has(id)) btn.classList.add('completed');
+            else btn.classList.remove('completed');
+            if (currentEx === id) btn.classList.add('active');
+            else if (!currentEx && id === exercises[0].id) btn.classList.add('active');
+            else btn.classList.remove('active');
+            btn.onclick = () => loadExercise(id, btn);
+        });
+
+        if (!currentEx && exercises.length > 0) {
+            loadExercise(exercises[0].id, existingBtns[0]);
+        }
+        return;
+    }
+
     list.innerHTML = "";
 
     categories.forEach(cat => {
@@ -932,12 +1049,14 @@ function renderSidebar() {
             btn.innerHTML = `<span>${ex.title}</span><span class="check-badge">✓</span>`;
             btn.onclick = () => loadExercise(ex.id, btn);
             list.appendChild(btn);
-
-            if (!currentEx) {
-                loadExercise(ex.id, btn);
-            }
         });
     });
+
+    // Load initial exercise cleanly once all buttons are in DOM
+    if (!currentEx && exercises.length > 0) {
+        const firstBtn = list.querySelector('.ex-btn');
+        loadExercise(exercises[0].id, firstBtn);
+    }
 }
 
 // Filter Exercises in Sidebar (Real-Time Search)
@@ -968,29 +1087,40 @@ function filterExercises() {
     }
 }
 
-// Load Exercise
+// Load Exercise - original feel with reset on active click
 function loadExercise(id, btnElement) {
     const ex = exercises.find(e => e.id === id);
     if (!ex) return;
 
-    currentEx = id;
+    const reset = (currentEx === id);
 
-    // Check for saved code in localStorage
     let savedCode = null;
-    try {
-        savedCode = localStorage.getItem('mn_code_' + id);
-    } catch (e) {}
+    if (!reset) {
+        try {
+            savedCode = localStorage.getItem('mn_code_' + id);
+        } catch (e) {}
+    } else {
+        try {
+            localStorage.removeItem('mn_code_' + id);
+        } catch (e) {}
+    }
 
-    const initialCode = savedCode || ex.template;
+    const codeToLoad = reset ? ex.template : (savedCode || ex.template);
 
-    if (!exerciseDocs.has(id)) {
-        exerciseDocs.set(id, new CodeMirror.Doc(initialCode, 'python'));
+    if (reset || !exerciseDocs.has(id)) {
+        exerciseDocs.set(id, new CodeMirror.Doc(codeToLoad, 'python'));
     } else if (savedCode && exerciseDocs.get(id).getValue() !== savedCode) {
         exerciseDocs.get(id).setValue(savedCode);
     }
 
-    editor.swapDoc(exerciseDocs.get(id));
-    document.getElementById('ex-title').textContent = ex.title;
+    currentEx = id;
+    if (editor) {
+        editor.swapDoc(exerciseDocs.get(id));
+        editor.refresh();
+    }
+
+    const titleEl = document.getElementById('ex-title');
+    if (titleEl) titleEl.textContent = ex.title;
 
     // Highlight active button
     document.querySelectorAll('.ex-btn').forEach(b => b.classList.remove('active'));
@@ -1001,16 +1131,19 @@ function loadExercise(id, btnElement) {
         if (btn) btn.classList.add('active');
     }
 
-    document.getElementById('console').innerHTML = '';
+    // Start exercise timer
     startExTimer(id);
-    printConsole(`📝 ${ex.title} caricato.` + (savedCode ? ' (Ripristinato codice salvato in locale)' : ''), 'system');
+
+    // Clear console and print status message
+    const cons = document.getElementById('console');
+    if (cons) cons.innerHTML = '';
+    printConsole(reset ? `↺ ${ex.title} ripristinato al template originale.` : `📝 ${ex.title} caricato.` + (savedCode ? ' (Ripristinato codice salvato in locale)' : ''), 'system');
     
     // Update Theory modal if open
-    if (document.getElementById('theory-modal').style.display !== 'none') {
+    const theoryModal = document.getElementById('theory-modal');
+    if (theoryModal && theoryModal.style.display !== 'none') {
         renderTheory(id);
     }
-
-    editor.refresh();
 }
 
 // Run Code
@@ -1058,6 +1191,12 @@ document.getElementById('plot-conv-btn').onclick = async () => {
     if (!ex) return;
 
     printConsole(`\n--- Generazione Grafico di Convergenza per ${ex.title} ---`, "system");
+    try {
+        await pyodide.loadPackage(['matplotlib']);
+    } catch(err) {
+        printConsole("Attendi il caricamento completo di Matplotlib...", "system");
+        return;
+    }
     clearPlot();
     setPlotCollapsed(false);
 
@@ -2115,7 +2254,11 @@ function downloadFile(filename, text) {
     document.body.removeChild(link);
 }
 
-window.addEventListener('load', init);
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+} else {
+    init();
+}
 window.addEventListener('resize', () => {
     clampPanelHeights();
     refreshEditor();
